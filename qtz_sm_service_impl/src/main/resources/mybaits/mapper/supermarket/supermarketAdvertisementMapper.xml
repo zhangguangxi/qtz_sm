@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.supermarket.dao.SupermarketAdvertisementDao" >
+<!-- Result Map com.qtz.sm.ad.vo.SupermarketAdvertisement-->
+<resultMap id="BaseResultMap" type="SupermarketAdvertisement" >
+<result column="dmId"  property="dmId"/> 
+<result column="icon"  property="icon"/> 
+<result column="url"  property="url"/> 
+<result column="sort"  property="sort"/> 
+<result column="type"  property="type"/> 
+<result column="client_type"  property="clientType"/> 
+<result column="status"  property="status"/> 
+<result column="create_time"  property="createTime"/> 
+<result column="update_time"  property="updateTime"/> 
+	
+</resultMap>
+
+<!-- advertisement table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.icon,t.url,t.sort,t.type,t.client_type,t.status,t.create_time,t.update_time
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="icon != null  and icon != '' ">
+		 and t.icon=#{icon}
+	</if>
+	<if test="url != null  and url != '' ">
+		 and t.url=#{url}
+	</if>
+	<if test="sort != null  ">
+		 and t.sort=#{sort}
+	</if>
+	<if test="type != null  ">
+		 and t.type=#{type}
+	</if>
+	<if test="clientType != null  and clientType != '' ">
+		 and t.client_type=#{clientType}
+	</if>
+	<if test="status != null  ">
+		 and t.status=#{status}
+	</if>
+	<if test="createTime != null  ">
+		 and t.create_time=#{createTime}
+	</if>
+	<if test="updateTime != null  ">
+		 and t.update_time=#{updateTime}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<!-- supermarket_advertisement [dmId=1687471698053120, icon=aa.jpg, url=www.baidu.com, sort=1, type=0, clientType=0, status=null, createTime=2016-06-01 10:40:40, updateTime=2016-06-01 10:40:40] -->
+<insert id="addVo" parameterType="Object" >
+  insert into supermarket_advertisement(dmId,icon,url,sort,type,client_type,create_time,update_time)
+ values(#{dmId},#{icon},#{url},#{sort},#{type},#{clientType},#{createTime},#{updateTime})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into supermarket_advertisement(dmId,icon,url,sort,type,client_type,status,create_time,update_time) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.icon},#{item.url},#{item.sort},#{item.type},#{item.clientType},#{item.status},#{item.createTime},#{item.updateTime}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from supermarket_advertisement where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from supermarket_advertisement where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from supermarket_advertisement where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update supermarket_advertisement set icon=#{icon},url=#{url},sort=#{sort},type=#{type},client_type=#{clientType},status=#{status},update_time=#{updateTime} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update supermarket_advertisement set 
+	<trim  suffixOverrides="," >
+	<if test="icon != null  and icon != '' ">
+		icon=#{icon},
+	</if>
+	<if test="url != null  and url != '' ">
+		url=#{url},
+	</if>
+	<if test="sort != null  ">
+		sort=#{sort},
+	</if>
+	<if test="type != null  ">
+		type=#{type},
+	</if>
+	<if test="clientType != null  and clientType != '' ">
+		client_type=#{clientType},
+	</if>
+	<if test="status != null  ">
+		status=#{status},
+	</if>
+	<if test="createTime != null  ">
+		create_time=#{createTime},
+	</if>
+	<if test="updateTime != null  ">
+		update_time=#{updateTime},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 广告位 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from supermarket_advertisement t where t.dmId = #{dmId}
+</select>
+
+<!-- 广告位 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from supermarket_advertisement t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 分页查询广告位列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from supermarket_advertisement t 
+	<include refid="Example_Where_Clause"/>
+    <if test="mysqlQueryCondition != null and mysqlQueryCondition != ''" >
+       ${mysqlQueryCondition}
+    </if>
+</select>
+
+<!-- 查询广告位列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from supermarket_advertisement t 
+	<include refid="Example_Where_Clause"/>
+	order by t.dmId
+</select>
+
+</mapper>

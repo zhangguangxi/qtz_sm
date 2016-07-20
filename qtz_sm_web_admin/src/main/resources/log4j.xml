@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM 
+          "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<!-- log文件保存到web应用服务器的bin目录下,每个文件最大为10MB,支持10个文件 E:\\logs\\logs -->
+	<appender name="App_day" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="threshold" value="DEBUG" />
+		<!-- /usr/local/ppshtest/logs/qtz_sm_admin/sm_admin_debug.log -->
+		<param name="File" value="${LOG_FILE}" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
+		<param name="append" value="true" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="dm_app[%d{yyyy-MM-dd HH:mm:ss,SSS}]>>%-5p>> [%m] - [%c] -%-4r [%t] %x %n" />
+		</layout>
+	</appender>
+	<!-- 控制台输出 -->
+	<appender name="Console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="dm_app[%d{yyyy-MM-dd HH:mm:ss,SSS}]>>%-5p>> [%m] - [%c] -%-4r [%t] %x %n" />
+		</layout>
+	</appender>
+	
+	<appender name="ASYNC" class="org.apache.log4j.AsyncAppender">
+		<param name="BufferSize" value="256" />
+		<appender-ref ref="DATABASE" />
+	</appender>
+	
+	<appender name="DATABASE" class="org.apache.log4j.jdbc.JDBCAppender">
+		<param name="URL"
+			value="jdbc:mysql://192.168.1.11:3306/amf-produce-data?zeroDateTimeBehavior=convertToNull" />
+		<param name="driver" value="com.mysql.jdbc.Driver" />
+		<param name="user" value="root" />
+		<param name="password" value="123456" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="INSERT INTO log4j_web(stamp,thread, info_level,class,message) VALUES ('%d', '%t', '%p', '%c', '%m')" />
+		</layout>
+	</appender>
+	<!-- 根据特定的包优先级别输出 -->
+	<!-- <category name="org.apache">
+		<priority value="INFO" />
+	</category> -->
+	<!-- <category name="com.qtz.dm" additivity="false">
+	 	 <level value="ERROR" /> 
+	 	 <appender-ref ref="Console" />
+	</category>  -->
+	
+	
+	<!-- 配置控制台与文件日志 -->
+	<root>
+		<priority value="${LOG_LEVEL}" />
+<!-- 		<priority value="DEBUG" /> -->
+		<appender-ref ref="App_day" />
+		<appender-ref ref="Console" />
+		<!-- <appender-ref ref="ASYNC" />   -->
+	</root>
+	
+</log4j:configuration>

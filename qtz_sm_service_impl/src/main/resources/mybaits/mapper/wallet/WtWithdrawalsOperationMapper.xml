@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.wallet.dao.WtWithdrawalsOperationDao" >
+<!-- Result Map com.qtz.sm.wallet.dao.WtWithdrawalsOperation-->
+<resultMap id="BaseResultMap" type="WtWithdrawalsOperation" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="amount"  property="amount"/> 
+<result column="create_time"  property="createTime"/> 
+<result column="create_content"  property="createContent"/> 
+<result column="create_by"  property="createBy"/> 
+<result column="remark"  property="remark"/> 
+<result column="source_id"  property="sourceId"/> 
+	
+</resultMap>
+
+<!-- wt_withdrawals_operation table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.amount,t.create_time,t.create_content,t.create_by,t.remark,t.source_id
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="amount != null  ">
+		 and t.amount=#{amount}
+	</if>
+	<if test="createTime != null  ">
+		 and t.create_time=#{createTime}
+	</if>
+	<if test="createContent != null  and createContent != '' ">
+		 and t.create_content=#{createContent}
+	</if>
+	<if test="createBy != null  ">
+		 and t.create_by=#{createBy}
+	</if>
+	<if test="remark != null  and remark != '' ">
+		 and t.remark=#{remark}
+	</if>
+	<if test="sourceId != null  ">
+		 and t.source_id=#{sourceId}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into wt_withdrawals_operation(dmId,amount,create_time,create_content,create_by,remark,source_id)
+ values(#{dmId},#{amount},#{createTime},#{createContent},#{createBy},#{remark},#{sourceId})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into wt_withdrawals_operation(dmId,amount,create_time,create_content,create_by,remark,source_id) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.amount},#{item.createTime},#{item.createContent},#{item.createBy},#{item.remark},#{item.sourceId}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from wt_withdrawals_operation where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from wt_withdrawals_operation where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from wt_withdrawals_operation where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update wt_withdrawals_operation set amount=#{amount},create_time=#{createTime},create_content=#{createContent},create_by=#{createBy},remark=#{remark},source_id=#{sourceId} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update wt_withdrawals_operation set 
+	<trim  suffixOverrides="," >
+	<if test="amount != null  ">
+		amount=#{amount},
+	</if>
+	<if test="createTime != null  ">
+		create_time=#{createTime},
+	</if>
+	<if test="createContent != null  and createContent != '' ">
+		create_content=#{createContent},
+	</if>
+	<if test="createBy != null  ">
+		create_by=#{createBy},
+	</if>
+	<if test="remark != null  and remark != '' ">
+		remark=#{remark},
+	</if>
+	<if test="sourceId != null  ">
+		source_id=#{sourceId},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 钱包操作记录表 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from wt_withdrawals_operation t where t.dmId = #{dmId}
+</select>
+
+<!-- 钱包操作记录表 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from wt_withdrawals_operation t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 分页查询钱包操作记录表列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from wt_withdrawals_operation t 
+	<include refid="Example_Where_Clause"/>
+	
+	
+	
+	
+	<if test="orderCondition != null and orderCondition != ''" >
+      ${orderCondition}
+    </if>
+    <if test="mysqlQueryCondition != null and mysqlQueryCondition != ''" >
+       ${mysqlQueryCondition}
+    </if>
+</select>
+
+<!-- 查询钱包操作记录表列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from wt_withdrawals_operation t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+</mapper>

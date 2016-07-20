@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="
+    		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+			http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+			"
+
+	default-autowire="byName" default-lazy-init="false">
+	
+	<!-- Spring getBean定义 -->
+	<bean id="springContextHolder" class="com.mall.core.common.SpringContextHolder"
+		lazy-init="false" />
+	<bean id="fifteenLongIdImpl" class="com.mall.core.common.impl.FifteenLongIdImpl" />
+	<!-- 属性文件读入 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/config/jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+	<!-- redis 配置 -->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxIdle" value="${redis.pool.maxIdle}" />
+		<property name="timeBetweenEvictionRunsMillis" value="${redis.pool.timeBetweenEvictionRunsMillis}" />
+		<property name="minEvictableIdleTimeMillis" value="${redis.pool.minEvictableIdleTimeMillis}" />
+		<property name="testOnBorrow" value="${redis.pool.testOnBorrow}" />
+		<property name="maxTotal" value="${redis.pool.maxTotal}" />
+	</bean>
+	<bean id="jedisConnectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+		p:use-pool="true" p:database="${redis.db}" p:host-name="${redis.host}"
+		p:port="${redis.port}" p:poolConfig-ref="jedisPoolConfig" p:timeout="${redis.timeout}" />
+	<bean id="redisStringTemplate" class="org.springframework.data.redis.core.StringRedisTemplate"
+		p:connection-factory-ref="jedisConnectionFactory" />
+		
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
+		p:connection-factory-ref="jedisConnectionFactory">
+		<property name="KeySerializer">
+			<bean
+				class="org.springframework.data.redis.serializer.StringRedisSerializer"></bean>
+		</property>
+		
+	</bean>
+	<mongo:mongo host="${mongo.host}" port="${mongo.port}">
+    <mongo:options connections-per-host="200"
+                   threads-allowed-to-block-for-connection-multiplier="100"
+                   connect-timeout="1000"
+                   max-wait-time="1500"
+                   auto-connect-retry="true"
+                   socket-keep-alive="true"
+                   socket-timeout="1500"
+                   slave-ok="true"
+                   write-number="1"
+                   write-timeout="0"
+                   write-fsync="true"/>
+  </mongo:mongo>
+	<!-- mongo 配置 -->
+	<mongo:db-factory id="anotherMongoDbFactory"  mongo-ref="mongo" dbname="${mongo.db}"/>
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory" ref="anotherMongoDbFactory" />
+		<constructor-arg name="mongoConverter" ref="mappingMongoConverter" />
+	</bean>
+	<bean id="mappingContext"
+		class="org.springframework.data.mongodb.core.mapping.MongoMappingContext" />
+
+	<bean id="mappingMongoConverter"
+		class="org.springframework.data.mongodb.core.convert.MappingMongoConverter">
+		<constructor-arg name="mongoDbFactory" ref="anotherMongoDbFactory" />
+		<constructor-arg name="mappingContext" ref="mappingContext" />
+		<property name="typeMapper" ref="defaultMongoTypeMapper" />
+	</bean>
+
+	<bean id="defaultMongoTypeMapper"
+		class="org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper">
+		<constructor-arg name="typeKey">
+			<null />
+		</constructor-arg>
+	</bean>
+	
+	<!-- 数据库连接池 配置 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="filters" value="stat" />
+		<property name="maxActive" value="200" />
+		<property name="initialSize" value="3" />
+		<property name="maxWait" value="60000" />
+		<property name="minIdle" value="1" />
+		<property name="timeBetweenEvictionRunsMillis" value="3000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="20" />
+	</bean>
+
+
+	<!-- spring jdbc配置 -->
+	<bean name="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!--mybaits 集成配置 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- mybaits 配置文件 -->
+		<property name="configLocation" value="classpath:mybaits/configuration.xml" />
+		<!-- mybaits 映射dao文件 -->
+		<property name="mapperLocations" value="classpath:mybaits/mapper/**/*.xml" />
+	</bean>
+	<bean id="myBaitsTemplate" class="com.mall.core.dao.MyBaitsTemplate" />
+	<!--end mybaits 集成配置 -->
+	
+	
+	<!-- 注解的配置 -->
+	<context:component-scan base-package="com.qtz.sm">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	<!-- start 日志aop 拦截器 -->
+	<!-- service日志记录器 -->
+	<bean id="loggerService" class="com.mall.core.aop.LoggerServiceAop" />
+	<!-- dao日志记录器 -->
+	<bean id="loggerDao" class="com.mall.core.aop.LoggerDaoAop" />
+	<!-- 时间增强 -->
+	<bean id="methodTimeAop" class="com.mall.core.aop.MethodTimeAop" />
+	<!--end 日志aop 拦截器 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+		<!-- <property name="globalRollbackOnParticipationFailure" value="false" /> -->
+	</bean>
+	<!-- 注解事物 -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" read-only="false"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="del*" propagation="REQUIRED" read-only="false"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="mod*" propagation="REQUIRED" read-only="false"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="save*" propagation="REQUIRED" read-only="false"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="compute*" propagation="REQUIRED"
+				read-only="false" rollback-for="java.lang.Exception" />
+			<tx:method name="update*" propagation="REQUIRED" read-only="false"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="find*" propagation="REQUIRED" />
+			<tx:method name="get*" propagation="REQUIRED" />
+			<tx:method name="select*" propagation="SUPPORTS" />
+			<tx:method name="query*" propagation="SUPPORTS" />
+		</tx:attributes>
+	</tx:advice>
+	<!--把事务控制在Service层 -->
+	<aop:config>
+	<!--  事物控制 -->
+		<aop:pointcut expression="execution(public * com.qtz.sm.*.service.*.*(..))" id="txPointcut"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+		<!-- service日志通知 -->
+		<aop:aspect id="loggerServiceAspect" ref="loggerService"
+			order="100">
+			<aop:around method="record"
+				pointcut="execution(* com.qtz.sm..service.impl..*.*(..))" />
+		</aop:aspect>
+		<!-- dao日志通知 -->
+		<aop:aspect id="loggerDaoAspect" ref="loggerDao" order="101">
+			<aop:around method="record"
+				pointcut="execution( * com.qtz.sm.*.dao.impl..*.*(..))" />
+		</aop:aspect>
+		<!-- 方法调用时间通知 -->
+		<aop:aspect id="methodAspect" ref="methodTimeAop" order="102">
+			<aop:around method="around"
+				pointcut="execution( * com.qtz.sm.*.*.impl..*.*(..))" />
+		</aop:aspect>
+	</aop:config>
+	<!-- 引入dubbo文件 -->
+</beans>

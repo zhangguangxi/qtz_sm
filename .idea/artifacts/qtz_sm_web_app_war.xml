@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="qtz_sm_web_app:war">
+    <output-path>$PROJECT_DIR$/qtz_sm_web_app/target</output-path>
+    <root id="archive" name="qtz_sm_web_app.war">
+      <element id="artifact" artifact-name="qtz_sm_web_app:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.shop.dao.ShopBusinessDao" >
+<!-- Result Map com.qtz.sm.shop.vo.ShopBusiness-->
+<resultMap id="BaseResultMap" type="ShopBusiness" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="shop_id"  property="shopId"/> 
+<result column="icon"  property="icon"/> 
+<result column="telephone"  property="telephone"/> 
+<result column="service_start_time"  property="serviceStartTime"/> 
+<result column="service_end_time"  property="serviceEndTime"/> 
+<result column="is_send_price"  property="isSendPrice"/> 
+<result column="minimum_money"  property="minimumMoney"/> 
+<result column="logistics_money"  property="logisticsMoney"/> 
+<result column="service_promise"  property="servicePromise"/> 
+<result column="service_scope"  property="serviceScope"/> 
+<result column="create_time"  property="createTime"/> 
+<result column="update_time"  property="updateTime"/> 
+	
+</resultMap>
+
+<!-- shop_business table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.shop_id,t.icon,t.telephone,t.service_start_time,t.service_end_time,t.is_send_price,t.minimum_money,t.logistics_money,t.service_promise,t.service_scope,t.create_time,t.update_time
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="shopId != null  ">
+		 and t.shop_id=#{shopId}
+	</if>
+	<if test="icon != null  and icon != '' ">
+		 and t.icon=#{icon}
+	</if>
+	<if test="telephone != null  and telephone != '' ">
+		 and t.telephone=#{telephone}
+	</if>
+	<if test="serviceStartTime != null  ">
+		 and t.service_start_time=#{serviceStartTime}
+	</if>
+	<if test="serviceEndTime != null  ">
+		 and t.service_end_time=#{serviceEndTime}
+	</if>
+	<if test="isSendPrice != null  ">
+		 and t.is_send_price=#{isSendPrice}
+	</if>
+	<if test="minimumMoney != null  ">
+		 and t.minimum_money=#{minimumMoney}
+	</if>
+	<if test="logisticsMoney != null  ">
+		 and t.logistics_money=#{logisticsMoney}
+	</if>
+	<if test="servicePromise != null  ">
+		 and t.service_promise=#{servicePromise}
+	</if>
+	<if test="serviceScope != null  ">
+		 and t.service_scope=#{serviceScope}
+	</if>
+	<if test="createTime != null  ">
+		 and t.create_time=#{createTime}
+	</if>
+	<if test="updateTime != null  ">
+		 and t.update_time=#{updateTime}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into shop_business(dmId,shop_id,icon,telephone,service_start_time,service_end_time,is_send_price,minimum_money,logistics_money,service_promise,service_scope,create_time,update_time)
+ values(#{dmId},#{shopId},#{icon},#{telephone},#{serviceStartTime},#{serviceEndTime},#{isSendPrice},#{minimumMoney},#{logisticsMoney},#{servicePromise},#{serviceScope},#{createTime},#{updateTime})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into shop_business(dmId,shop_id,icon,telephone,service_start_time,service_end_time,is_send_price,minimum_money,logistics_money,service_promise,service_scope,create_time,update_time) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.shopId},#{item.icon},#{item.telephone},#{item.serviceStartTime},#{item.serviceEndTime},#{item.isSendPrice},#{item.minimumMoney},#{item.logisticsMoney},#{item.servicePromise},#{item.serviceScope},#{item.createTime},#{item.updateTime}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from shop_business where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from shop_business where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from shop_business where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update shop_business set shop_id=#{shopId},icon=#{icon},telephone=#{telephone},service_start_time=#{serviceStartTime},service_end_time=#{serviceEndTime},is_send_price=#{isSendPrice},minimum_money=#{minimumMoney},logistics_money=#{logisticsMoney},service_promise=#{servicePromise},service_scope=#{serviceScope},create_time=#{createTime},update_time=#{updateTime} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update shop_business set 
+	<trim  suffixOverrides="," >
+	<if test="shopId != null  ">
+		shop_id=#{shopId},
+	</if>
+	<if test="icon != null  and icon != '' ">
+		icon=#{icon},
+	</if>
+	<if test="telephone != null  and telephone != '' ">
+		telephone=#{telephone},
+	</if>
+	<if test="serviceStartTime != null  ">
+		service_start_time=#{serviceStartTime},
+	</if>
+	<if test="serviceEndTime != null  ">
+		service_end_time=#{serviceEndTime},
+	</if>
+	<if test="isSendPrice != null  ">
+		is_send_price=#{isSendPrice},
+	</if>
+	<if test="minimumMoney != null  ">
+		minimum_money=#{minimumMoney},
+	</if>
+	<if test="logisticsMoney != null  ">
+		logistics_money=#{logisticsMoney},
+	</if>
+	<if test="servicePromise != null  ">
+		service_promise=#{servicePromise},
+	</if>
+	<if test="serviceScope != null  ">
+		service_scope=#{serviceScope},
+	</if>
+	<if test="createTime != null  ">
+		create_time=#{createTime},
+	</if>
+	<if test="updateTime != null  ">
+		update_time=#{updateTime},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 便利店营业信息 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from shop_business t where t.dmId = #{dmId}
+</select>
+
+<!-- 便利店营业信息 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from shop_business t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 分页查询便利店营业信息列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from shop_business t 
+	<include refid="Example_Where_Clause"/>
+	
+    <if test="mysqlQueryCondition != null and mysqlQueryCondition != ''" >
+       ${mysqlQueryCondition}
+    </if>
+</select>
+
+<!-- 查询便利店营业信息列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from shop_business t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+</mapper>

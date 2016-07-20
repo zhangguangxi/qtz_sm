@@ -1,0 +1,17 @@
+@echo off & setlocal enabledelayedexpansion
+rem 启动主类
+set MAINCLASS=MainClass
+rem Java虚拟机设置，视情况而调整 -Xms512m -Xmx512m -XX:NewSize=192m -XX:MaxNewSize=384m
+set JAVA_OPTS=-Xms512m -Xmx512m -XX:NewSize=192m -XX:MaxNewSize=384m
+cd /d %~dp0
+set CLASSPATH=..\classes
+cd ..\lib
+for %%i in (*.jar) do set CLASSPATH=!CLASSPATH!;..\lib\%%i
+cd ..\bin
+java 2>nul
+if %ERRORLEVEL%==9009 goto nojava
+java %JAVA_OPTS% %MAINCLASS%
+goto end
+:nojava
+echo I require java but it's not installed.Aborting.
+:end

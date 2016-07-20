@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.shop.dao.ShopGoodsDao">
+	<!-- Result Map com.qtz.sm.shop.vo.ShopGoods -->
+	<resultMap id="BaseResultMap" type="ShopGoods">
+		<result column="dmId" property="dmId" />
+		<result column="shop_id" property="shopId" />
+		<result column="goods_id" property="goodsId" />
+		<result column="shop_category_id" property="shopCategoryId" />
+		<result column="status" property="status" />
+		<result column="online_time" property="onlineTime" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+
+	</resultMap>
+
+	<!-- shop_goods table all fields -->
+	<sql id="Base_Column_List">
+		t.dmId,t.shop_id,t.goods_id,t.shop_category_id,t.status,t.online_time,t.create_time,t.update_time
+	</sql>
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		<where>
+			<if test="dmId != null  ">
+				and t.dmId=#{dmId}
+			</if>
+			<if test="shopId != null  ">
+				and t.shop_id=#{shopId}
+			</if>
+			<if test="goodsId != null  ">
+				and t.goods_id=#{goodsId}
+			</if>
+			<if test="shopCategoryId != null  ">
+				and t.shop_category_id=#{shopCategoryId}
+			</if>
+			<if test="status != null  ">
+				and t.status=#{status}
+			</if>
+			<if test="onlineTime != null  ">
+				and t.online_time=#{onlineTime}
+			</if>
+			<if test="createTime != null  ">
+				and t.create_time=#{createTime}
+			</if>
+			<if test="updateTime != null  ">
+				and t.update_time=#{updateTime}
+			</if>
+
+		</where>
+	</sql>
+
+
+	<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" 
+		useGeneratedKeys="true" keyProperty="id">] -->
+	<insert id="addVo" parameterType="Object">
+		insert into
+		shop_goods(dmId,shop_id,goods_id,shop_category_id,status,online_time,create_time,update_time)
+		values(#{dmId},#{shopId},#{goodsId},#{shopCategoryId},#{status},#{onlineTime},#{createTime},#{updateTime})
+	</insert>
+	<!--批量插入记录 -->
+	<insert id="addList" parameterType="java.util.List">
+		insert into
+		shop_goods(dmId,shop_id,goods_id,shop_category_id,status,online_time,create_time,update_time)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.dmId},#{item.shopId},#{item.goodsId},#{item.shopCategoryId},#{item.status},#{item.onlineTime},#{item.createTime},#{item.updateTime}
+			)
+		</foreach>
+	</insert>
+
+
+	<!-- 删除记录 -->
+	<delete id="delId" parameterType="Object">
+		delete from shop_goods where
+		dmId = #{dmId}
+	</delete>
+	<!--批量删除 -->
+	<delete id="delIds" parameterType="java.lang.String">
+		delete from shop_goods where dmId in
+		<foreach item="idItem" collection="array" open="(" separator=","
+			close=")">
+			#{idItem}
+		</foreach>
+	</delete>
+	<!--批量删除 -->
+	<delete id="delList" parameterType="java.util.List">
+		delete from shop_goods where dmId in
+		<foreach item="idItem" collection="list" index="index" open="("
+			separator="," close=")">
+			#{idItem}
+		</foreach>
+	</delete>
+
+	<!-- 根据id，修改记录 -->
+	<update id="modVo" parameterType="Object">
+		update shop_goods set
+		shop_id=#{shopId},goods_id=#{goodsId},shop_category_id=#{shopCategoryId},status=#{status},online_time=#{onlineTime},create_time=#{createTime},update_time=#{updateTime}
+		where dmId=#{dmId}
+	</update>
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="modVoNotNull" parameterType="Object">
+		update shop_goods set
+		<trim suffixOverrides=",">
+			<if test="shopId != null  ">
+				shop_id=#{shopId},
+			</if>
+			<if test="goodsId != null  ">
+				goods_id=#{goodsId},
+			</if>
+			<if test="shopCategoryId != null  ">
+				shop_category_id=#{shopCategoryId},
+			</if>
+			<if test="status != null  ">
+				status=#{status},
+			</if>
+			<if test="onlineTime != null  ">
+				online_time=#{onlineTime},
+			</if>
+			<if test="createTime != null  ">
+				create_time=#{createTime},
+			</if>
+			<if test="updateTime != null  ">
+				update_time=#{updateTime},
+			</if>
+		</trim>
+		where dmId=#{dmId}
+	</update>
+	<!-- 便利店根据便利店ID和商品编号批量修改商品分类 -->
+	<update id="updateBatch" parameterType="Map">
+		update shop_goods set shop_category_id=#{shopCategoryId}
+		where shop_id
+		= #{shopId} and goods_id
+		in
+		<foreach collection="shopGoodsIds" index="index" item="item"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	<!-- 便利店根据便利店ID和商品编号批量修改商品上架状态 -->
+	<update id="updateBatchStatus" parameterType="Map">
+		update shop_goods set status=#{status} ,online_time=#{onlineTime}
+		where shop_id = #{shopId} and goods_id
+		in
+		<foreach collection="shopGoodsIds" index="index" item="item"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+
+	<!-- 根据id查询 便利店商品 -->
+	<select id="findVo" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from shop_goods t where t.dmId = #{dmId}
+	</select>
+
+	<!-- 便利店商品 列表总数 -->
+	<select id="queryCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from shop_goods t
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 分页查询便利店商品列表 -->
+	<select id="queryList" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from shop_goods t
+		<include refid="Example_Where_Clause" />
+		<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+			${mysqlQueryCondition}
+		</if>
+	</select>
+
+	<!-- 查询便利店商品列表 -->
+	<select id="findList" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from shop_goods t
+		<include refid="Example_Where_Clause" />
+	</select>
+
+
+	<resultMap id="BaseSkuResult" type="ShopValueVo">
+		<result column="dmId" property="dmId" />
+		<result column="skuId" property="skuId" />
+		<result column="val" property="val" />
+		<result column="actual" property="actualNum" />
+		<result column="freeze_num" property="freezeNum" />
+	</resultMap>
+	<!-- 根据便利店ID查询便利店中商品列表对应的sku -->
+	<select id="findSkuListByShopId" resultMap="BaseSkuResult"
+		parameterType="Object">
+		select fn_goods_get_sku_props_str(a.sku_id) val ,
+		a.actual,a.freeze_num , a.sku_id as skuId,a.dmId
+		from
+		shop_goods_sku a
+		where a.shop_id = #{shopId} and a.goods_id = #{goodsId}
+	</select>
+
+	<!-- 根据商品ID查询所有商品sku列表 -->
+	<select id="findSkuList" resultMap="BaseSkuResult"
+		parameterType="Object">
+		select d.dmId as
+		skuId,fn_goods_get_sku_props_str(d.dmId) val from
+		gd_goods_sku d
+		where
+		d.goods_id = #{goodsId}
+	</select>
+
+	<resultMap id="BaseGdGoodsResult" type="ShopGdGoodsVo">
+		<result column="dmId" property="dmId" />
+		<result column="supplier_id" property="supplierId" />
+		<result column="brands_id" property="brandsId" />
+		<result column="goods_type_id" property="goodsTypeId" />
+		<result column="code" property="code" />
+		<result column="name" property="name" />
+		<result column="remark" property="remark" />
+		<result column="status" property="status" />
+		<result column="create_by" property="createBy" />
+		<result column="create_on" property="createOn" />
+		<result column="update_by" property="updateBy" />
+		<result column="update_on" property="updateOn" />
+		<result column="goods_pro_val_msg" property="goodsProValMsg" />
+		<result column="goods_pics" property="goodsPics" />
+	</resultMap>
+
+	<sql id="page_Where_Clause">
+			<if test="dmId != null  ">
+				and t.dmId like CONCAT('%',#{dmId},'%')
+			</if>
+			<if test="code != null  ">
+				and t.code like CONCAT('%',#{code},'%')
+			</if>
+			<if test="name != null  and name != '' ">
+				and t.name like CONCAT('%',#{name},'%')
+			</if>
+			<if test="status != null  ">
+				and t.status=#{status}
+			</if>
+			<!-- 1查询所有便利店所有商品，2查询分类下的商品，3查询未绑定分类的商品 -->
+			<if test=" parmCode == 2 and shopCategoryId != null  ">
+				and a.shop_category_id = #{shopCategoryId}
+			</if>
+			<if test=" parmCode == 3   ">
+				and a.shop_category_id = 0
+			</if>
+			<if test="startDate != null  ">
+		 <![CDATA[ and t.shelve_time >=  #{startDate}]]>
+			</if>
+			<if test="endDate != null  ">
+		 <![CDATA[ and t.shelve_time  < #{endDate}]]>
+			</if>
+			<!-- 包含在内的商品编号 -->
+			<if test="shopGoodsIds != null  ">
+				and t.dmId in
+				<foreach collection="shopGoodsIds" index="index" item="item"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+	</sql>
+
+	<!-- 便利店商品 列表总数 -->
+	<select id="findGdGoodsListByShopIdCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from shop_goods a,gd_goods t
+		where
+		a.goods_id = t.dmId
+		and a.shop_id = #{shopId}
+		<include refid="page_Where_Clause" />
+	</select>
+	<!-- 根据便利店ID查询进货单商品信息列表 -->
+	<select id="findGdGoodsListByShopId" resultMap="BaseGdGoodsResult"
+		parameterType="Object">
+		select t.* from shop_goods a,gd_goods t
+		where a.goods_id = t.dmId and
+		a.shop_id = #{shopId}
+		<include refid="page_Where_Clause" />
+		<if test="mysqlOrderCondition != null and mysqlOrderCondition != ''">
+			${mysqlOrderCondition}
+		</if>
+	</select>
+	
+	<resultMap id="BaseGdGoodsResultTwo" type="ShopGdGoodsVo">
+		<result column="dmId" property="dmId" />
+		<result column="supplier_id" property="supplierId" />
+		<result column="brands_id" property="brandsId" />
+		<result column="goods_type_id" property="goodsTypeId" />
+		<result column="code" property="code" />
+		<result column="name" property="name" />
+		<result column="remark" property="remark" />
+		<result column="status" property="status" />
+		<result column="create_by" property="createBy" />
+		<result column="create_on" property="createOn" />
+		<result column="update_by" property="updateBy" />
+		<result column="update_on" property="updateOn" />
+		<result column="goods_pro_val_msg" property="goodsProValMsg" />
+		<result column="goods_pics" property="goodsPics" />
+		
+		<collection property="valList" ofType="ShopValueVo">
+			<result column="skuId" property="skuId" />
+			<result column="val" property="val" />
+			<result column="actual" property="actualNum" />
+			<result column="freeze_num" property="freezeNum" />
+		</collection>
+	</resultMap>
+	
+	
+	<!-- 根据便利店ID查询所有商品信息以及SKU 用于便利店商品所有商品列表查询-->
+	<select id="queryGdGoodsListByShopId" resultMap="BaseGdGoodsResultTwo"
+		parameterType="Object">
+		select t.*,
+		fn_goods_get_sku_props_str(sku_id) as val,
+		s.actual,s.freeze_num,s.sku_id as skuId
+		from shop_goods_sku s,gd_goods t
+		where s.goods_id = t.dmId and s.shop_id = #{shopId}
+		<if test="code != null  ">
+			and t.code like CONCAT('%',#{code},'%')
+		</if>
+		<if test="name != null  and name != '' ">
+			and t.name like CONCAT('%',#{name},'%')
+		</if> 
+		<if test="skuId != null  ">
+			and s.sku_id like CONCAT('%',#{skuId},'%')
+		</if>
+		<if test="startActual != null and startActual != 0 ">
+		<![CDATA[ and s.actual >= #{startActual} ]]>
+		</if>
+		<if test="endActual != null and endActual != 0 ">
+		<![CDATA[ and s.actual <= #{endActual}]]>
+		</if>
+		order by t.update_on desc 
+	</select>
+	
+
+	<resultMap id="ShopGoodsVoResult" type="ShopGoodsVo">
+		<result column="dmId" property="dmId" />
+		<result column="shop_id" property="shopId" />
+		<result column="goods_id" property="goodsId" />
+		<result column="shop_category_id" property="shopCategoryId" />
+		<result column="goods_type_id" property="goodsTypeId" />
+		<result column="code" property="code" />
+		<result column="name" property="name" />
+		<result column="remark" property="remark" />
+		<result column="goodsProValMsg" property="goodsProValMsg" />
+		<result column="status" property="status" />
+		<result column="price" property="price" />
+		<result column="sales" property="sales" />
+		<result column="specificationCount" property="specificationCount" />
+		<result column="online_time" property="onlineTime" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+
+		<collection property="picList" ofType="GdGoodsPicture"
+			column="goods_id" select="com.qtz.sm.goods.dao.GdGoodsPictureDao.getGoodsPicList" />
+	</resultMap>
+	<!-- 根据便利店ID和商品ID获取商品详情 APP用 -->
+	<select id="getShopGoodsVo" resultMap="ShopGoodsVoResult"
+		parameterType="Object">
+		SELECT
+		*
+		FROM
+		(SELECT
+		sg.*,
+		gg.`code` CODE,
+		gg.`name` NAME,
+		gg.`remark` remark,
+		gg.`goods_pro_val_msg` goodsProValMsg,
+		gg.`goods_type_id` goods_type_id
+		FROM
+		shop_goods sg,
+		gd_goods gg
+		WHERE
+		sg.`dmId` =#{goodsId}
+		AND sg.shop_id =#{shopId}
+		AND sg.`goods_id` =
+		gg.`dmId`) r
+		LEFT JOIN
+		(SELECT
+		MIN(fn_get_rate_price (2, sku_id)) price,
+		shop_goods_id
+		FROM
+		shop_goods_sku
+		WHERE shop_id = #{shopId}
+		GROUP BY shop_goods_id) m
+		ON
+		r.dmId = m.shop_goods_id
+	</select>
+
+	<resultMap id="ShopGoodsVoResultMap" type="ShopGoodsVo">
+		<result column="dmId" property="dmId" />
+		<result column="shop_id" property="shopId" />
+		<result column="goods_id" property="goodsId" />
+		<result column="shop_category_id" property="shopCategoryId" />
+		<result column="goods_type_id" property="goodsTypeId" />
+		<result column="code" property="code" />
+		<result column="name" property="name" />
+		<result column="remark" property="remark" />
+		<result column="goodsProValMsg" property="goodsProValMsg" />
+		<result column="status" property="status" />
+		<result column="price" property="price" />
+		<result column="sales" property="sales" />
+		<result column="specificationCount" property="specificationCount" />
+		<result column="online_time" property="onlineTime" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		
+		<association property="pic" column="goods_id" select="com.qtz.sm.goods.dao.GdGoodsPictureDao.getGoodsPicByGoodsId"></association>
+		</resultMap>
+	<!-- 根据便利店ID和商品分类ID获取便利店分类下所有商品信息 APP用 -->
+	<select id="getShopGoodsVoList" resultMap="ShopGoodsVoResultMap"
+		parameterType="Object">
+		SELECT
+		r.*,IF(ISNULL(n.sales),0,n.sales) AS sales
+		FROM
+		(SELECT
+		sg.*,
+		gg.`code` CODE,
+		gg.`name` NAME,
+		gg.`remark` remark,
+		gg.`goods_pro_val_msg` goodsProValMsg,
+		gg.`goods_type_id` goods_type_id,
+		r2.*
+		FROM
+		shop_goods sg,
+		gd_goods gg,
+		(SELECT
+		price,
+		m.shop_goods_id shop_goods_id,
+		specificationCount
+		FROM
+		(SELECT
+		MIN(fn_get_rate_price (2, sku_id)) price,
+		shop_goods_id
+		FROM
+		shop_goods_sku
+		WHERE shop_id = #{shopId}
+		GROUP BY shop_goods_id) m,
+		(SELECT COUNT(1) specificationCount,shop_goods_id FROM shop_goods_sku
+		WHERE shop_id = #{shopId}
+		GROUP BY shop_goods_id) l
+		WHERE
+		m.shop_goods_id = l.shop_goods_id) r2
+		WHERE sg.`shop_category_id` = #{shopCategoryId}
+		AND sg.shop_id = #{shopId}
+		AND sg.`goods_id` = gg.`dmId`
+		AND sg.`status` = 1
+		AND sg.dmId = r2.shop_goods_id) r
+		LEFT
+		JOIN
+		(SELECT
+		SUM(sales) sales,
+		shop_goods_id
+		FROM
+		shop_sales t
+		WHERE shop_id
+		=#{shopId}
+		GROUP BY shop_goods_id) n
+		ON r.dmId = n.shop_goods_id
+	</select>
+
+	<!-- 根据便利店商品信息获取下面商品规格统计信息 -->
+	<select id="getSpecificationCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		SELECT COUNT(1) FROM shop_goods_sku
+		WHERE shop_id =
+		#{shopId}
+		AND goods_id = #{goodsId}
+	</select>
+
+	<!-- 根据便利店商品信息获取下面商品最低价格 -->
+	<select id="getGoodsMinPrice" resultType="java.lang.Double"
+		parameterType="Object">
+		SELECT MIN(fn_get_rate_price (2, sku_id)) price FROM
+		shop_goods_sku
+		WHERE shop_id = #{shopId}
+		AND goods_id = #{goodsId}
+	</select>
+
+	<resultMap id="ShopGoodsSkuVoResult" type="ShopGoodsSkuVo">
+		<result column="dmId" property="dmId" />
+		<result column="shop_id" property="shopId" />
+		<result column="goods_id" property="goodsId" />
+		<result column="sku_id" property="skuId" />
+		<result column="shop_goods_id" property="shopGoodsId" />
+		<result column="actual" property="actual" />
+		<result column="freeze_num" property="freezeNum" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="val" property="val" />
+		<result column="price" property="price" />
+	</resultMap>
+	<!-- 根据便利店ID和商品ID获取商品下面所有SKU信息 -->
+	<select id="getShopGoodsSkus" resultMap="ShopGoodsSkuVoResult"
+		parameterType="Object">
+		SELECT
+		a.* ,
+		fn_goods_get_sku_props_str (a.sku_id) val,
+		fn_get_rate_price (2, a.sku_id) price
+		FROM
+		shop_goods_sku a
+		WHERE
+		a.goods_id = #{goodsId}
+		AND a.shop_id = #{shopId}
+	</select>
+	
+	
+	
+	
+</mapper>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.goods.dao.GdGoodsTypeDao" >
+<!-- Result Map com.qtz.dhf.goods.vo.GdGoodsType-->
+<resultMap id="BaseResultMap" type="GdGoodsType" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="name"  property="name"/> 
+<result column="pinyin"  property="pinyin"/> 
+<result column="parent_id"  property="parentId"/> 
+<result column="level"  property="level"/> 
+<result column="seq"  property="seq"/> 
+<result column="remark"  property="remark"/> 
+<result column="status"  property="status"/> 
+<result column="create_on"  property="createOn"/> 
+<result column="create_by"  property="createBy"/> 
+<result column="update_by"  property="updateBy"/> 
+<result column="update_on"  property="updateOn"/> 
+	
+</resultMap>
+
+<!-- gd_goods_type table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.name,t.pinyin,t.parent_id,t.level,t.seq,t.remark,t.status,t.create_on,t.create_by,t.update_by,t.update_on
+</sql>
+<sql id="Base_Column_List_Page" >
+	 t.dmId,t.name,t.status,t.create_on
+</sql>
+<sql id="Base_Column_List_Ext" >
+	 t.dmId,t.name,t.parent_id
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="name != null  and name != '' ">
+		 and t.name=#{name}
+	</if>
+	<if test="pinyin != null  and pinyin != '' ">
+		 and t.pinyin=#{pinyin}
+	</if>
+	<if test="parentId != null  ">
+		 and t.parent_id=#{parentId}
+	</if>
+	<if test="level != null  ">
+		 and t.level=#{level}
+	</if>
+	<if test="seq != null  ">
+		 and t.seq=#{seq}
+	</if>
+	<if test="remark != null  and remark != '' ">
+		 and t.remark=#{remark}
+	</if>
+	<if test="status != null  ">
+		 and t.status=#{status}
+	</if>
+	<if test="createOn != null  ">
+		 and t.create_on=#{createOn}
+	</if>
+	<if test="createBy != null  ">
+		 and t.create_by=#{createBy}
+	</if>
+	<if test="updateBy != null  ">
+		 and t.update_by=#{updateBy}
+	</if>
+	<if test="updateOn != null  ">
+		 and t.update_on=#{updateOn}
+	</if>
+	<if test="nameOrPinyinLike != null  ">
+		 and (t.name like CONCAT('%','${nameOrPinyinLike}','%') or t.pinyin like CONCAT('%','${nameOrPinyinLike}','%'))
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into gd_goods_type(dmId,name,pinyin,parent_id,level,seq,remark,status,create_on,create_by,update_by,update_on)
+ values(#{dmId},#{name},#{pinyin},#{parentId},#{level},#{seq},#{remark},#{status},#{createOn},#{createBy},#{updateBy},#{updateOn})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into gd_goods_type(dmId,name,pinyin,parent_id,level,seq,remark,status,create_on,create_by,update_by,update_on) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.name},#{item.pinyin},#{item.parentId},#{item.level},#{item.seq},#{item.remark},#{item.status},#{item.createOn},#{item.createBy},#{item.updateBy},#{item.updateOn}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from gd_goods_type where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from gd_goods_type where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from gd_goods_type where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update gd_goods_type set name=#{name},pinyin=#{pinyin},parent_id=#{parentId},level=#{level},seq=#{seq},remark=#{remark},status=#{status},create_on=#{createOn},create_by=#{createBy},update_by=#{updateBy},update_on=#{updateOn} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update gd_goods_type set 
+	<trim  suffixOverrides="," >
+	<if test="name != null  and name != '' ">
+		name=#{name},
+	</if>
+	<if test="pinyin != null  and pinyin != '' ">
+		pinyin=#{pinyin},
+	</if>
+	<if test="parentId != null  ">
+		parent_id=#{parentId},
+	</if>
+	<if test="level != null  ">
+		level=#{level},
+	</if>
+	<if test="seq != null  ">
+		seq=#{seq},
+	</if>
+	<if test="remark != null  and remark != '' ">
+		remark=#{remark},
+	</if>
+	<if test="status != null  ">
+		status=#{status},
+	</if>
+	<if test="createOn != null  ">
+		create_on=#{createOn},
+	</if>
+	<if test="createBy != null  ">
+		create_by=#{createBy},
+	</if>
+	<if test="updateBy != null  ">
+		update_by=#{updateBy},
+	</if>
+	<if test="updateOn != null  ">
+		update_on=#{updateOn},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 商品分类 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from gd_goods_type t where t.dmId = #{dmId}
+</select>
+
+<!-- 商品分类 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from gd_goods_type t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 分页查询商品分类列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List_Page"/>
+	from gd_goods_type t 
+	<include refid="Example_Where_Clause"/>
+	<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+		${mysqlQueryCondition}
+	</if>
+</select>
+
+<!-- 查询商品分类列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List_Ext"/>
+	from gd_goods_type t 
+	<include refid="Example_Where_Clause"/>
+	order by t.pinyin
+</select>
+
+<!-- 查询商品分类列表 -->
+<select id="getMaxSeqByParentId" resultType="java.lang.Integer" parameterType="Object">
+	SELECT MAX(seq) AS maxSeq FROM gd_goods_type WHERE parent_id=#{parentId} ;
+</select>
+
+</mapper>

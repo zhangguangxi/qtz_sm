@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.store.dao.CsCczxStockDao">
+	<!-- Result Map com.qtz.sm.cscczx.vo.CsCczxStock -->
+	<resultMap id="BaseResultMap" type="com.qtz.sm.store.vo.CsCczxStock">
+		<result column="dmId" property="dmId" />
+		<result column="gys_id" property="gysId" />
+		<result column="sku_id" property="skuId" />
+		<result column="stock_quantity" property="stockQuantity" />
+		<result column="await_quantity" property="awaitQuantity" />
+		<result column="is_onsale" property="isOnsale" />
+		<result column="onsale_time" property="onsaleTime" />
+
+        <!-- 追加商品信息 -->
+        <result column="goods_id"  property="goodsId"/>
+        <result column="goods_num"  property="goodsNum"/>
+        <result column="goods_name"  property="goodsName"/>
+        
+        <result column="yccgl_rate"  property="yccglRate"/>
+        <result column="yccgl_price"  property="yccglPrice"/>
+        
+         <result column="cczx_id"  property="cczxId"/>
+        
+
+	</resultMap>
+
+	<!-- cs_cczx_stock table all fields -->
+	<sql id="Base_Column_List">
+		t.dmId,t.gys_id,t.sku_id,t.stock_quantity,t.await_quantity,t.is_onsale,t.onsale_time,t.cczx_id
+	</sql>
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		<where>
+			<if test="dmId != null  "> and t.dmId=#{dmId}
+			</if>
+			<if test="gysId != null  ">
+				and t.gys_id=#{gysId}
+			</if>
+			<if test="skuId != null  ">
+				and t.sku_id=#{skuId}
+			</if>
+			<if test="stockQuantity != null and stockQuantity != 0 ">
+				and t.stock_quantity=#{stockQuantity}
+			</if>
+			<if test="awaitQuantity != null and awaitQuantity != 0 ">
+				and t.await_quantity=#{awaitQuantity}
+			</if>
+			<if test="isOnsale != null  ">
+				and t.is_onsale=#{isOnsale}
+			</if>
+			<if test="onsaleTime != null  ">
+				and t.onsale_time=#{onsaleTime}
+			</if>
+		</where>
+		order by dmId desc
+	</sql>
+
+
+	<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" 
+		useGeneratedKeys="true" keyProperty="id">] -->
+	<insert id="addVo" parameterType="Object">
+		insert into
+		cs_cczx_stock(dmId,gys_id,sku_id,stock_quantity,await_quantity,is_onsale,onsale_time,cczx_id)
+		values(#{dmId},#{gysId},#{skuId},#{stockQuantity},#{awaitQuantity},#{isOnsale},#{onsaleTime},#{cczxId})
+	</insert>
+	<!--批量插入记录 -->
+	<insert id="addList" parameterType="java.util.List">
+		insert into
+		cs_cczx_stock(dmId,gys_id,sku_id,stock_quantity,await_quantity,is_onsale,onsale_time,cczx_id)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.dmId},#{item.gysId},#{item.skuId},#{item.stockQuantity},#{item.awaitQuantity},#{item.isOnsale},#{item.onsaleTime},#{item.cczxId}
+			)
+		</foreach>
+	</insert>
+
+
+	<!-- 删除记录 -->
+	<delete id="delId" parameterType="Object">
+		delete from cs_cczx_stock where dmId = #{dmId}
+	</delete>
+	<!--批量删除 -->
+	<delete id="delIds" parameterType="java.lang.String">
+		delete from cs_cczx_stock where dmId in
+		<foreach item="idItem" collection="array" open="(" separator=","
+			close=")">
+			#{idItem}
+		</foreach>
+	</delete>
+	<!--批量删除 -->
+	<delete id="delList" parameterType="java.util.List">
+		delete from cs_cczx_stock where dmId in
+		<foreach item="idItem" collection="list" index="index" open="("
+			separator="," close=")">
+			#{idItem}
+		</foreach>
+	</delete>
+
+	<!-- 根据id，修改记录 -->
+	<update id="modVo" parameterType="Object">
+		update cs_cczx_stock set
+		gys_id=#{gysId},sku_id=#{skuId},stock_quantity=#{stockQuantity},await_quantity=#{awaitQuantity},is_onsale=#{isOnsale},onsale_time=#{onsaleTime},cczx_id=#{cczxId}
+		where dmId=#{dmId}
+	</update>
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="modVoNotNull" parameterType="Object">
+		update cs_cczx_stock set
+		<trim suffixOverrides=",">
+			<if test="gysId != null  ">
+				gys_id=#{gysId},
+			</if>
+			<if test="skuId != null  ">
+				sku_id=#{skuId},
+			</if>
+			<if test="stockQuantity != null  ">
+				stock_quantity=#{stockQuantity},
+			</if>
+			<if test="awaitQuantity != null  ">
+				await_quantity=#{awaitQuantity},
+			</if>
+			<if test="isOnsale != null  ">
+				is_onsale=#{isOnsale},
+			</if>
+			<if test="onsaleTime != null  ">
+				onsale_time=#{onsaleTime},
+			</if>
+			
+			<if test="cczxId != null  ">
+				cczx_id=#{cczxId},
+			</if>
+		</trim>
+		where dmId=#{dmId}
+	</update>
+
+
+
+	<!-- 根据id查询 仓储中心库存 -->
+	<select id="findVo" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from cs_cczx_stock t where t.dmId = #{dmId}
+	</select>
+	
+	<!-- queryStockQuantityAndPrice -->
+	<select id="getStockInfo" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from cs_cczx_stock t  WHERE t.sku_id=#{skuId} AND t.`cczx_id`= #{cczxId}
+	</select>
+	
+	<!-- 仓储中心库存 列表总数 -->
+	<select id="queryCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from cs_cczx_stock t
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 分页查询仓储中心库存列表 -->
+	<select id="queryList" resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" /> ,t3.`dmId` goods_id,t3.`code` goods_num,t3.`name` goods_name
+		from cs_cczx_stock t
+		LEFT JOIN `gd_goods_sku` t2 ON t.`sku_id` = t2.`dmId`
+		LEFT JOIN `gd_goods` t3 ON t2.`goods_id` = t3.`dmId`
+		<include refid="Example_Where_Clause" />
+		<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+			${mysqlQueryCondition}
+		</if>
+	</select>
+
+	<!-- 查询仓储中心库存列表 -->
+	<select id="findList" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from cs_cczx_stock t
+		<include refid="Example_Where_Clause" />
+	</select>
+	
+	
+	<!-- 根据skuId查询 仓储中心信息-->
+	<select id="queryCsCczxStockInfo" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from cs_cczx_stock t where t.sku_id=#{skuId}
+	</select>
+	
+	
+	
+		<!--云仓储管理公司    商品管理    商品库     商品详情   商品规格-->
+	<select id="queryStockQuantityAndPrice" resultMap="BaseResultMap" parameterType="Object">
+		select 
+		cczx.sku_id as sku_id,gsr.yccgl_rate,gsr.yccgl_price,cczx.stock_quantity as stock_quantity 
+		from cs_cczx_stock cczx,gd_goods_sku_rate gsr 
+		where cczx.sku_id=gsr.sku_id and gsr.sku_id=#{goodsId}
+	</select>
+	
+	<resultMap id="SupermarketSkuStatusResult" type="SupermarketSkuStatus">
+		<result column="sku_id" property="skuId" />
+		<result column="status" property="status" />
+	</resultMap>
+	<!-- 根据skuId查询 仓储中心信息-->
+	<select id="getGoodsStock" resultMap="SupermarketSkuStatusResult" parameterType="Object">
+		SELECT
+			sku_id,
+			IF (ISNULL(stock_quantity), 0, 1) AS status
+		FROM
+			cs_cczx_stock
+		WHERE
+			cczx_id = #{cczxId}
+		AND sku_id IN (${skuIds})
+	</select>
+
+</mapper>

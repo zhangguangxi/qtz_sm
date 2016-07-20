@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.shop.dao.ShopInfoOperationHistoryDao" >
+<!-- Result Map com.qtz.sm.shop.vo.ShopInfoOperationHistory-->
+<resultMap id="BaseResultMap" type="ShopInfoOperationHistory" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="operator"  property="operator"/> 
+<result column="operatorName"  property="operatorName"/> 
+<result column="shop_id"  property="shopId"/> 
+<result column="ip"  property="ip"/> 
+<result column="content"  property="content"/> 
+<result column="reason"  property="reason"/> 
+<result column="operate_on"  property="operateOn"/> 
+	
+</resultMap>
+
+<!-- shop_info_operation_history table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.operator,t.shop_id,t.ip,t.content,t.reason,t.operate_on
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="operator != null  ">
+		 and t.operator=#{operator}
+	</if>
+	<if test="shopId != null  ">
+		 and t.shop_id=#{shopId}
+	</if>
+	<if test="ip != null  and ip != '' ">
+		 and t.ip=#{ip}
+	</if>
+	<if test="content != null  and content != '' ">
+		 and t.content=#{content}
+	</if>
+	<if test="reason != null  and reason != '' ">
+		 and t.reason=#{reason}
+	</if>
+	<if test="operateOn != null  ">
+		 and t.operate_on=#{operateOn}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into shop_info_operation_history(dmId,operator,shop_id,ip,content,reason,operate_on)
+ values(#{dmId},#{operator},#{shopId},#{ip},#{content},#{reason},#{operateOn})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into shop_info_operation_history(dmId,operator,shop_id,ip,content,reason,operate_on) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.operator},#{item.shopId},#{item.ip},#{item.content},#{item.reason},#{item.operateOn}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from shop_info_operation_history where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from shop_info_operation_history where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from shop_info_operation_history where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update shop_info_operation_history set operator=#{operator},shop_id=#{shopId},ip=#{ip},content=#{content},reason=#{reason},operate_on=#{operateOn} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update shop_info_operation_history set 
+	<trim  suffixOverrides="," >
+	<if test="operator != null  ">
+		operator=#{operator},
+	</if>
+	<if test="shopId != null  ">
+		shop_id=#{shopId},
+	</if>
+	<if test="ip != null  and ip != '' ">
+		ip=#{ip},
+	</if>
+	<if test="content != null  and content != '' ">
+		content=#{content},
+	</if>
+	<if test="reason != null  and reason != '' ">
+		reason=#{reason},
+	</if>
+	<if test="operateOn != null  ">
+		operate_on=#{operateOn},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 便利店操作记录 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from shop_info_operation_history t where t.dmId = #{dmId}
+</select>
+
+<!-- 便利店操作记录 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from shop_info_operation_history t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 分页查询便利店操作记录列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>,ss.name as operatorName
+	from shop_info_operation_history t 
+	left join shop_manage_staff ss on ss.dmId = t.operator 
+	<include refid="Example_Where_Clause"/>
+	
+	
+	
+	
+	<if test="orderCondition != null and orderCondition != ''" >
+      ${orderCondition}
+    </if>
+    <if test="mysqlQueryCondition != null and mysqlQueryCondition != ''" >
+       ${mysqlQueryCondition}
+    </if>
+</select>
+
+<!-- 查询便利店操作记录列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from shop_info_operation_history t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+</mapper>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans        
+    http://www.springframework.org/schema/beans/spring-beans.xsd        
+    http://code.alibabatech.com/schema/dubbo        
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+	<dubbo:application name="qtz_sm_web_admin"/>
+	<!-- 使用multicast广播注册中心暴露发现服务地址 -->
+    <!--<dubbo:registry address="multicast://224.5.6.7:1234" />-->
+	<dubbo:registry protocol="zookeeper" address="${ZOOKEEPER_IP}" />
+	<!-- 生成远程服务代理，可以和本地bean一样使用Service -->
+	
+	<!-- session -->
+   <dubbo:reference interface="com.qtz.sm.session.service.SessionService" id="sessionServiceImpl" version="1.0"/>
+   <!-- batch-->
+   <dubbo:reference interface="com.qtz.sm.batch.service.CsBatGoodsService" id="csBatGoodsServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.batch.service.CsBatGoodsSkuService" id="csBatGoodsSkuServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.batch.service.CsBatOrderService" id="csBatOrderServiceImpl" version="1.0"/>
+    <!-- common -->
+   <dubbo:reference interface="com.qtz.sm.common.service.CsRegionsService" id="csRegionsServiceImpl" version="1.0"/>
+   <!-- goods -->
+   <dubbo:reference interface="com.qtz.sm.goods.service.GdGoodsBrandsService" id="gdGoodsBrandsServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.goods.service.GdGoodsCategroyRateService" id="gdGoodsCategroyRateServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.goods.service.GdGoodsPictureService" id="gdGoodsPictureServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.goods.service.GdGoodsService" id="gdGoodsServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.goods.service.GdGoodsSkuPropertyService" id="gdGoodsSkuPropertyServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.goods.service.GdGoodsSkuRateService" id="gdGoodsSkuRateServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.goods.service.GdGoodsSkuService" id="gdGoodsSkuServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.goods.service.GdGoodsTypePropertyOptionService" id="gdGoodsTypePropertyOptionServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.goods.service.GdGoodsTypePropertyService" id="gdGoodsTypePropertyServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.goods.service.GdGoodsTypeService" id="gdGoodsTypeServiceImpl" version="1.0"/>
+    <!-- scm -->
+   <dubbo:reference interface="com.qtz.sm.scm.service.CsGylAddressService" id="csGylAddressServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.scm.service.CsGylInfoService" id="csGylInfoServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.scm.service.CsGylStaffService" id="csGylStaffServiceImpl" version="1.0"/>
+   <!-- shop -->
+   <dubbo:reference interface="com.qtz.sm.shop.service.ShopBusinessService" id="shopBusinessServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.shop.service.ShopCategoryService" id="shopCategoryServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.shop.service.ShopGoodsService" id="shopGoodsServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.shop.service.ShopGoodsSkuService" id="shopGoodsSkuServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.shop.service.ShopInfoService" id="shopInfoServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.shop.service.ShopPurchaseOrderItemService" id="shopPurchaseOrderItemServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.shop.service.ShopPurchaseOrderService" id="shopPurchaseOrderServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.shop.service.ShopStaffService" id="shopStaffServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.shop.service.ShopReportService" id="shopReportServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.shop.service.ShopCommentService" id="shopCommentServiceImpl" version="1.0"/>
+   <dubbo:reference interface="com.qtz.sm.shop.service.ShopSalesService" id="shopSalesServiceImpl" version="1.0"/>
+  <!-- shopManage -->
+  <dubbo:reference interface="com.qtz.sm.shopManage.service.ShopManageService" 	  id="shopManageServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.shopManage.service.ShopManageStaffService" id="shopManageStaffServiceImpl" version="1.0"/>
+  <!-- stc -->
+  <dubbo:reference interface="com.qtz.sm.stc.service.CsYccAddressService" 	id="csYccAddressServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.stc.service.CsYccInfoService"    	id="csYccInfoServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.stc.service.CsYccStaffService"       id="csYccStaffServiceImpl" version="1.0"/>
+  <!-- store -->
+  <dubbo:reference interface="com.qtz.sm.store.service.CsCczxAddressService"   		id="csCczxAddressServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.store.service.CsCczxDeliveryRegionService"   id="csCczxDeliveryRegionServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.store.service.CsCczxInfoService"   			id="csCczxInfoServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.store.service.CsCczxStaffService"   			id="csCczxStaffServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.store.service.CsCczxStockService"   check="false" 			id="csCczxStockServiceImpl" version="1.0"/>
+  <!-- supermarket -->
+  <dubbo:reference interface="com.qtz.sm.supermarket.service.SupermarketCategoryAssociateService"  id="supermarketCategoryAssociateServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.supermarket.service.SupermarketCategoryService"  		 id="supermarketCategoryServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.supermarket.service.SupermarketInfoService"  		     id="supermarketInfoServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.supermarket.service.SupermarketStaffService"  		     id="supermarketStaffServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.supermarket.service.SupermarketAdvertisementService"   id="supermarketAdvertisementServiceImpl" version="1.0" />
+  <!--supp--> 
+  <dubbo:reference interface="com.qtz.sm.supp.service.CsGysAddressService"  		     id="csGysAddressServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.supp.service.CsGysDeliveryRegionService"  		     id="csGysDeliveryRegionServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.supp.service.CsGysInfoService"  		     			 id="csGysInfoServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.supp.service.CsGysStaffService"  		     	     id="csGysStaffServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.supp.service.CsGysStockService"  		     	     id="csGysStockServiceImpl" version="1.0"/>
+  
+  <!--wallet-->
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtWalletService"  		     id="wtWalletServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtBankCardService"  		     id="wtBankCardServiceImpl" version="1.0"/>
+  
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtBldglIncomeService"  		 id="wtBldglIncomeServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtBldglWithdrawalsService"  	 id="wtBldglWithdrawalsServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtBldIncomeService"  	 		 id="wtBldIncomeServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtBldWithdrawalsService"  	 id="wtBldWithdrawalsServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtCczxIncomeService"  	     id="wtCczxIncomeServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtCczxWithdrawalsService"  	 id="wtCczxWithdrawalsServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtCsIncomeService"  	         id="wtCsIncomeServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtCsWithdrawalsService"  	     id="wtCsWithdrawalsServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtGylIncomeService"  	         id="wtGylIncomeServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtGylWithdrawalsService"  	 id="wtGylWithdrawalsServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtGysIncomeService"  	         id="wtGysIncomeServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtGysWithdrawalsService"  	 id="wtGysWithdrawalsServiceImpl" version="1.0"/>
+  
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtYccBldglIncomeService"  	 id="wtYccBldglIncomeServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtYccBldglWithdrawalsService"  id="wtYccBldglWithdrawalsServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtYccCsIncomeService"   		 id="wtYccCsIncomeServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtYccCsWithdrawalsService"   	 id="wtYccCsWithdrawalsServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtBldglIncomeSettlementService"	id="wtBldglIncomeSettlementServiceImpl" version="1.0" timeout="10000" retries="0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtBldIncomeSettlementService"  	id="wtBldIncomeSettlementServiceImpl" version="1.0" timeout="10000" retries="0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtCczxIncomeSettlementService" 	id="wtCczxIncomeSettlementServiceImpl" version="1.0" timeout="10000" retries="0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtCsIncomeSettlementService"  	id="wtCsIncomeSettlementServiceImpl" version="1.0" timeout="10000" retries="0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtGylIncomeSettlementService" 	id="wtGylIncomeSettlementServiceImpl" version="1.0" timeout="10000" retries="0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtGysIncomeSettlementService" 	id="wtGysIncomeSettlementServiceImpl" version="1.0" timeout="10000" retries="0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtYccBldglIncomeSettlementService" id="wtYccBldglIncomeSettlementServiceImpl" version="1.0" timeout="10000" retries="0"/>
+  <dubbo:reference interface="com.qtz.sm.wallet.service.WtYccCsIncomeSettlementService" id="wtYccCsIncomeSettlementServiceImpl" version="1.0" timeout="10000" retries="0"/>
+
+ <!-- search -->
+  <dubbo:reference interface="com.qtz.sm.search.service.SearchListService"  		     id="searchListServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.search.service.SearchTypeService"  		     id="searchTypeServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.search.service.SearchHotListService"  		     id="searchHotListServiceImpl" version="1.0"/>
+  <dubbo:reference interface="com.qtz.sm.common.solr.SearchShopSolrService" id="searchShopSolrServiceImpl" version="1.0"/>
+
+    <dubbo:reference interface="com.qtz.sm.search.service.SearchService"  		     id="searchServiceImpl" version="1.0"/>
+    <dubbo:reference interface="com.qtz.sm.shopManage.service.ShopManageCategoryService"  		     id="shopManageCategoryServiceImpl" version="1.0"/>
+	
+  <!-- 超市订单服务 -->
+  <!--<dubbo:reference interface="com.qtz.orig.order.service.SupermarketService" check="false" id="supermarketServiceImpl" version="1.0" check="false"/>-->
+	
+</beans>

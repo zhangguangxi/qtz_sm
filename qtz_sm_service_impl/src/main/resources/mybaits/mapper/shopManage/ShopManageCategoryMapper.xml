@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.shopManage.dao.ShopManageCategoryDao">
+	<!-- Result Map com.qtz.sm.shopManage.vo.ShopManageCategory -->
+	<resultMap id="BaseResultMap" type="ShopManageCategory">
+		<result column="dmId" property="dmId" />
+		<result column="shop_manage_id" property="shopManageId" />
+		<result column="category_name" property="categoryName" />
+		<result column="sort" property="sort" />
+		<result column="status" property="status" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+	</resultMap>
+
+	<!-- shop_manage_category table all fields -->
+	<sql id="Base_Column_List">
+		t.dmId,t.shop_manage_id,t.category_name,t.sort,t.status,t.create_time,t.update_time
+	</sql>
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		<where>
+			<if test="dmId != null  "> and t.dmId=#{dmId}
+			</if>
+			<if test="shopManageId != null  ">
+				and t.shop_manage_id=#{shopManageId}
+			</if>
+			<if test="categoryName != null  and categoryName != '' ">
+				and t.category_name=#{categoryName}
+			</if>
+			<if test="sort != null  ">
+				and t.sort=#{sort}
+			</if>
+			<if test="status != null  ">
+				and t.status=#{status}
+			</if>
+			<if test="createTime != null  ">
+				and t.create_time=#{createTime}
+			</if>
+			<if test="updateTime != null  ">
+				and t.update_time=#{updateTime}
+			</if>
+		</where>
+	</sql>
+
+
+	<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" 
+		useGeneratedKeys="true" keyProperty="id">] -->
+	<insert id="addVo" parameterType="Object">
+		insert into
+		shop_manage_category(dmId,shop_manage_id,category_name,sort,status,create_time,update_time)
+		values(#{dmId},#{shopManageId},#{categoryName},#{sort},#{status},#{createTime},#{updateTime})
+	</insert>
+	<!--批量插入记录 -->
+	<insert id="addList" parameterType="java.util.List">
+		insert into
+		shop_manage_category(dmId,shop_manage_id,category_name,sort,status,create_time,update_time)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.dmId},#{item.shopManageId},#{item.categoryName},#{item.sort},#{item.status},#{item.createTime},#{item.updateTime}
+			)
+		</foreach>
+	</insert>
+
+
+	<!-- 删除记录 -->
+	<delete id="delId" parameterType="Object">
+		delete from shop_manage_category where dmId = #{dmId}
+	</delete>
+	<!--批量删除 -->
+	<delete id="delIds" parameterType="java.lang.String">
+		delete from shop_manage_category where dmId in
+		<foreach item="idItem" collection="array" open="(" separator=","
+			close=")">
+			#{idItem}
+		</foreach>
+	</delete>
+	<!--批量删除 -->
+	<delete id="delList" parameterType="java.util.List">
+		delete from shop_manage_category where dmId in
+		<foreach item="idItem" collection="list" index="index" open="("
+			separator="," close=")">
+			#{idItem}
+		</foreach>
+	</delete>
+
+	<!-- 根据id，修改记录 -->
+	<update id="modVo" parameterType="Object">
+		update shop_manage_category set
+		shop_manage_id=#{shopManageId},category_name=#{categoryName},sort=#{sort},status=#{status},create_time=#{createTime},update_time=#{updateTime}
+		where dmId=#{dmId}
+	</update>
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="modVoNotNull" parameterType="Object">
+		update shop_manage_category set
+		<trim suffixOverrides=",">
+			<if test="shopManageId != null  ">
+				shop_manage_id=#{shopManageId},
+			</if>
+			<if test="categoryName != null  and categoryName != '' ">
+				category_name=#{categoryName},
+			</if>
+			<if test="sort != null  ">
+				sort=#{sort},
+			</if>
+			<if test="status != null  ">
+				status=#{status},
+			</if>
+			<if test="createTime != null  ">
+				create_time=#{createTime},
+			</if>
+			<if test="updateTime != null  ">
+				update_time=#{updateTime},
+			</if>
+		</trim>
+		where dmId=#{dmId}
+	</update>
+
+
+
+	<!-- 根据id查询 便利店管理公司运营分类 -->
+	<select id="findVo" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from shop_manage_category t where t.dmId = #{dmId}
+	</select>
+
+	<!-- 便利店管理公司运营分类 列表总数 -->
+	<select id="queryCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from shop_manage_category t
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 分页查询便利店管理公司运营分类列表 -->
+	<select id="queryList" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from shop_manage_category t
+		<include refid="Example_Where_Clause" />
+
+
+		<if test="orderCondition != null and orderCondition != ''">
+			${orderCondition}
+		</if>
+		<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+			${mysqlQueryCondition}
+		</if>
+	</select>
+
+	<!-- 查询便利店管理公司运营分类列表 -->
+	<select id="findList" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from shop_manage_category t
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 根据便利店ID查询列表 -->
+	<select id="findListByShopId" resultMap="BaseResultMap" parameterType="Object">
+		SELECT <include refid="Base_Column_List" /> from shop_manage_category t ,shop_manage_category_property b
+		where t.dmId = b.shop_manage_category_id and b.shop_id = ${shopId} 
+		<if test="status != null  ">
+		 and t.`status`= #{status}
+		</if>
+	</select>
+
+
+</mapper>

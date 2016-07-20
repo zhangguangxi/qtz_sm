@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.shopManage.dao.ShopMAndSuperMKGoodsDao">
+
+	<!-- 商品管理 商品库 映射 -->
+	<resultMap id="BaseResultMap" type="com.qtz.sm.shopManage.vo.ShopMAndSuperMKGoods">
+		<result column="goodsId" property="goodsId" />
+		<result column="goodsName" property="goodsName" />
+		<result column="code" property="code" />
+	</resultMap>
+	
+	<resultMap id="ListResultMap" type="com.qtz.sm.shopManage.vo.ShopMAndSuperMKGoods">
+		<result column="goodsId" property="goodsId" />
+		<result column="goodsName" property="goodsName" />
+		<result column="code" property="code" />
+		
+		<!-- property: 指的是集合属性的值, ofType：指的是集合中元素的类型 -->
+		<collection property="goodsSkuVos" ofType="GoodsSkuVo">
+			<result column="skuId" property="skuId" />
+			<result column="str" property="str" />
+			<result column="bldglPrice" property="bldglPrice" />
+			<result column="bldglRate" property="bldglRate" />
+			<result column="bldglRatePrice" property="bldglRatePrice" />
+			<result column="onsale_time" property="onsaleTime" />
+			<result column="cczxPrice" property="cczxPrice" />
+			<result column="spmkRate" property="spmkRate" />
+			<result column="spmkRatePrice" property="spmkRatePrice" />
+			<result column="is_onsale" property="isOnsale" />
+			<result column="stock" property="stock" />
+		</collection>
+	</resultMap>
+	
+	
+	
+	
+	
+	
+	<sql id="page_Where_Clause">
+		<where>
+			<if test="goodsIds != null  ">
+				and t.dmId in
+				<foreach collection="goodsIds" index="index" item="item"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</sql>
+
+	<!-- 商品管理 商品库 分页 -->
+	<select id="queryList" resultMap="BaseResultMap" parameterType="Object">
+		SELECT t.dmId AS goodsId,t.NAME AS goodsName,t.code from gd_goods AS t
+		<include refid="page_Where_Clause" />
+		<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+			${mysqlQueryCondition}
+		</if>
+	</select>
+	<select id="queryCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		SELECT count(1) FROM gd_goods AS t
+		<include refid="page_Where_Clause" />
+	</select>
+
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		<where>
+			<if test="goodsId != null  ">
+				and t.dmId = #{goodsId}
+			</if>
+			<if test="code != null and code != '' ">
+				and t.code like CONCAT('%',#{code},'%')
+			</if>
+			<if test="goodsName != null and goodsName != '' ">
+				and t.NAME like CONCAT('%',#{goodsName},'%')
+			</if>
+			<if test="skuId != null  ">
+				and t1.dmId like CONCAT('%',#{skuId},'%')
+			</if>
+			<!-- 2便利店管理公司查询 -->
+			<if test="type != null and type = 2">
+				<!-- 根据便利店进货价（云仓储销售价） start -->
+				<if test="startPrice != null  and startPrice != 0  ">
+					 <![CDATA[ and ifnull(fn_get_rate_price(1,t1.dmId),0) >= #{startPrice}  ]]>
+				</if>
+				<if test="endPrice != null and endPrice != 0 ">
+					 <![CDATA[ and ifnull(fn_get_rate_price(1,t1.dmId),0) <= #{endPrice} ]]>
+				</if>
+				<!--根据便利店进货价（云仓储销售价） end -->
+
+				<!-- 根据便利店销售价 start -->
+				<if test="startRatePrice != null  and startRatePrice != 0 ">
+					 <![CDATA[ and  ifnull(fn_get_rate_price(2,t1.dmId),0) >= #{startRatePrice}  ]]>
+				</if>
+				<if test="endRatePrice != null  and endRatePrice != 0 ">
+					 <![CDATA[ and  ifnull(fn_get_rate_price(2,t1.dmId),0) <= #{endRatePrice} ]]>
+				</if>
+				<!-- 根据便利店销售价 end -->
+			</if>
+			<!-- 3超市的查询 -->
+			<if test="type != null and type = 3">
+				<!-- 根据仓储中心进货价 start -->
+				<if test="startPrice != null and startPrice != 0  ">
+					 <![CDATA[ and ifnull(fn_get_rate_price(1,t1.dmId),0) >= #{startPrice}  ]]>
+				</if>
+				<if test="endPrice != null and endPrice != 0 ">
+					 <![CDATA[ and ifnull(fn_get_rate_price(1,t1.dmId),0) <= #{endPrice} ]]>
+				</if>
+				<!--根据便利店进货价 end -->
+
+				<!-- 根据超市销售价 start -->
+				<if test="startRatePrice != null  and startRatePrice != 0 ">
+					 <![CDATA[ and  ifnull(fn_get_rate_price(3,t1.dmId),0) >= #{startRatePrice}  ]]>
+				</if>
+				<if test="endRatePrice != null and endRatePrice != 0 ">
+					 <![CDATA[ and  ifnull(fn_get_rate_price(3,t1.dmId),0) <= #{endRatePrice} ]]>
+				</if>
+				<!-- 根据超市销售价 end -->
+			</if>
+
+			<if test="isOnsale != null  ">
+				and cczx.is_onsale=#{isOnsale}
+			</if>
+			<if test="onsaleTimeStart != null  ">	
+				 <![CDATA[ and cczx.onsale_time >=  #{onsaleTimeStart}   ]]>
+			</if>
+			<if test="onsaleTimeEnd != null  ">	
+				 <![CDATA[ and cczx.onsale_time <  #{onsaleTimeEnd}   ]]>
+			</if>
+		</where>
+	</sql>
+
+
+	<!-- 商品详情 sku 价格 相关数据 -->
+	<select id="findList" resultMap="ListResultMap" parameterType="Object">
+		SELECT
+		t.dmId AS goodsId,
+		t.`name` AS goodsName,
+		t.code,
+		t1.dmId AS skuId,
+		fn_goods_get_sku_props_str(t1.dmId) AS str,
+		<!-- 2便利店管理公司 -->
+		<if test="type != null and type == 2">
+		ifnull(fn_get_rate_price(1,t1.dmId),0) as bldglPrice,
+		ifnull(fn_get_rate(2,t1.dmId),0) as bldglRate,
+		ifnull(fn_get_rate_price(2,t1.dmId),0) as bldglRatePrice,
+		</if>
+		<!-- 3超市 -->
+		<if test="type != null and type == 3">
+		ifnull(fn_get_rate_price(1,t1.dmId),0) as cczxPrice,
+		ifnull(fn_get_rate(3,t1.dmId),0) as spmkRate,
+		ifnull(fn_get_rate_price(3,t1.dmId),0) as spmkRatePrice,
+		</if>
+		ifnull(cczx.stock_quantity,0) AS stock,
+		cczx.onsale_time,
+		cczx.is_onsale
+		from gd_goods t
+		LEFT JOIN gd_goods_sku t1 ON t1.goods_id= t.dmId
+		LEFT JOIN cs_cczx_stock cczx ON cczx.sku_id = t1.dmId
+		<include refid="Example_Where_Clause" />
+		order by t.update_on desc
+	</select>
+
+
+
+
+
+
+
+
+
+
+</mapper>

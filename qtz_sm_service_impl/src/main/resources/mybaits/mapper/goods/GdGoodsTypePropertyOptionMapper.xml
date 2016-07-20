@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.goods.dao.GdGoodsTypePropertyOptionDao" >
+<!-- Result Map com.qtz.dhf.goods.vo.GdGoodsTypePropertyOption-->
+<resultMap id="BaseResultMap" type="GdGoodsTypePropertyOption" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="goods_type_pro_id"  property="goodsTypeProId"/> 
+<result column="val"  property="val"/> 
+<result column="status"  property="status"/> 
+	
+</resultMap>
+
+<!-- gd_goods_type_property_option table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.goods_type_pro_id,t.val,t.status
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="goodsTypeProId != null  ">
+		 and t.goods_type_pro_id=#{goodsTypeProId}
+	</if>
+	<if test="val != null  and val != '' ">
+		 and t.val=#{val}
+	</if>
+	<if test="status != null  ">
+		 and t.status=#{status}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into gd_goods_type_property_option(dmId,goods_type_pro_id,val,status)
+ values(#{dmId},#{goodsTypeProId},#{val},#{status})
+</insert>
+
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into gd_goods_type_property_option(dmId,goods_type_pro_id,val,status) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId,javaType=java.lang.Long,jdbcType=BIGINT},#{item.goodsTypeProId},#{item.val},#{item.status}
+	  )
+	  </foreach> 
+</insert>
+
+<!-- 批量更新记录 -->
+<update id="updateList" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+			update gd_goods_type_property_option
+			<set>
+				goods_type_pro_id = #{item.goodsTypeProId},val = #{item.val}
+			</set>
+			where dmId = #{item.dmId,javaType=java.lang.Long,jdbcType=BIGINT} 
+		</foreach>
+</update>
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from gd_goods_type_property_option where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from gd_goods_type_property_option where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from gd_goods_type_property_option where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update gd_goods_type_property_option set goods_type_pro_id=#{goodsTypeProId},val=#{val},status=#{status} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update gd_goods_type_property_option set 
+	<trim  suffixOverrides="," >
+	<if test="goodsTypeProId != null  ">
+		goods_type_pro_id=#{goodsTypeProId},
+	</if>
+	<if test="val != null  and val != '' ">
+		val=#{val},
+	</if>
+	<if test="status != null  ">
+		status=#{status},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 商品分类属性值选项 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from gd_goods_type_property_option t where t.dmId = #{dmId}
+</select>
+
+<!-- 商品分类属性值选项 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from gd_goods_type_property_option t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 分页查询商品分类属性值选项列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from gd_goods_type_property_option t 
+	<include refid="Example_Where_Clause"/>
+	<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+		${mysqlQueryCondition}
+	</if>
+</select>
+
+<!-- 查询商品分类属性值选项列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from gd_goods_type_property_option t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 查询商品分类属性值选项列表 -->
+<select id="getOptionsByGoodsType" resultMap="BaseResultMap"  parameterType="Object">
+	SELECT t2.* FROM `gd_goods_type_property` t1
+	LEFT JOIN `gd_goods_type_property_option` t2
+	ON t2.`goods_type_pro_id` = t1.`dmId` WHERE t1.`goods_type_id`= #{goodsTypeId}
+</select>
+
+</mapper>

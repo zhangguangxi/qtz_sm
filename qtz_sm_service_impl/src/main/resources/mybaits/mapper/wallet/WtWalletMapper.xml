@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.wallet.dao.WtWalletDao">
+	<!-- Result Map com.qtz.sm.wallet.vo.WtWallet -->
+	<resultMap id="BaseResultMap" type="WtWallet">
+		<result column="dmId" property="dmId" />
+		<result column="owner_type" property="ownerType" />
+		<result column="owner_id" property="ownerId" />
+		<result column="owner_name" property="ownerName" />
+		<result column="item_id" property="itemId" />
+		<result column="item_name" property="itemName" />
+		<result column="item_amount" property="itemAmount" />
+		<result column="payer_type" property="payerType" />
+		<result column="payer_id" property="payerId" />
+		<result column="create_time" property="createTime" />
+		<result column="create_by" property="createBy" />
+		<result column="update_time" property="updateTime" />
+		<result column="update_by" property="updateBy" />
+	</resultMap>
+
+	<!-- wt_wallet table all fields -->
+	<sql id="Base_Column_List">
+		t.dmId,t.owner_type,t.owner_id,t.owner_name,t.item_id,t.item_name,t.item_amount,t.payer_type,t.payer_id,t.create_time,t.create_by,t.update_time,t.update_by
+	</sql>
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		<where>
+			<if test="dmId != null  "> and t.dmId=#{dmId}
+			</if>
+			<if test="ownerId != null  ">
+				and t.owner_id=#{ownerId}
+			</if>
+			<if test="ownerType != null  ">
+				and t.owner_type=#{ownerType}
+			</if>
+			<if test="ownerName != null  and ownerName != '' ">
+				and t.owner_name like #{ownerName}
+			</if>
+			<if test="itemId != null  ">
+				and t.item_id=#{itemId}
+			</if>
+			<if test="itemName != null  and itemName != '' ">
+				and t.item_name=#{itemName}
+			</if>
+			<if test="itemAmount != null  ">
+				and t.item_amount=#{itemAmount}
+			</if>
+			<if test="payerType != null  ">
+				and t.payer_type=#{payerType}
+			</if>
+			<if test="payerId != null  ">
+				and t.payer_id=#{payerId}
+			</if>
+			<if test="updateTime != null  ">
+				and t.update_time=#{updateTime}
+			</if>
+			<if test="updateBy != null  ">
+				and t.update_by=#{updateBy}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="amount_range_clause">
+		<if test="minAmount != null  ">
+			and t.item_amount&gt;=#{minAmount}
+		</if>
+		<if test="maxAmount != null  ">
+			and t.item_amount&lt;#{maxAmount}
+		</if>
+	</sql>
+
+	<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" 
+		useGeneratedKeys="true" keyProperty="id">] -->
+	<insert id="addVo" parameterType="Object">
+		insert into
+		wt_wallet(dmId,owner_type,owner_id,owner_name,item_id,item_name,item_amount,payer_type,payer_id,create_time,create_by,update_time,update_by)
+		values(#{dmId},#{ownerType},#{ownerId},#{ownerName},#{itemId},#{itemName},#{itemAmount},#{payerType},#{payerId},#{createTime},#{createBy},#{updateTime},#{updateBy})
+	</insert>
+	<!--批量插入记录 -->
+	<insert id="addList" parameterType="java.util.List">
+		insert into
+		wt_wallet(dmId,owner_type,owner_id,owner_name,item_id,item_name,item_amount,payer_type,payer_id,create_time,create_by,update_time,update_by)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.dmId},#{item.ownerType},#{item.ownerId},#{item.ownerName},#{item.itemId},#{item.itemName},#{item.itemAmount},#{item.payerType},#{item.payerId},#{item.createTime},#{item.createBy},#{item.updateTime},#{item.updateBy}
+			)
+		</foreach>
+	</insert>
+
+
+	<!-- 删除记录 -->
+	<delete id="delId" parameterType="Object">
+		delete from wt_wallet where dmId = #{dmId}
+	</delete>
+	<!-- 删除记录 -->
+	<delete id="delByOwner" parameterType="java.lang.Long">
+		delete from wt_wallet where dmId = #{ownerId}
+	</delete>
+
+
+	<!--批量删除 -->
+	<delete id="delIds" parameterType="java.lang.String">
+		delete from wt_wallet where dmId in
+		<foreach item="idItem" collection="array" open="(" separator=","
+			close=")">
+			#{idItem}
+		</foreach>
+	</delete>
+	<!--批量删除 -->
+	<delete id="delList" parameterType="java.util.List">
+		delete from wt_wallet where dmId in
+		<foreach item="idItem" collection="list" index="index" open="("
+			separator="," close=")">
+			#{idItem}
+		</foreach>
+	</delete>
+
+	<!-- 根据id，修改记录 -->
+	<update id="modVo" parameterType="Object">
+		update wt_wallet set
+		owner_type=#{ownerType},owner_id=#{ownerId},owner_name=#{ownerName},item_id=#{itemId},item_name=#{itemName},item_amount=#{itemAmount},payer_type=#{payerType},payer_id=#{payerId},update_time=#{updateTime},update_by=#{updateBy}
+		where dmId=#{dmId}
+	</update>
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="modVoNotNull" parameterType="Object">
+		update wt_wallet set
+		<trim suffixOverrides=",">
+			<if test="ownerType != null  ">
+				owner_type=#{ownerType},
+			</if>
+			<if test="ownerId != null  ">
+				owner_id=#{ownerId},
+			</if>
+			<if test="ownerName != null  and ownerName != '' ">
+				owner_name=#{ownerName},
+			</if>
+			<if test="itemId != null  ">
+				item_id=#{itemId},
+			</if>
+			<if test="itemName != null  and itemName != '' ">
+				item_name=#{itemName},
+			</if>
+			<if test="itemAmount != null  ">
+				item_amount=#{itemAmount},
+			</if>
+			<if test="payerType != null  ">
+				payer_type=#{payerType},
+			</if>
+			<if test="payerId != null  ">
+				payer_id=#{payerId},
+			</if>
+			<if test="updateTime != null  ">
+				update_time=#{updateTime},
+			</if>
+			<if test="updateBy != null  ">
+				update_by=#{updateBy},
+			</if>
+		</trim>
+		where dmId=#{dmId}
+	</update>
+	
+	<!-- 修改便利店名称-->
+	<update id="updateOwnerName" parameterType="Object">
+		update wt_wallet set 
+		owner_name=#{ownerName}
+		where owner_id = #{ownerId}
+	</update>
+
+	<!-- 根据id查询 钱包信息 -->
+	<select id="findVo" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from wt_wallet t where t.dmId = #{dmId}
+	</select>
+
+	<!-- 钱包信息 列表总数 -->
+	<select id="queryCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from wt_wallet t
+		<include refid="Example_Where_Clause"/>
+		<include refid="amount_range_clause"/>
+	</select>
+
+	<!-- 分页查询钱包信息列表 -->
+	<select id="queryList" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from wt_wallet t
+		<include refid="Example_Where_Clause" />
+
+		<include refid="amount_range_clause"/>
+		<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+			${mysqlQueryCondition}
+		</if>
+	</select>
+
+	<!-- 查询钱包信息列表 -->
+	<select id="findList" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from wt_wallet t
+		<include refid="Example_Where_Clause" />
+		<include refid="amount_range_clause"/>
+	</select>
+
+	<!-- 增量操作钱包金额 -->
+	<update id="modWalletAmountIncr" parameterType="Object">
+		update wt_wallet set
+		<trim suffixOverrides=",">
+			<if test="itemAmount != null  ">
+				item_amount=item_amount +#{itemAmount},
+			</if>
+			<if test="updateTime != null  ">
+				update_time=#{updateTime},
+			</if>
+			<if test="updateBy != null  ">
+				update_by=#{updateBy},
+			</if>
+		</trim>
+		where dmId=#{dmId}
+	</update>
+	
+</mapper>

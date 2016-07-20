@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.goods.dao.GdGoodsTypePropertyDao" >
+<!-- Result Map com.qtz.dhf.goods.vo.GdGoodsTypeProperty-->
+<resultMap id="BaseResultMap" type="GdGoodsTypeProperty" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="goods_type_id"  property="goodsTypeId"/> 
+<result column="code"  property="code"/> 
+<result column="name"  property="name"/> 
+<result column="data_type"  property="dataType"/> 
+<result column="is_sale"  property="isSale"/> 
+<result column="is_key"  property="isKey"/> 
+<result column="required"  property="required"/> 
+<result column="status"  property="status"/> 
+	
+</resultMap>
+
+<!-- gd_goods_type_property table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.goods_type_id,t.code,t.name,t.data_type,t.is_sale,t.is_key,t.required,t.status
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="goodsTypeId != null  ">
+		 and t.goods_type_id=#{goodsTypeId}
+	</if>
+	<if test="code != null  and code != '' ">
+		 and t.code=#{code}
+	</if>
+	<if test="name != null  and name != '' ">
+		 and t.name=#{name}
+	</if>
+	<if test="dataType != null  ">
+		 and t.data_type=#{dataType}
+	</if>
+	<if test="isSale != null  ">
+		 and t.is_sale=#{isSale}
+	</if>
+	<if test="isKey != null  ">
+		 and t.is_key=#{isKey}
+	</if>
+	<if test="required != null  ">
+		 and t.required=#{required}
+	</if>
+	<if test="status != null  ">
+		 and t.status=#{status}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into gd_goods_type_property(dmId,goods_type_id,code,name,data_type,is_sale,is_key,required,status)
+ values(#{dmId},#{goodsTypeId},#{code},#{name},#{dataType},#{isSale},#{isKey},#{required},#{status})
+</insert>
+
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into gd_goods_type_property(dmId,goods_type_id,code,name,data_type,is_sale,is_key,required,status) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.goodsTypeId},#{item.code},#{item.name},#{item.dataType},#{item.isSale},#{item.isKey},#{item.required},#{item.status}
+	  )
+	  </foreach> 
+</insert>
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from gd_goods_type_property where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from gd_goods_type_property where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from gd_goods_type_property where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update gd_goods_type_property set goods_type_id=#{goodsTypeId},code=#{code},name=#{name},data_type=#{dataType},is_sale=#{isSale},is_key=#{isKey},required=#{required},status=#{status} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update gd_goods_type_property set 
+	<trim  suffixOverrides="," >
+	<if test="goodsTypeId != null  ">
+		goods_type_id=#{goodsTypeId},
+	</if>
+	<if test="code != null  and code != '' ">
+		code=#{code},
+	</if>
+	<if test="name != null  and name != '' ">
+		name=#{name},
+	</if>
+	<if test="dataType != null  ">
+		data_type=#{dataType},
+	</if>
+	<if test="isSale != null  ">
+		is_sale=#{isSale},
+	</if>
+	<if test="isKey != null  ">
+		is_key=#{isKey},
+	</if>
+	<if test="required != null  ">
+		required=#{required},
+	</if>
+	<if test="status != null  ">
+		status=#{status},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+<!-- 根据id查询 商品分类属性 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from gd_goods_type_property t where t.dmId = #{dmId}
+</select>
+
+<!-- 商品分类属性 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from gd_goods_type_property t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 分页查询商品分类属性列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from gd_goods_type_property t 
+	<include refid="Example_Where_Clause"/>
+	<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+		${mysqlQueryCondition}
+	</if>
+</select>
+
+<!-- 查询商品分类属性列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from gd_goods_type_property t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+</mapper>

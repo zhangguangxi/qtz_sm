@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.search.dao.SearchDao">
+
+	<!-- 便利店搜索返回模块 -->
+	<resultMap id="ShopResultMap" type="java.util.Map">
+		<result column="distance" property="distance" />
+		<result column="icon" property="icon" />
+		<result column="name" property="name" />
+		<result column="scope" property="scope" />
+		<result column="minimum_money" property="minimum_money" />
+		<result column="logistics_money" property="logistics_money" />
+		<result column="minimum_money" property="minimum_money" />
+	</resultMap>
+	<!-- 便利店搜索条件模块 -->
+	<sql id="SearchShopWhere">
+		<where>
+			<if test="keyword != null  ">
+				or t1.scope like CONCAT('%',#{keyword},'%') or t1.name like CONCAT('%',#{keyword},'%')
+			</if>
+		</where>
+	</sql>
+	<!-- 便利店基本信息 列表总数 -->
+	<select id="searchShopCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		SELECT COUNT(1) FROM
+		`shop_info` t1
+		JOIN shop_business t2
+		ON t1.`dmId` = t2.`shop_id`
+		<include refid="SearchShopWhere" />
+	</select>
+
+	<!-- 分页查询便利店基本信息列表 -->
+	<select id="searchShopList" resultMap="ShopResultMap"
+		parameterType="Object">
+		SELECT
+		t1.`dmId`,
+		t1.`name`,
+		ST_Distance_Sphere (
+		t1.location,
+		ST_GeomFromText ('POINT(${longitude} ${latitude})', 4326)
+		) distance,
+		t2.icon,
+		t1.`scope`,
+		t2.`minimum_money`,
+		t2.logistics_money
+		FROM
+		`shop_info` t1
+		JOIN shop_business t2
+		ON t1.`dmId` = t2.`shop_id`
+		<include refid="SearchShopWhere" />
+		ORDER BY distance
+		<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+			${mysqlQueryCondition}
+		</if>
+	</select>
+
+
+	<!-- 商品搜索返回模块 -->
+	<resultMap id="SearchShopGoodsResultMap" type="java.util.Map">
+		<result column="status" property="status" />
+		<result column="name" property="name" />
+		<result column="goods_id" property="goodsId" />
+		<result column="rate_price" property="ratePrice" />
+		<result column="props_str" property="propsStr" />
+	</resultMap>
+	
+	<!-- 商品搜索条件模块 -->
+	<sql id="SearchShopGoodsWhere">
+		<where>
+			<if test="keyword != null  ">
+				or t2.name like CONCAT('%',#{keyword},'%')
+			</if>
+			<if test="shopId != null  ">
+				and t3.dmId = #{shopId}
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 搜索商品统计 -->
+	<select id="searchShopGoodsCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		SELECT COUNT(1) FROM
+		(SELECT
+		MIN(fn_get_rate_price (2, sku_id)) rate_price,
+		shop_goods_id
+		FROM
+		shop_goods_sku
+		GROUP BY shop_goods_id) t
+		LEFT JOIN shop_goods t1
+		ON t.shop_goods_id = t1.dmId
+		LEFT JOIN gd_goods t2
+		ON t1.goods_id = t2.dmId
+		LEFT JOIN shop_info t3
+		ON t1.shop_id = t3.dmId
+		<include refid="SearchShopGoodsWhere" />
+	</select>
+
+	<!-- 分页查询搜索商品列表 -->
+	<select id="searchShopGoodsList" resultMap="SearchShopGoodsResultMap"
+		parameterType="Object">
+		SELECT
+		t1.status,
+		t2.name,t1.goods_id,
+		t.rate_price ,
+		ST_Distance_Sphere(location,ST_GeomFromText('POINT(${longitude} ${latitude})',4326)) AS distance,
+		(SELECT fn_goods_get_sku_props_str (sku_id) FROM shop_goods_sku LIMIT 0,1) AS props_str,
+		'https://img.alicdn.com/imgextra/i1/454291526/TB24skLlXXXXXXUXXXXXXXXXXXX-454291526.jpg' pic_url
+		FROM
+		(SELECT
+		MIN(fn_get_rate_price (2, sku_id)) rate_price,
+		shop_goods_id
+		FROM
+		shop_goods_sku
+		GROUP BY shop_goods_id) t
+		LEFT JOIN shop_goods t1
+		ON t.shop_goods_id = t1.dmId
+		LEFT JOIN gd_goods t2
+		ON t1.goods_id = t2.dmId
+		LEFT JOIN shop_info t3
+		ON t1.shop_id = t3.dmId
+		<include refid="SearchShopGoodsWhere" />
+		ORDER BY distance
+		<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+			${mysqlQueryCondition}
+		</if>
+	</select>
+
+
+	<!-- 商品搜索返回模块 -->
+	<resultMap id="SearchGoodsResultMap" type="java.util.Map">
+		<result column="status" property="status" />
+		<result column="name" property="name" />
+		<result column="goods_id" property="goodsId" />
+		<result column="rate_price" property="ratePrice" />
+		<result column="props_str" property="propsStr" />
+	</resultMap>
+
+	<!-- 商品搜索条件模块 -->
+	<sql id="SearchGoodsWhere">
+		<where>
+			<if test="keyword != null  ">
+				or t2.name like CONCAT('%',#{keyword},'%')
+			</if>
+		</where>
+	</sql>
+
+	<!-- 搜索商品统计 -->
+	<select id="searchGoodsCount" resultType="java.lang.Integer"
+			parameterType="Object">
+		SELECT COUNT(1)
+		FROM (SELECT t2.goods_id, MIN(fn_get_rate_price(3, sku_id)) rate_price,t1.cczx_id
+		FROM cs_cczx_stock t1
+		JOIN gd_goods_sku t2 ON t1.sku_id = t2.dmId
+		JOIN cs_cczx_address t3 ON t1.cczx_id = t3.cczx_id
+		WHERE t1.cczx_id = fn_get_cczx_id(${longitude},${latitude})
+		GROUP BY t2.goods_id,t1.cczx_id) t1
+		JOIN gd_goods t2 ON t1.goods_id = t2.dmId
+		<include refid="SearchGoodsWhere" />
+	</select>
+
+	<!-- 分页查询搜索商品列表 -->
+	<select id="searchGoodsList" resultMap="SearchGoodsResultMap"
+		parameterType="Object">
+
+		SELECT
+		t2.status,
+		t2.name,t1.goods_id,
+		t1.rate_price,'https://img.alicdn.com/imgextra/i1/454291526/TB24skLlXXXXXXUXXXXXXXXXXXX-454291526.jpg' pic_url,t1.sku_num,t1.cczx_id
+		FROM (SELECT t2.goods_id, MIN(fn_get_rate_price(3, sku_id)) rate_price,count(sku_id) sku_num,t1.cczx_id
+		FROM cs_cczx_stock t1
+		JOIN gd_goods_sku t2 ON t1.sku_id = t2.dmId
+		JOIN cs_cczx_address t3 ON t1.cczx_id = t3.cczx_id
+		WHERE t1.cczx_id = fn_get_cczx_id(${longitude},${latitude})
+		GROUP BY t2.goods_id,t1.cczx_id) t1
+		JOIN gd_goods t2 ON t1.goods_id = t2.dmId
+		<include refid="SearchGoodsWhere" />
+		<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+			${mysqlQueryCondition}
+		</if>
+	</select>
+
+
+</mapper>

@@ -1,0 +1,264 @@
+{
+    "code": 0,
+    "data": {
+        "adList": [
+            {
+                "clientType": 0,
+                "createTime": "2016-06-01 11:48:52.0",
+                "dmId": 1687538741987328,
+                "icon": "../img/demo20.jpg",
+                "sort": 1,
+                "status": 0,
+                "type": 0,
+                "updateTime": "2016-06-01 17:56:04.0",
+                "url": "www.baidu.com"
+            },
+            {
+                "clientType": 1,
+                "createTime": "2016-06-01 11:49:12.0",
+                "dmId": 1687539070584832,
+                "icon": "../img/demo21.jpg",
+                "sort": 2,
+                "status": 0,
+                "type": 1,
+                "updateTime": "2016-06-01 11:49:12.0",
+                "url": "www.google.com"
+            },
+            {
+                "clientType": 2,
+                "createTime": "2016-06-01 11:49:32.0",
+                "dmId": 1687539400312832,
+                "icon": "../img/demo20.jpg",
+                "sort": 3,
+                "status": 0,
+                "type": 0,
+                "updateTime": "2016-06-01 11:49:32.0",
+                "url": "www.sina.com.cn"
+            },
+            {
+                "clientType": 0,
+                "createTime": "2016-06-01 17:53:27.0",
+                "dmId": 1687897137989632,
+                "icon": "../img/demo21.jpg",
+                "sort": 1,
+                "status": 0,
+                "type": 0,
+                "updateTime": "2016-06-01 17:53:27.0",
+                "url": "www.baidu.com"
+            }
+        ],
+        "categoryList": [
+            {
+                "createTime": 1464600768000,
+                "dmId": 1685045685831680,
+                "goodsVoList": [
+                    {
+                        "brandsId": 1,
+                        "code": "GXG-T02",
+                        "createBy": 101,
+                        "createOn": 1559039700000,
+                        "goodsId": 1,
+                        "goodsTypeId": 10,
+                        "name": "GXG夏季纯色POLO杉",
+                        "pic": {
+                            "createOn": 1464574425,
+                            "dmId": 1,
+                            "goodsId": 1,
+                            "picUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg"
+                        },
+                        "price": 133,
+                        "specificationCount": 4,
+                        "status": 0,
+                        "stockQuantity": 32,
+                        "supermarketCategoryId": 1685047493347328,
+                        "supplierId": 1,
+                        "updateBy": 101,
+                        "updateOn": 1559039700000
+                    },{
+                        "brandsId": 1,
+                        "code": "GXG-T02",
+                        "createBy": 101,
+                        "createOn": 1559039700000,
+                        "goodsId": 1,
+                        "goodsTypeId": 10,
+                        "name": "GXG夏季纯色POLO杉",
+                        "pic": {
+                            "createOn": 1464574425,
+                            "dmId": 1,
+                            "goodsId": 1,
+                            "picUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg"
+                        },
+                        "price": 133,
+                        "specificationCount": 4,
+                        "status": 0,
+                        "stockQuantity": 32,
+                        "supermarketCategoryId": 1685047493347328,
+                        "supplierId": 1,
+                        "updateBy": 101,
+                        "updateOn": 1559039700000
+                    },{
+                        "brandsId": 1,
+                        "code": "GXG-T02",
+                        "createBy": 101,
+                        "createOn": 1559039700000,
+                        "goodsId": 1,
+                        "goodsTypeId": 10,
+                        "name": "GXG夏季纯色POLO杉",
+                        "pic": {
+                            "createOn": 1464574425,
+                            "dmId": 1,
+                            "goodsId": 1,
+                            "picUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg"
+                        },
+                        "price": 133,
+                        "specificationCount": 4,
+                        "status": 0,
+                        "stockQuantity": 32,
+                        "supermarketCategoryId": 1685047493347328,
+                        "supplierId": 1,
+                        "updateBy": 101,
+                        "updateOn": 1559039700000
+                    },{
+                        "brandsId": 1,
+                        "code": "GXG-T02",
+                        "createBy": 101,
+                        "createOn": 1559039700000,
+                        "goodsId": 1,
+                        "goodsTypeId": 10,
+                        "name": "GXG夏季纯色POLO杉",
+                        "pic": {
+                            "createOn": 1464574425,
+                            "dmId": 1,
+                            "goodsId": 1,
+                            "picUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg"
+                        },
+                        "price": 133,
+                        "specificationCount": 4,
+                        "status": 0,
+                        "stockQuantity": 32,
+                        "supermarketCategoryId": 1685047493347328,
+                        "supplierId": 1,
+                        "updateBy": 101,
+                        "updateOn": 1559039700000
+                    }
+                ],
+                "icon": "123.jpg",
+                "level": 1,
+                "name": "1ji分类test1",
+                "pid": 0,
+                "sort": 0,
+                "status": 0,
+                "supermarketId": 1,
+                "updateTime": 1464602328000
+            },
+            {
+                "createTime": 1464600821000,
+                "dmId": 1685046552938496,
+                "goodsVoList": [
+                    {
+                        "brandsId": 1,
+                        "code": "GXG-T02",
+                        "createBy": 101,
+                        "createOn": 1559039700000,
+                        "goodsId": 1,
+                        "goodsTypeId": 10,
+                        "name": "GXG夏季纯色POLO杉",
+                        "pic": {
+                            "createOn": 1464574425,
+                            "dmId": 1,
+                            "goodsId": 1,
+                            "picUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg"
+                        },
+                        "price": 133,
+                        "specificationCount": 4,
+                        "status": 0,
+                        "stockQuantity": 32,
+                        "supplierId": 1,
+                        "updateBy": 101,
+                        "updateOn": 1559039700000
+                    }
+                ],
+                "icon": "123.jpg",
+                "level": 1,
+                "name": "1级分类test2",
+                "pid": 0,
+                "sort": 2,
+                "status": 0,
+                "supermarketId": 1,
+                "updateTime": 1464600821000
+            },
+            {
+                "createTime": 1464600828000,
+                "dmId": 1685046664955904,
+                "goodsVoList": [
+                    {
+                        "brandsId": 1,
+                        "code": "GXG-T02",
+                        "createBy": 101,
+                        "createOn": 1559039700000,
+                        "goodsId": 1,
+                        "goodsTypeId": 10,
+                        "name": "GXG夏季纯色POLO杉",
+                        "pic": {
+                            "createOn": 1464574425,
+                            "dmId": 1,
+                            "goodsId": 1,
+                            "picUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg"
+                        },
+                        "price": 133,
+                        "specificationCount": 4,
+                        "status": 0,
+                        "stockQuantity": 32,
+                        "supplierId": 1,
+                        "updateBy": 101,
+                        "updateOn": 1559039700000
+                    }
+                ],
+                "icon": "123.jpg",
+                "level": 1,
+                "name": "1级分类test3",
+                "pid": 0,
+                "sort": 3,
+                "status": 0,
+                "supermarketId": 1,
+                "updateTime": 1464685794000
+            },
+            {
+                "createTime": 1464600835000,
+                "dmId": 1685046785935360,
+                "goodsVoList": [
+                    {
+                        "brandsId": 1,
+                        "code": "GXG-T02",
+                        "createBy": 101,
+                        "createOn": 1559039700000,
+                        "goodsId": 1,
+                        "goodsTypeId": 10,
+                        "name": "GXG夏季纯色POLO杉",
+                        "pic": {
+                            "createOn": 1464574425,
+                            "dmId": 1,
+                            "goodsId": 1,
+                            "picUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg"
+                        },
+                        "price": 133,
+                        "specificationCount": 4,
+                        "status": 0,
+                        "stockQuantity": 32,
+                        "supplierId": 1,
+                        "updateBy": 101,
+                        "updateOn": 1559039700000
+                    }
+                ],
+                "icon": "123.jpg",
+                "level": 1,
+                "name": "1级分类test4",
+                "pid": 0,
+                "sort": 4,
+                "status": 0,
+                "supermarketId": 1,
+                "updateTime": 1464600835000
+            }
+        ]
+    }
+}

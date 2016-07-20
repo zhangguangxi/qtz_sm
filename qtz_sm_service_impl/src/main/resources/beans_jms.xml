@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:aop="http://www.springframework.org/schema/aop"
+     xmlns:context="http://www.springframework.org/schema/context"
+     xsi:schemaLocation="http://www.springframework.org/schema/beans  
+         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+         http://www.springframework.org/schema/context  
+         http://www.springframework.org/schema/context/spring-context-4.0.xsd"
+         
+         >
+
+     <!-- 配置JMS连接工厂 -->
+     <bean id="connectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory" destroy-method="stop">
+         <property name="connectionFactory">
+             <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+				<property name="brokerURL" value="${MQ_IP}" />
+<!--                  <property name="useAsyncSend" value="true" /> -->
+				<property name="closeTimeout" value="60000" /> 
+				<property name="optimizedAckScheduledAckInterval" value="10000" />
+             </bean>
+         </property>
+     </bean>
+	<!-- 定义消息主题 -->  
+	<bean id="destination" class="org.apache.activemq.command.ActiveMQTopic">  
+	    <!-- 设置消息主题的名字 -->  
+	    <constructor-arg index="0" value="qtz_user_message"/>  
+	</bean>
+     <!-- 消息转换 -->
+     <bean id="messageConverter" class="com.qtz.dm.mq.mode.ObjectMessageConverter"/>
+     
+		<!-- 配置JMS模版 -->
+     <bean id="jmsTemplate_1" class="org.springframework.jms.core.JmsTemplate">
+         <property name="connectionFactory" ref="connectionFactory" />
+         <property name="messageConverter" ref="messageConverter" />
+        <property name="defaultDestination" ref="destination" />  
+        <!-- 订阅发布模式 -->  
+        <property name="pubSubDomain" value="true" />  
+        <property name="receiveTimeout" value="10000" />
+     </bean>
+	
+	 <!-- 生产消息配置 -->
+     <bean id="queueProducer" class="com.qtz.dm.mq.cline.MessageProducer">
+         <property name="destination" ref="destination"/>
+         <property name="jmsTemplate">  
+             <list>  
+                 <ref bean="jmsTemplate_1" /> 
+             </list>  
+         </property>
+     </bean>
+</beans> 

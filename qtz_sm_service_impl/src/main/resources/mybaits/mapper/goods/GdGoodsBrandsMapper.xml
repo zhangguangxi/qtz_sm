@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.goods.dao.GdGoodsBrandsDao" >
+<!-- Result Map com.qtz.dhf.goods.vo.GdGoodsBrands-->
+<resultMap id="BaseResultMap" type="GdGoodsBrands" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="goods_type_id"  property="goodsTypeId"/> 
+<result column="supplier_id"  property="supplierId"/> 
+<result column="cn_name"  property="cnName"/> 
+<result column="en_name"  property="enName"/> 
+<result column="pinyin"  property="pinyin"/> 
+<result column="parent_id"  property="parentId"/> 
+<result column="level"  property="level"/> 
+<result column="seq"  property="seq"/> 
+<result column="logo_url"  property="logoUrl"/> 
+<result column="site_url"  property="siteUrl"/> 
+<result column="story"  property="story"/> 
+<result column="remark"  property="remark"/> 
+<result column="status"  property="status"/> 
+<result column="create_by"  property="createBy"/> 
+<result column="create_on"  property="createOn"/> 
+<result column="update_by"  property="updateBy"/> 
+<result column="update_on"  property="updateOn"/> 
+	
+</resultMap>
+
+<!-- gd_goods_brands table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.goods_type_id,t.supplier_id,t.cn_name,t.en_name,t.pinyin,t.parent_id,t.level,t.seq,t.logo_url,t.site_url,t.story,t.remark,t.status,t.create_by,t.create_on,t.update_by,t.update_on
+</sql>
+<sql id="Base_Column_ListExt" >
+	 t.dmId,t.cn_name
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="goodsTypeId != null  ">
+		 and t.goods_type_id=#{goodsTypeId}
+	</if>
+	<if test="supplierId != null  ">
+		 and t.supplier_id=#{supplierId}
+	</if>
+	<if test="cnName != null  and cnName != '' ">
+		 and t.cn_name=#{cnName}
+	</if>
+	<if test="enName != null  and enName != '' ">
+		 and t.en_name=#{enName}
+	</if>
+	<if test="pinyin != null  and pinyin != '' ">
+		 and t.pinyin=#{pinyin}
+	</if>
+	<if test="parentId != null  ">
+		 and t.parent_id=#{parentId}
+	</if>
+	<if test="level != null  ">
+		 and t.level=#{level}
+	</if>
+	<if test="seq != null  ">
+		 and t.seq=#{seq}
+	</if>
+	<if test="logoUrl != null  and logoUrl != '' ">
+		 and t.logo_url=#{logoUrl}
+	</if>
+	<if test="siteUrl != null  and siteUrl != '' ">
+		 and t.site_url=#{siteUrl}
+	</if>
+	<if test="story != null  and story != '' ">
+		 and t.story=#{story}
+	</if>
+	<if test="remark != null  and remark != '' ">
+		 and t.remark=#{remark}
+	</if>
+	<if test="status != null  ">
+		 and t.status=#{status}
+	</if>
+	<if test="createBy != null  ">
+		 and t.create_by=#{createBy}
+	</if>
+	<if test="createOn != null  ">
+		 and t.create_on=#{createOn}
+	</if>
+	<if test="updateBy != null  ">
+		 and t.update_by=#{updateBy}
+	</if>
+	<if test="updateOn != null  ">
+		 and t.update_on=#{updateOn}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into gd_goods_brands(dmId,goods_type_id,supplier_id,cn_name,en_name,pinyin,parent_id,level,seq,logo_url,site_url,story,remark,status,create_by,create_on,update_by,update_on)
+ values(#{dmId},#{goodsTypeId},#{supplierId},#{cnName},#{enName},#{pinyin},#{parentId},#{level},#{seq},#{logoUrl},#{siteUrl},#{story},#{remark},#{status},#{createBy},#{createOn},#{updateBy},#{updateOn})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into gd_goods_brands(dmId,goods_type_id,supplier_id,cn_name,en_name,pinyin,parent_id,level,seq,logo_url,site_url,story,remark,status,create_by,create_on,update_by,update_on) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.goodsTypeId},#{item.supplierId},#{item.cnName},#{item.enName},#{item.pinyin},#{item.parentId},#{item.level},#{item.seq},#{item.logoUrl},#{item.siteUrl},#{item.story},#{item.remark},#{item.status},#{item.createBy},#{item.createOn},#{item.updateBy},#{item.updateOn}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from gd_goods_brands where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from gd_goods_brands where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from gd_goods_brands where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update gd_goods_brands set goods_type_id=#{goodsTypeId},supplier_id=#{supplierId},cn_name=#{cnName},en_name=#{enName},pinyin=#{pinyin},parent_id=#{parentId},level=#{level},seq=#{seq},logo_url=#{logoUrl},site_url=#{siteUrl},story=#{story},remark=#{remark},status=#{status},create_by=#{createBy},create_on=#{createOn},update_by=#{updateBy},update_on=#{updateOn} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update gd_goods_brands set 
+	<trim  suffixOverrides="," >
+	<if test="goodsTypeId != null  ">
+		goods_type_id=#{goodsTypeId},
+	</if>
+	<if test="supplierId != null  ">
+		supplier_id=#{supplierId},
+	</if>
+	<if test="cnName != null  and cnName != '' ">
+		cn_name=#{cnName},
+	</if>
+	<if test="enName != null  and enName != '' ">
+		en_name=#{enName},
+	</if>
+	<if test="pinyin != null  and pinyin != '' ">
+		pinyin=#{pinyin},
+	</if>
+	<if test="parentId != null  ">
+		parent_id=#{parentId},
+	</if>
+	<if test="level != null  ">
+		level=#{level},
+	</if>
+	<if test="seq != null  ">
+		seq=#{seq},
+	</if>
+	<if test="logoUrl != null  and logoUrl != '' ">
+		logo_url=#{logoUrl},
+	</if>
+	<if test="siteUrl != null  and siteUrl != '' ">
+		site_url=#{siteUrl},
+	</if>
+	<if test="story != null  and story != '' ">
+		story=#{story},
+	</if>
+	<if test="remark != null  and remark != '' ">
+		remark=#{remark},
+	</if>
+	<if test="status != null  ">
+		status=#{status},
+	</if>
+	<if test="createBy != null  ">
+		create_by=#{createBy},
+	</if>
+	<if test="createOn != null  ">
+		create_on=#{createOn},
+	</if>
+	<if test="updateBy != null  ">
+		update_by=#{updateBy},
+	</if>
+	<if test="updateOn != null  ">
+		update_on=#{updateOn},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 品牌系列 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from gd_goods_brands t where t.dmId = #{dmId}
+</select>
+
+<!-- 品牌系列 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from gd_goods_brands t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 分页查询品牌系列列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from gd_goods_brands t 
+	<include refid="Example_Where_Clause"/>
+	<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+		${mysqlQueryCondition}
+	</if>
+</select>
+
+<!-- 查询品牌系列列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_ListExt"/>
+	from gd_goods_brands t 
+	<include refid="Example_Where_Clause"/>
+	order by t.create_on 
+</select>
+
+</mapper>

@@ -1,0 +1,77 @@
+{
+	"code": 0,
+	"data": {
+		"code": "GXG-T02",
+		"createTime": 1465292521000,
+		"dmId": 1,
+		"goodsId": 1,
+		"goodsTypeId": 10,
+		"name": "GXG夏季纯色POLO杉",
+		"onlineTime": 1465292539000,
+		"picList": [{
+			"createOn": 1464574425,
+			"dmId": 1,
+			"goodsId": 1,
+			"picUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg"
+		}, {
+			"createOn": 1464574509,
+			"dmId": 2,
+			"goodsId": 1,
+			"picUrl": "http://www.baidu.com/eqid=c179b42a0115902e00000006574ba1c9"
+		}],
+		"shopCategoryId": 1690640765814784,
+		"shopId": 1669360214720512,
+		"skuPro": {
+			"level": 0,
+			"name": "颜色",
+			"proDetails": [{
+				"name": "黑色",
+				"proDetailId": 30,
+				"skuPro": {
+					"level": 1,
+					"name": "尺码",
+					"proDetails": [{
+						"name": "XL",
+						"price": 1333.1,
+						"proDetailId": 40,
+						"skuId": 200,
+						"status": true
+					}, {
+						"name": "L",
+						"price": 133.1,
+						"proDetailId": 41,
+						"skuId": 1,
+						"status": true
+					}],
+					"proId": 4
+				},
+				"status": true
+			}, {
+				"name": "白色",
+				"proDetailId": 31,
+				"skuPro": {
+					"level": 1,
+					"name": "尺码",
+					"proDetails": [{
+						"name": "XL",
+						"price": 133.1,
+						"proDetailId": 40,
+						"skuId": 200,
+						"status": true
+					}, {
+						"name": "L",
+						"price": 133.1,
+						"proDetailId": 41,
+						"skuId": 1,
+						"status": false
+					}],
+					"proId": 4
+				},
+				"status": true
+			}],
+			"proId": 3
+		},
+		"status": 1,
+		"updateTime": 1465292528000
+	}
+}

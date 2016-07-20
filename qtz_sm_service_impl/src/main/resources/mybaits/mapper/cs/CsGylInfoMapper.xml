@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.scm.dao.CsGylInfoDao">
+    <!-- cs_gyl_info table all BaseResultMap-->
+    <resultMap id="BaseResultMap" type="com.qtz.sm.scm.vo.CsGylInfo">
+        <result column="dmId"  property="dmId"/>
+        <result column="identifier"  property="identifier"/>
+        <result column="name"  property="name"/>
+        <result column="contact_phone"  property="contactPhone"/>
+        <result column="establish_time"  property="establishTime"/>
+        <result column="ettlement_cycle"  property="ettlementCycle"/>
+        <result column="delivery_time"  property="deliveryTime"/>
+        <result column="restock_cycle"  property="restockCycle"/>
+        <result column="business_scope"  property="businessScope"/>
+        <result column="business_brand"  property="businessBrand"/>
+        <result column="licence"  property="licence"/>
+        <result column="id_card_front"  property="idCardFront"/>
+        <result column="id_card_behind"  property="idCardBehind"/>
+        <result column="lp_name"  property="lpName"/>
+        <result column="lp_id_card"  property="lpIdCard"/>
+        <result column="status"  property="status"/>
+    </resultMap>
+    <!-- cs_gyl_info table all fields-->
+    <sql id="Base_Column_List" >
+        t.dmId,
+        t.identifier,
+        t.name,
+        t.contact_phone,
+        t.establish_time,
+        t.ettlement_cycle,
+        t.delivery_time,
+        t.restock_cycle,
+        t.business_scope,
+        t.business_brand,
+        t.licence,
+        t.id_card_front,
+        t.id_card_behind,
+        t.lp_name,
+        t.lp_id_card,
+        t.status
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        <where>
+            <if test="dmId != null ">
+                and t.dmId=#{dmId}
+            </if>
+            <if test="identifier != null ">
+                and t.identifier like CONCAT('%', #{identifier},'%')
+            </if>
+            <if test="name != null and name != ''">
+                and t.name like CONCAT('%', #{name},'%')
+            </if>
+            <if test="contactPhone != null and contactPhone != ''">
+                and t.contact_phone  like CONCAT('%', #{contactPhone},'%')
+            </if>
+            <if test="establishTime != null ">
+                and t.establish_time=#{establishTime}
+            </if>
+            <if test="ettlementCycle != null ">
+                and t.ettlement_cycle=#{ettlementCycle}
+            </if>
+            <if test="deliveryTime != null ">
+                and t.delivery_time=#{deliveryTime}
+            </if>
+            <if test="restockCycle != null ">
+                and t.restock_cycle=#{restockCycle}
+            </if>
+            <if test="businessScope != null and businessScope != ''">
+                and t.business_scope=#{businessScope}
+            </if>
+            <if test="businessBrand != null and businessBrand != ''">
+                and t.business_brand=#{businessBrand}
+            </if>
+            <if test="licence != null and licence != ''">
+                and t.licence=#{licence}
+            </if>
+            <if test="idCardFront != null and idCardFront != ''">
+                and t.id_card_front=#{idCardFront}
+            </if>
+            <if test="idCardBehind != null and idCardBehind != ''">
+                and t.id_card_behind=#{idCardBehind}
+            </if>
+            <if test="lpName != null and lpName != ''">
+                and t.lp_name=#{lpName}
+            </if>
+            <if test="lpIdCard != null and lpIdCard != ''">
+                and t.lp_id_card=#{lpIdCard}
+            </if>
+            <if test="status != null ">
+                and t.status=#{status}
+            </if>
+        </where>
+         order by t.dmId desc
+    </sql>
+    <!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+    <insert id="addVo" parameterType="Object" >
+        INSERT INTO cs_gyl_info(dmId,identifier,name,contact_phone,establish_time,ettlement_cycle,delivery_time,restock_cycle,business_scope,business_brand,licence,id_card_front,id_card_behind,lp_name,lp_id_card,status)
+        VALUES(#{dmId},#{identifier},#{name},#{contactPhone},#{establishTime},#{ettlementCycle},#{deliveryTime},#{restockCycle},#{businessScope},#{businessBrand},#{licence},#{idCardFront},#{idCardBehind},#{lpName},#{lpIdCard},#{status})
+    </insert>
+    <!--批量插入记录 -->
+    <insert id="addList" parameterType="java.util.List">
+        INSERT INTO cs_gyl_info(dmId,identifier,name,contact_phone,establish_time,ettlement_cycle,delivery_time,restock_cycle,business_scope,business_brand,licence,id_card_front,id_card_behind,lp_name,lp_id_card,status) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.dmId},#{item.identifier},#{item.name},#{item.contactPhone},#{item.establishTime},#{item.ettlementCycle},#{item.deliveryTime},#{item.restockCycle},#{item.businessScope},#{item.businessBrand},#{item.licence},#{item.idCardFront},#{item.idCardBehind},#{item.lpName},#{item.lpIdCard},#{item.status})
+        </foreach>
+    </insert>
+    <!-- 删除记录 -->
+    <delete id="delId" parameterType="Object">
+        DELETE FROM cs_gyl_info WHERE dmId=#{dmId}
+    </delete>
+    <!--批量删除-->
+    <delete id="delIds" parameterType="java.lang.String">
+        DELETE FROM cs_gyl_info WHERE dmId IN
+        <foreach item="idItem" collection="array" open="(" separator="," close=")"> #{idItem}  </foreach>
+    </delete>
+    <!--批量删除-->
+    <delete id="delList" parameterType="java.util.List">
+        DELETE FROM cs_gyl_info WHERE dmId IN
+        <foreach item="idItem" collection="list" open="(" separator="," close=")"> #{idItem}  </foreach>
+    </delete>
+    <!-- 根据id，修改记录-->
+    <update id="modVo" parameterType="Object" >
+        UPDATE cs_gyl_info SET identifier=#{identifier},name=#{name},contact_phone=#{contactPhone},establish_time=#{establishTime},ettlement_cycle=#{ettlementCycle},delivery_time=#{deliveryTime},restock_cycle=#{restockCycle},business_scope=#{businessScope},business_brand=#{businessBrand},licence=#{licence},id_card_front=#{idCardFront},id_card_behind=#{idCardBehind},lp_name=#{lpName},lp_id_card=#{lpIdCard},status=#{status} WHERE dmId=#{dmId}
+    </update>
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="modVoNotNull" parameterType="Object" >
+        UPDATE cs_gyl_info
+        <set>
+            <if test="identifier != null ">
+                identifier=#{identifier},
+            </if>
+            <if test="name != null and name != ''">
+                name=#{name},
+            </if>
+            <if test="contactPhone != null and contactPhone != ''">
+                contact_phone=#{contactPhone},
+            </if>
+            <if test="establishTime != null ">
+                establish_time=#{establishTime},
+            </if>
+            <if test="ettlementCycle != null ">
+                ettlement_cycle=#{ettlementCycle},
+            </if>
+            <if test="deliveryTime != null ">
+                delivery_time=#{deliveryTime},
+            </if>
+            <if test="restockCycle != null ">
+                restock_cycle=#{restockCycle},
+            </if>
+            <if test="businessScope != null and businessScope != ''">
+                business_scope=#{businessScope},
+            </if>
+            <if test="businessBrand != null and businessBrand != ''">
+                business_brand=#{businessBrand},
+            </if>
+            <if test="licence != null and licence != ''">
+                licence=#{licence},
+            </if>
+            <if test="idCardFront != null and idCardFront != ''">
+                id_card_front=#{idCardFront},
+            </if>
+            <if test="idCardBehind != null and idCardBehind != ''">
+                id_card_behind=#{idCardBehind},
+            </if>
+            <if test="lpName != null and lpName != ''">
+                lp_name=#{lpName},
+            </if>
+            <if test="lpIdCard != null and lpIdCard != ''">
+                lp_id_card=#{lpIdCard},
+            </if>
+            <if test="status != null ">
+                status=#{status}
+            </if>
+        </set>
+        WHERE dmId=#{dmId}
+    </update>
+    <!-- 根据id查询记录 -->
+    <select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+        SELECT <include refid="Base_Column_List" />
+        FROM cs_gyl_info t WHERE t.dmId=#{dmId}
+    </select>
+    <!-- 列表总数-->
+    <select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+        SELECT COUNT(1) FROM cs_gyl_info t
+        <include refid="Example_Where_Clause"/>
+    </select>
+    <!-- 分页查询列表 -->
+    <select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cs_gyl_info t
+        <include refid="Example_Where_Clause"/>
+        <if test="mysqlOrderCondition != null and mysqlOrderCondition != ''" >
+        ${mysqlOrderCondition}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+        SELECT <include refid="Base_Column_List"/> FROM cs_gyl_info t <include refid="Example_Where_Clause"/>
+    </select>
+
+</mapper>

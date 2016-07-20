@@ -1,0 +1,280 @@
+body {
+	background-color: #F3F3F3;
+}
+
+.text-center-line {
+	position: relative;
+	padding: 6px 12px;
+}
+
+.text-center-line:before {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	height: 1px;
+	top: 50%;
+	transform: scaleY(0.5);
+	-webkit-transform: scaleY(0.5);
+	background-color: #06C1AE;
+	z-index: 1;
+}
+
+.text-center-line span {
+	position: relative;
+	padding: 6px 12px;
+	background-color: #F3F3F3;
+	display: table;
+	margin: auto;
+	z-index: 2;
+	color: #676767;
+}
+
+.hot-recommended {
+	position: relative;
+	padding: 0 12px;
+	clear: both;
+}
+
+.goods-list {
+	position: relative;
+	overflow: auto;
+}
+
+.goods-list li {
+	position: relative;
+	width: 50%;
+	float: left;
+	margin-bottom: 4px;
+}
+
+.goods-list li:nth-child(odd) > .goods-info {
+	position: relative;
+	padding-right: 2px;
+}
+
+.goods-list li:nth-child(even) > .goods-info {
+	position: relative;
+	padding-left: 2px;
+}
+
+.goods-img {
+	position: relative;
+	overflow: hidden;
+	margin: auto;
+}
+
+.goods-info-div {
+	background-color: #fff;
+	padding-bottom: 12px;
+	overflow: hidden;
+}
+
+.goods-info-div p {
+	padding: 0 6px;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	min-height: 40px;
+	margin-top: 6px;
+	font-size: 14px;
+	color: #666666;
+	word-break: break-all;
+}
+
+.goods-info-price {
+	position: relative;
+	left: 6px;
+	top: 0;
+	height: 20px;
+	line-height: 20px;
+	color: #06C1AC;
+	font-size: 12px;
+	margin-top: 12px;
+}
+
+.goods-info-price-center {
+	font-size: 14px;
+	font-weight: bold;
+	margin-right: -2px;
+	margin-left: -4px;
+}
+
+.goods-addAndCut {
+	position: absolute;
+	right: 6px;
+	bottom: 12px;
+	min-height: 22px;
+	color: #9D9D9D;
+	font-size: 14px;
+}
+
+.goods-cut {
+	display: none;
+	width: 22px;
+	height: 22px;
+	background: url(../../img/cut.png) no-repeat center center;
+	background-size: 100% 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.goods-num {
+	height: 22px;
+	line-height: 22px;
+	text-align: center;
+	display: none;
+	padding: 0 26px;
+}
+
+.goods-add {
+	width: 22px;
+	height: 22px;
+	background: url(../../img/add.png) no-repeat center center;
+	background-size: 100% 100%;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.goods {
+	position: relative;
+    clear: both;
+    padding: 0 6px;
+    /*background-color: #ffffff;*/
+}
+
+.goods-title {
+	position: relative;
+	padding: 6px 0;
+	margin-bottom: 6px;
+	color: #5E5E5E;
+	font-size: 14px;
+}
+
+.goods-title:before {
+	content: '';
+	position: absolute;
+	left: -12px;
+	width: 2px;
+	background-color: #06C1AC;
+	z-index: 9;
+	top: 2px;
+	bottom: 2px;
+}
+
+.goods-title div {
+	float: right;
+	color: #777777;
+	font-size: 12px;
+}
+
+.classified-home-list {
+	position: relative;
+	padding-bottom: 12px;
+	margin-top: 56px;
+}
+
+.classified-home-list-item {
+	position: relative;
+	margin-top: 12px;
+	background-color: #FFFFFF;
+}
+
+.classified-home-list-item-img {
+	position: relative;
+}
+
+.classified-home-list-item-img img {
+	display: block;
+	width: 100%;
+}
+
+.classified-home-list-item-img span {
+	position: absolute;
+	height: 32px;
+	width: 100%;
+	bottom: 0;
+	z-index: 1;
+	background-color: #000000;
+	opacity: 0.4;
+	-webkit-opacity: 0.4;
+	height: 32px;
+}
+
+.classified-home-list-item-img p {
+	position: absolute;
+	width: 100%;
+	height: 32px;
+	text-align: center;
+	line-height: 32px;
+	color: #FFFFFF;
+	bottom: 0;
+	font-size: 16px;
+	z-index: 2;
+}
+
+.classified-home-list-item ul {
+	padding: 12px 0;
+	color: #666666;
+	overflow: auto;
+}
+
+.classified-home-list-item ul li {
+	width: 33.33%;
+	text-align: center;
+	float: left;
+}
+
+.mt12 {
+	margin-top: 12px;
+}
+
+.nav-smartSetup {
+	background-color: #FFFFFF;
+	height: 44px;
+	line-height: 44px;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 99;
+}
+
+.nav-smartSetup ul li a:active {
+	text-decoration: none;
+	color: #666666;
+}
+
+.nav-smartSetup ul li a:hover {
+	text-decoration: none;
+	color: #666666;
+}
+
+.nav-smartSetup ul li a:visited {
+	text-decoration: none;
+}
+
+.nav-smartSetup ul li a {
+	margin-left: 12px;
+	margin-right: 12px;
+	font-size: 16px;
+	color: #666666;
+}
+
+.nav-smartSetup ul li>.cur {
+	color: #06C1AE !important;
+	position: relative;
+}
+
+.nav-smartSetup ul li>.cur:after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	height: 2px;
+	background-color: #06C1AE !important;
+}

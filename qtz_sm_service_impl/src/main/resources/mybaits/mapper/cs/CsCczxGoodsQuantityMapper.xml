@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.stc.dao.CsCczxGoodsQuantityDao">
+
+	
+	
+	
+	
+	<!-- 云仓储管理公司   商品管理   商品库   映射 -->
+	<resultMap id="BaseResultMap" type="com.qtz.sm.stc.vo.CsCczxGoodsQuantity">
+		<result column="goodsId" property="goodsId" />
+		<result column="goodsName" property="goodsName" />
+		<result column="code" property="code" />
+
+	</resultMap>
+	
+	<resultMap id="ListResultMap" type="com.qtz.sm.stc.vo.CsCczxGoodsQuantity">
+		<result column="goodsId" property="goodsId" />
+		<result column="goodsName" property="goodsName" />
+		<result column="code" property="code" />
+		
+		<collection property="skuAndStockInfo" ofType="com.qtz.sm.stc.vo.CczxGoods">
+			<result column="skuId" property="skuId" />
+			<result column="str" property="str" />      
+			 <result column="stock_quantity"  property="stockQuantity"/>  
+			  <result column="await_quantity"  property="awaitQuantity"/>  
+		</collection>
+	</resultMap>
+	
+		<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		<where>
+			<if test="goodsId != null  ">
+				and t1.dmId =#{goodsId}
+			</if>
+
+			
+			<if test="code != null and  code != '' ">
+				and t1.code like CONCAT('%',#{code},'%')
+			</if>
+			<if test="goodsName != null and  goodsName != '' ">
+				and t1.NAME like CONCAT('%',#{goodsName},'%')
+			</if>
+			<if test="skuId != null  ">
+				and t3.dmId  like CONCAT(#{skuId},'%')
+			</if>
+			
+			<!-- 根据便利店进货价 start -->
+			<if test="stockQuantityStart != null  and stockQuantityStart != 0   ">
+				 <![CDATA[ and cczx.stock_quantity >= #{stockQuantityStart}  ]]>
+			</if>
+			<if test="stockQuantityEnd != null and stockQuantityEnd != 0 ">
+				 <![CDATA[ and cczx.stock_quantity <= #{stockQuantityEnd} ]]>
+			</if>
+			<!--根据便利店进货价  end -->
+
+		</where>
+
+	</sql>
+	<!-- 云仓储管理公司   商品管理   商品库   分页 -->
+<!-- 	<select id="queryGoodsCczxList" resultMap="BaseResultMap" parameterType="Object"> -->
+<select id="queryList" resultMap="BaseResultMap" parameterType="Object">
+		SELECT
+			t1.dmId AS goodsId,
+			t1.NAME AS goodsName,
+			t1.`code` as code
+		FROM
+		gd_goods AS t1
+
+		<include refid="page_Where_Clause" />
+		<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+			${mysqlQueryCondition}
+		</if>
+	</select>
+<!-- 	<select id="queryGoodsCczxCount" resultType="java.lang.Integer" parameterType="Object"> -->
+	<select id="queryCount" resultType="java.lang.Integer" parameterType="Object">
+
+		SELECT
+			count(1) 
+		FROM
+		gd_goods AS t1
+		<include refid="page_Where_Clause" />
+	</select>
+	<sql id="page_Where_Clause">
+		<where>
+			<if test="goodsIds != null  ">
+				and t1.dmId in
+				<foreach collection="goodsIds" index="index" item="item"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</sql>
+	
+	
+	
+	
+	
+	<select id="findList" resultMap="ListResultMap" parameterType="Object">
+		SELECT
+			t1.dmId AS goodsId,
+			t1.`code` as code,
+			t1. NAME AS goodsName,
+			t3.dmId AS skuId,
+			fn_goods_get_sku_props_str (t3.dmId) AS str,	          	
+			cczx.stock_quantity,
+			cczx.await_quantity
+		FROM
+		gd_goods AS t1
+		LEFT JOIN `gd_goods_sku` t3 ON t3.goods_id = t1.dmId
+		left join cs_cczx_stock cczx on cczx.sku_id=t3.dmId
+	<include refid="Example_Where_Clause" />
+	order by t1.dmId  desc
+    </select>
+
+
+</mapper>

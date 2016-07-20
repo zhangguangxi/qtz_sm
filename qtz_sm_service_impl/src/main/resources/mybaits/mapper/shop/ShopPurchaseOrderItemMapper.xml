@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.shop.dao.ShopPurchaseOrderItemDao">
+	<!-- Result Map com.qtz.sm.shop.vo.ShopPurchaseOrderItem -->
+	<resultMap id="BaseResultMap" type="ShopPurchaseOrderItem">
+		<result column="dmId" property="dmId" />
+		<result column="purchase_order_id" property="purchaseOrderId" />
+		<result column="sku_id" property="skuId" />
+		<result column="goods_id" property="goodsId" />
+		<result column="purchase_num" property="purchaseNum" />
+		<result column="update_time" property="updateTime" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+
+
+	<!-- shop_purchase_order_item table all fields -->
+	<sql id="Base_Column_List">
+		t.dmId,t.purchase_order_id,t.sku_id,t.purchase_num,t.update_time,t.create_time,t.goods_id
+	</sql>
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		<where>
+			<if test="dmId != null  "> and t.dmId=#{dmId}
+			</if>
+			<if test="purchaseOrderId != null  ">
+				and t.purchase_order_id=#{purchaseOrderId}
+			</if>
+			<if test="skuId != null  ">
+				and t.sku_id=#{skuId}
+			</if>
+			<if test="goodsId != null  ">
+				and t.goods_id=#{goodsId}
+			</if>
+			<if test="purchaseNum != null  ">
+				and t.purchase_num=#{purchaseNum}
+			</if>
+			<if test="updateTime != null  ">
+				and t.update_time=#{updateTime}
+			</if>
+			<if test="createTime != null  ">
+				and t.create_time=#{createTime}
+			</if>
+		</where>
+	</sql>
+
+
+	<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" 
+		useGeneratedKeys="true" keyProperty="id">] -->
+	<insert id="addVo" parameterType="Object">
+		insert into
+		shop_purchase_order_item(dmId,purchase_order_id,sku_id,purchase_num,update_time,create_time,goods_id)
+		values(#{dmId},#{purchaseOrderId},#{skuId},#{purchaseNum},#{updateTime},#{createTime},#{goodsId})
+	</insert>
+	<!--批量插入记录 -->
+	<insert id="addList" parameterType="java.util.List">
+		insert into
+		shop_purchase_order_item(dmId,purchase_order_id,sku_id,purchase_num,update_time,create_time,goods_id)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.dmId},#{item.purchaseOrderId},#{item.skuId},#{item.purchaseNum},#{item.updateTime},#{item.createTime},#{item.goodsId}
+			)
+		</foreach>
+	</insert>
+
+
+	<!-- 删除记录 -->
+	<delete id="delId" parameterType="Object">
+		delete from shop_purchase_order_item where dmId = #{dmId}
+	</delete>
+	<!--批量删除 -->
+	<delete id="delIds" parameterType="java.lang.String">
+		delete from shop_purchase_order_item where dmId in
+		<foreach item="idItem" collection="array" open="(" separator=","
+			close=")">
+			#{idItem}
+		</foreach>
+	</delete>
+	<!--批量删除 -->
+	<delete id="delList" parameterType="java.util.List">
+		delete from shop_purchase_order_item where dmId in
+		<foreach item="idItem" collection="list" index="index" open="("
+			separator="," close=")">
+			#{idItem}
+		</foreach>
+	</delete>
+
+	<!-- 根据id，修改记录 -->
+	<update id="modVo" parameterType="Object">
+		update shop_purchase_order_item set
+		purchase_order_id=#{purchaseOrderId},sku_id=#{skuId},purchase_num=#{purchaseNum},
+		update_time=#{updateTime},create_time=#{createTime},goods_id=#{goodsId}
+		where dmId=#{dmId}
+	</update>
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="modVoNotNull" parameterType="Object">
+		update shop_purchase_order_item set
+		<trim suffixOverrides=",">
+			<if test="purchaseOrderId != null  ">
+				purchase_order_id=#{purchaseOrderId},
+			</if>
+			<if test="skuId != null  ">
+				sku_id=#{skuId},
+			</if>
+			<if test="goodsId != null  ">
+				goods_id=#{goodsId},
+			</if>
+			<if test="purchaseNum != null  ">
+				purchase_num=#{purchaseNum},
+			</if>
+			<if test="updateTime != null  ">
+				update_time=#{updateTime},
+			</if>
+			<if test="createTime != null  ">
+				create_time=#{createTime},
+			</if>
+		</trim>
+		where dmId=#{dmId}
+	</update>
+
+
+
+	<!-- 根据id查询 便利店采购订单项 -->
+	<select id="findVo" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from shop_purchase_order_item t where t.dmId = #{dmId}
+	</select>
+
+	<!-- 便利店采购订单项 列表总数 -->
+	<select id="queryCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from shop_purchase_order_item t
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 分页查询便利店采购订单项列表 -->
+	<select id="queryList" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from shop_purchase_order_item t
+		<include refid="Example_Where_Clause" />
+
+
+
+
+		<if test="orderCondition != null and orderCondition != ''">
+			${orderCondition}
+		</if>
+		<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+			${mysqlQueryCondition}
+		</if>
+	</select>
+
+	<!-- 查询便利店采购订单项列表 -->
+	<select id="findList" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from shop_purchase_order_item t
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<resultMap id="BaseResultItem" type="ShopPurchaseOrderItemVo">
+		<result column="dmId" property="dmId" />
+		<result column="val" property="val" />
+		<result column="sku_id" property="skuId" />
+		<result column="goods_id" property="goodsId" />
+		<result column="goodsName" property="goodsName" />
+		<result column="purchase_num" property="purchaseNum" />
+	</resultMap>
+
+
+	<!-- 便利店采购订单详情 -->
+	<select id="getOrderItem" resultMap="BaseResultItem" parameterType="Object">
+		select
+		d.dmId,d.goods_id,d.sku_id,e.`name` goodsName,fn_goods_get_sku_props_str(d.sku_id) val,d.purchase_num 
+		from shop_purchase_order_item d,gd_goods e
+		where e.dmId = d.goods_id
+		and d.purchase_order_id = #{purchaseOrderId}
+	</select>
+
+</mapper>

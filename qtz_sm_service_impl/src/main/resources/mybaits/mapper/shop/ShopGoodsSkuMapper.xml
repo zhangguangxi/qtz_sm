@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.shop.dao.ShopGoodsSkuDao" >
+<!-- Result Map com.qtz.sm.shop.vo.ShopGoodsSku-->
+<resultMap id="BaseResultMap" type="ShopGoodsSku" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="shop_id"  property="shopId"/> 
+<result column="goods_id"  property="goodsId"/> 
+<result column="sku_id"  property="skuId"/> 
+<result column="shop_goods_id"  property="shopGoodsId"/> 
+<result column="actual"  property="actual"/> 
+<result column="freeze_num"  property="freezeNum"/> 
+<result column="create_time"  property="createTime"/> 
+<result column="update_time"  property="updateTime"/> 
+	
+</resultMap>
+
+<!-- shop_goods_sku table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.shop_id,t.goods_id,t.sku_id,t.shop_goods_id,t.actual,t.freeze_num,t.create_time,t.update_time
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="shopId != null  ">
+		 and t.shop_id=#{shopId}
+	</if>
+	<if test="goodsId != null  ">
+		 and t.goods_id=#{goodsId}
+	</if>
+	<if test="skuId != null  ">
+		 and t.sku_id=#{skuId}
+	</if>
+	<if test="shopGoodsId != null  ">
+		 and t.shop_goods_id=#{shopGoodsId}
+	</if>
+	<if test="actual != null  ">
+		 and t.actual=#{actual}
+	</if>
+	<if test="freezeNum != null  ">
+		 and t.freeze_num=#{freezeNum}
+	</if>
+	<if test="createTime != null  ">
+		 and t.create_time=#{createTime}
+	</if>
+	<if test="updateTime != null  ">
+		 and t.update_time=#{updateTime}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into shop_goods_sku(dmId,shop_id,goods_id,sku_id,shop_goods_id,actual,freeze_num,create_time,update_time)
+ values(#{dmId},#{shopId},#{goodsId},#{skuId},#{shopGoodsId},#{actual},#{freezeNum},#{createTime},#{updateTime})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into shop_goods_sku(dmId,shop_id,goods_id,sku_id,shop_goods_id,actual,freeze_num,create_time,update_time) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.shopId},#{item.goodsId},#{item.skuId},#{item.shopGoodsId},#{item.actual},#{item.freezeNum},#{item.createTime},#{item.updateTime}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from shop_goods_sku where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from shop_goods_sku where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from shop_goods_sku where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update shop_goods_sku set shop_id=#{shopId},goods_id=#{goodsId},sku_id=#{skuId},shop_goods_id=#{shopGoodsId},actual=#{actual},freeze_num=#{freezeNum},create_time=#{createTime},update_time=#{updateTime} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update shop_goods_sku set 
+	<trim  suffixOverrides="," >
+	<if test="shopId != null  ">
+		shop_id=#{shopId},
+	</if>
+	<if test="goodsId != null  ">
+		goods_id=#{goodsId},
+	</if>
+	<if test="skuId != null  ">
+		sku_id=#{skuId},
+	</if>
+	<if test="shopGoodsId != null  ">
+		shop_goods_id=#{shopGoodsId},
+	</if>
+	<if test="actual != null  ">
+		actual=#{actual},
+	</if>
+	<if test="freezeNum != null  ">
+		freeze_num=#{freezeNum},
+	</if>
+	<if test="createTime != null  ">
+		create_time=#{createTime},
+	</if>
+	<if test="updateTime != null  ">
+		update_time=#{updateTime},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 便利店商品sku -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from shop_goods_sku t where t.dmId = #{dmId}
+</select>
+
+<!-- 便利店商品sku 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from shop_goods_sku t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 分页查询便利店商品sku列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from shop_goods_sku t 
+	<include refid="Example_Where_Clause"/>
+	
+    <if test="mysqlQueryCondition != null and mysqlQueryCondition != ''" >
+       ${mysqlQueryCondition}
+    </if>
+</select>
+
+<!-- 查询便利店商品sku列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from shop_goods_sku t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 查询便利店商品ID -->
+<select id="findGoodIdList" resultType="Long"  parameterType="Object">
+	select t.goods_id as goodsId
+	from shop_goods_sku t 
+	where t.shop_id = #{shopId} 
+	<if test="skuId != null  ">
+		and t.sku_id like CONCAT('%',#{skuId},'%')
+	</if>
+	<if test="startActual != null and startActual != 0 ">
+	<![CDATA[ and t.actual >= #{startActual} ]]>
+	</if>
+	<if test="endActual != null and endActual != 0 ">
+	<![CDATA[ and t.actual <= #{endActual}]]>
+	</if>
+</select>
+
+	<!--增加实际库存-->
+	<update id="addActualStock">
+		update shop_goods_sku set actual=actual+#{stock}, update_time=#{updateTime} where dmId=#{shopSkuId}
+	</update>
+
+	<!--减实际库存，加冻结库存-->
+	<update id="subActualStock">
+		update shop_goods_sku set actual=actual-#{stock},freeze_num=freeze_num+#{stock},update_time=#{updateTime} where dmId=#{shopSkuId}
+	</update>
+
+	<!--减冻结库存-->
+	<update id="subFreezeStock">
+		update shop_goods_sku set freeze_num=freeze_num-#{stock},update_time=#{updateTime} where dmId=#{shopSkuId}
+	</update>
+
+</mapper>

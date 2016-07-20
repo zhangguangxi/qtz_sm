@@ -1,0 +1,87 @@
+{
+    "code": 0,
+    "data": {
+        "endIndex": 1,
+        "indexs": [
+            1
+        ],
+        "length": 6,
+        "list": [
+            {
+                "distance": 500,
+                "icon": "../img/demo22.png",
+                "logistics_money": 0,
+                "name": "胖子",
+                "minimum_money": 0,
+                "scope": "墨迹家庭"
+            },
+            {
+                "distance": 900,
+                "icon": "../img/demo22.png",
+                "logistics_money": 0,
+                "name": "胖子",
+                "minimum_money": 0,
+                "scope": "墨迹家庭"
+            },
+            {
+                "distance": 12000,
+                "icon": "../img/demo22.png",
+                "logistics_money": 0,
+                "name": "胖子",
+                "minimum_money": 0,
+                "scope": "墨迹家庭"
+            },
+            {
+                "distance": 12555,
+                "icon": "../img/demo22.png",
+                "logistics_money": 0,
+                "name": "胖子",
+                "minimum_money": 0,
+                "scope": "墨迹家庭"
+            },
+            {
+                "distance": 124500,
+                "icon": "../img/demo22.png",
+                "logistics_money": 0,
+                "name": "胖子",
+                "minimum_money": 0,
+                "scope": "墨迹家庭"
+            },
+            {
+                "distance": 124500,
+                "icon": "../img/demo22.png",
+                "logistics_money": 0,
+                "name": "胖子",
+                "minimum_money": 0,
+                "scope": "墨迹家庭"
+            },
+            {
+                "distance": 124500,
+                "icon": "../img/demo22.png",
+                "logistics_money": 0,
+                "name": "胖子",
+                "minimum_money": 0,
+                "scope": "墨迹家庭"
+            },
+            {
+                "distance": 124500,
+                "icon": "../img/demo22.png",
+                "logistics_money": 0,
+                "name": "胖子",
+                "minimum_money": 0,
+                "scope": "墨迹家庭"
+            }
+        ],
+        "mysqlOrderCondition": " limit 0,20",
+        "mysqlQueryCondition": " limit 0,20",
+        "nowPage": 1,
+        "orderCondition": true,
+        "orderDirection": true,
+        "pageCount": 1,
+        "pageOffset": 0,
+        "pageSize": 20,
+        "pageTail": 1,
+        "rowCount": 1,
+        "startIndex": 1
+    }
+}

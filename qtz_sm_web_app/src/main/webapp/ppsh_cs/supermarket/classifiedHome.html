@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>分类-胖胖超市</title>
+		<meta name="description" content="胖胖生活,深圳市擎天柱有限公司" />
+		<!--设置宽度为设备的宽度，默认不缩放，不允许用户缩放（即禁止缩放），在网页加载时隐藏地址栏与导航栏（ios7.1新增）-->
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+		<!--忽略页面中的数字识别为电话号码、email识别-->
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<!-- 启用360浏览器的极速模式(webkit) -->
+		<meta name="renderer" content="webkit">
+		<!-- windows phone 点击无高光 -->
+		<meta name="msapplication-tap-highlight" content="no">
+		<!--强制页面在当前窗口中以独立页面显示，可以防止自己的网页被别人当作一个frame页调用；-->
+		<meta http-equiv="windows-Target" contect="_top">
+		<!-- 网页不会被缓存 -->
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+		<link rel="stylesheet" type="text/css" href="../css/widget/navigator/navigator.css" />
+		<link rel="stylesheet" type="text/css" href="../css/widget/navigator/navigator.iscroll.css" />
+		<link rel="stylesheet" type="text/css" href="../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="../css/supermarket/index.css" />
+	</head>
+
+	<body>
+		<div id="nav-smartSetup" class="nav-smartSetup">
+			<ul>
+
+			</ul>
+		</div>
+		<div class="classified-home-list" id="list">
+
+		</div>
+		<script src="../js/zepto.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript" src="../js/zepto.extend.js"></script>
+		<script type="text/javascript" src="../js/zepto.ui.js"></script>
+		<script type="text/javascript" src="../js/zepto.iscroll.js"></script>
+		<script type="text/javascript" src="../js/widget/navigator.js"></script>
+		<script type="text/javascript" src="../js/widget/navigator.iscroll.js"></script>
+		<script type="text/javascript">
+			var token = queryString("token");
+
+			function goToClassDetail(firstId, secondId) {
+				var url = urlDomin + "supermarket/classifiedDetail.html?token=" + token + "&firstId=" + firstId + "&secondId=" + secondId;
+				goToNewPage(url);
+			}
+			(function() {
+				var app = {};
+				isJSON ? app.dataUrl = "classifiedHome.json" : app.dataUrl = dataDomin + "/supermarket/category/list/firstCatetory";
+				app.paramet = {
+					"token": token
+				};
+
+				app.getClassHtml = function(data) {
+					var html = [];
+					$.each(data.data, function(i, d) {
+						if (i == 0) {
+							if (d.status == 0)
+								$("#nav-smartSetup ul").append('<li><a class="cur"  href="#dmId_' + d.dmId + '">' + d.name + '</a></li>');
+						} else {
+							if (d.status == 0)
+								$("#nav-smartSetup ul").append('<li><a href="#dmId_' + d.dmId + '">' + d.name + '</a></li>');
+						}
+						html.push('<div id="dmId_' + d.dmId + '" class="classified-home-list-item">');
+						html.push('	<div onclick=goToClassDetail(' + d.dmId + ',null) dmid="' + d.dmId + '" class="classified-home-list-item-img">');
+						html.push('		<img src="' + d.icon + '" alt="商品" />');
+						html.push('		<span></span>');
+						html.push('		<p>' + d.name + '</p>');
+						html.push('	</div>');
+						html.push('	<ul>');
+						$.each(d.supermarketCategoryList, function(is, ds) {
+							html.push('	<li onclick=goToClassDetail(' + d.dmId + ',' + ds.dmId + ')>' + ds.name + '</li>');
+						});
+						html.push('</ul></div>'); 
+					});
+					return html.join('');
+				}
+				$.ajax({
+					type: "GET",
+					url: app.dataUrl,
+					dataType: "JSON",
+					headers: app.paramet,
+					data: app.paramet,
+					success: function(data) {
+						var data = JSON.parse(data);
+						if (data.code != "0") {
+							console.log("接口返回错误！");
+							return false;
+						}
+						$("#list").html(app.getClassHtml(data));
+						/*组件初始化js begin*/
+						$('#nav-smartSetup').navigator(); //smart setup方式创建 推荐方式
+					},
+					error: function(xhr, type) {
+						app.scrollController = true;
+					}
+				});
+			})();
+		</script>
+	</body>
+
+</html>

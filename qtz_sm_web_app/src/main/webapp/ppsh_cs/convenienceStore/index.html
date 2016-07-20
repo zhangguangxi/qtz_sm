@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>便利店首页</title>
+		<meta name="description" content="胖胖生活,深圳市擎天柱有限公司" />
+		<!--设置宽度为设备的宽度，默认不缩放，不允许用户缩放（即禁止缩放），在网页加载时隐藏地址栏与导航栏（ios7.1新增）-->
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+		<!--忽略页面中的数字识别为电话号码、email识别-->
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<!-- 启用360浏览器的极速模式(webkit) -->
+		<meta name="renderer" content="webkit">
+		<!-- windows phone 点击无高光 -->
+		<meta name="msapplication-tap-highlight" content="no">
+		<!--强制页面在当前窗口中以独立页面显示，可以防止自己的网页被别人当作一个frame页调用；-->
+		<meta http-equiv="windows-Target" contect="_top">
+		<!-- 网页不会被缓存 -->
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+		<link rel="stylesheet" type="text/css" href="../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="../css/convenienceStore/index.css" />
+	</head>
+
+	<body>
+		<div id="list" style="overflow: hidden;"></div>
+		<!--加载状态-->
+		<div id="add" class="left w100 add">
+			<a class="loading" href=""></a>
+		</div>
+		<!--加载状态-->
+		<!--<div class="conv-list">
+			<div class="conv-list-item">
+				<img src="../img/demo20.jpg" alt="便利店" />
+				<div class="conv-goods-info">
+					<div class="conv-goods-info-details">
+						<div class="bgcolor"></div>
+						<div class="goodsName">
+							<div class="bgcolor"></div>
+							<div class="goodsNameRelate">美宜佳</div>
+						</div>
+						<div class="convinfo">
+							<div class="conv-tab">
+								<span>日用百货</span>
+								<span>烟酒</span>
+								<span>母婴</span>
+							</div>
+							<p>起送价 ￥<span>20</span> | 配送费 ￥<span>3</span></p>
+						</div>
+						<div class="conv-btn">进店</div>
+						<div class="arrow-right"></div>
+					</div>
+				</div>
+			</div>
+			<div class="lucheng">999m</div>
+		</div> -->
+		<script type="text/javascript" src="../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script type="text/javascript">
+			//进店
+			function goStores(data) {
+				goToConvenienceStore(data);
+			}
+			var app = {};
+			app.scrollController = true;
+			isJSON ? app.dataUrl = "index.json" : app.dataUrl = dataDomin + "/search/indexList";
+			var token = queryString("token"); //经度
+			var latitude = queryString("latitude"); //纬度
+			var longitude = queryString("longitude"); //纬度
+			var scope = queryString("scope"); //便利店范围
+			var pageIndex = 0; //页码
+			var pageSize = 10; //行数 
+			app.getData = function() {
+				if (!app.scrollController)
+					return;
+				addDateText(2);
+				app.scrollController = false;
+				console.log("url:" + app.dataUrl)
+				var dataParmet = {
+					"latitude": latitude,
+					"longitude": longitude,
+					"scope": scope,
+					"pageIndex": pageIndex,
+					"pageSize": pageSize
+				};
+				$.ajax({
+					type: "GET",
+					url: app.dataUrl,
+					dataType: "JSON",
+					headers: {
+						"token": token
+					},
+					data: dataParmet,
+					success: function(data) {
+						addDateText(1);
+						data = JSON.parse(data);
+						console.log(data);
+						if (data.code != "0")
+							addDateText(3);
+						if (data.data.list.length <= 0) {
+							addDateText(4);
+							return false;
+						}
+						$.each(data.data.list, function(i, d) {
+							$("#list").append(app.getIndexDataHtml(d));
+						});
+						app.scrollController = true;
+						pageIndex++;
+						app.loadVisibleAreaImg();
+					},
+					error: function(xhr, type) {
+						addDateText(3);
+						app.scrollController = true;
+					}
+				});
+			}
+			app.getIndexDataHtml = function(data) {
+				var html = [];
+				html.push('<div class="conv-list">');
+				html.push('<div class="conv-list-item">');
+				html.push('	<img class="scrollLoading" src="../img/pixel.gif" data-url="' + data.icon + '" alt="便利店" />');
+				html.push('	<div class="conv-goods-info">');
+				html.push('		<div class="conv-goods-info-details">');
+				html.push('			<div class="bgcolor"></div>');
+				html.push('			<div class="goodsName">');
+				html.push('				<div class="bgcolor"></div>');
+				html.push('				<div class="goodsNameRelate">' + data.name + '</div>');
+				html.push('			</div>');
+				html.push('			<div class="convinfo">');
+				html.push('				<div class="conv-tab">');
+				html.push('					<span>日用百货</span>');
+				html.push('					<span>烟酒</span>');
+				html.push('					<span>母婴</span>');
+				html.push('				</div>');
+				html.push('				<p>起送价 ￥<span>' + data.minimum_money + '</span> | 配送费 ￥<span>' + data.logistics_money + '</span></p>');
+				html.push('			</div>');
+				html.push('			<div class="conv-btn" onclick=goStores(' + JSON.stringify(data) + ')>进店</div>');
+				html.push('			<div class="arrow-right"></div>');
+				html.push('		</div>');
+				html.push('  </div>');
+				html.push('</div>');
+				html.push('		<div class="lucheng">' + app.getDistance(data.distance) + '</div>');
+				html.push('</div> ');
+				return html.join('');
+			}
+			app.getDistance = function(num) {
+				if (num > 1000) {
+					num = (num / 1000).toFixed(2);
+					var sum = num.split('.');
+					if (parseInt(sum[1]) == 0) {
+						num = sum[0] + "km";
+					} else {
+						num = sum[0] + "." + app.getNum(sum[1]) + "km";
+					}
+				} else
+					num += "m";
+				return num;
+			}
+			app.getNum = function(num) {
+				if (num.lastIndexOf("0") == num.length - 1)
+					return app.getNum(num.substring(0, num.length - 1));
+				else
+					return num;
+			}
+			var imgIndex = 0;
+			app.loadVisibleAreaImg = function() {
+				var scrollTop = $(window).scrollTop();
+				var height = $(window).height();
+				$(".scrollLoading").each(function(index, item) {
+					var isAnimation = $(this).attr("isanimation");
+					if (isAnimation == 1) {
+						return
+					}
+					var thisTop = $(this).offset().top;
+					var thisHeight = $(this).height();
+					var thisWidth = $(this).width();
+					if ((thisTop >= scrollTop && thisTop <= (height + scrollTop)) || ((thisTop + thisHeight) >= scrollTop && (thisTop + thisHeight) <= (height + scrollTop))) {
+						$(this).attr("src", $(this).attr("data-url"));
+						$(this).attr("isanimation", 1);
+						imgIndex++
+					}
+				})
+			}
+		</script>
+		<script type="text/javascript">
+			$(function() {
+				app.getData(); 
+				$(window).scroll(function() {
+					if (app.scrollController && $(window).scrollTop() + $(window).height() > $(document).height() - 10) {
+						if (pageIndex > 0) //防止二次加载
+							app.getData();
+					}
+					app.loadVisibleAreaImg()
+				});
+			});
+		</script>
+	</body>
+
+</html>

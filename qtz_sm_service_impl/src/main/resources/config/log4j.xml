@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM 
+          "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<!-- log文件保存到web应用服务器的bin目录下,每个文件最大为10MB,支持10个文件 -->
+	<appender name="App_day"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="threshold" value="DEBUG"/>
+		<!-- /usr/local/ppshtest/service/logs/sm_service.log FTP部署切换这个日志 -->
+		<param name="File" value="${LOG_FILE}" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'"/>
+		<param name="append" value="true" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="sm_service[%d{yyyy-MM-dd HH:mm:ss,SSS}]>>%-5p>> [%m] - [%c] -%-4r [%t] %x %n" />
+		</layout>
+	</appender>
+	<!-- 控制台输出 -->
+	<appender name="Console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="sm_service[%d{yyyy-MM-dd HH:mm:ss,SSS}]>>%-5p>> [%m] - [%c] -%-4r [%t] %x %n" />
+		</layout>
+	</appender>
+	<!-- 指定logger的设置，additivity指示是否遵循缺省的继承机制  com.alibaba.dubbo.remoting.exchange.support.header-->  
+<!--     <logger name="org.apache.zookeeper.ClientCnxn" additivity="false">   -->
+<!--         <priority value ="info"/>    -->
+<!--         <appender-ref ref="Console" />    -->
+<!--     </logger>   -->
+<!--      <logger name="com.alibaba.dubbo.remoting.exchange.support.header.HeartbeatHandler" additivity="false">   -->
+<!--         <priority value ="info"/>    -->
+<!--         <appender-ref ref="Console" />    -->
+<!--     </logger> -->
+    <!-- 根据特定的包优先级别输出 -->
+	<category name="org.apache">
+		<priority value="INFO" />
+	</category>  
+	<category name="com.alibaba.dubbo.remoting.exchange.support.header">
+		<priority value="INFO" />
+	</category> 
+	<!-- 配置控制台与文件日志 -->
+	<root>
+		<priority value="${LOG_LEVEL}" />
+		<appender-ref ref="App_day" />
+		<appender-ref ref="Console" />
+	</root>
+</log4j:configuration>

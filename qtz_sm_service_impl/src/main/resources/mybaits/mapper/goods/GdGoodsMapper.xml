@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.goods.dao.GdGoodsDao" >
+<!-- Result Map com.qtz.sm.goods.vo.GdGoods-->
+<resultMap id="BaseResultMap" type="GdGoods" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="supplier_id"  property="supplierId"/> 
+<result column="brands_id"  property="brandsId"/> 
+<result column="goods_type_id"  property="goodsTypeId"/> 
+<result column="code"  property="code"/> 
+<result column="name"  property="name"/> 
+<result column="remark"  property="remark"/> 
+<result column="status"  property="status"/> 
+<result column="create_by"  property="createBy"/> 
+<result column="create_on"  property="createOn"/> 
+<result column="update_by"  property="updateBy"/> 
+<result column="update_on"  property="updateOn"/> 
+<result column="goods_pro_val_msg"  property="goodsProValMsg"/> 
+	
+</resultMap>
+
+<!-- gd_goods table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.supplier_id,t.brands_id,t.goods_type_id,t.code,t.name,t.remark,t.status,t.create_by,t.create_on,t.update_by,t.update_on,t.goods_pro_val_msg
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="supplierId != null  ">
+		 and t.supplier_id=#{supplierId}
+	</if>
+	<if test="brandsId != null  ">
+		 and t.brands_id=#{brandsId}
+	</if>
+	<if test="goodsTypeId != null  ">
+		 and t.goods_type_id=#{goodsTypeId}
+	</if>
+	<if test="code != null  and code != '' ">
+		 and t.code=#{code}
+	</if>
+	<if test="name != null  and name != '' ">
+		 and t.name=#{name}
+	</if>
+	<if test="remark != null  and remark != '' ">
+		 and t.remark=#{remark}
+	</if>
+	<if test="status != null  ">
+		 and t.status=#{status}
+	</if>
+	<if test="createBy != null  ">
+		 and t.create_by=#{createBy}
+	</if>
+	<if test="createOn != null  ">
+		 and t.create_on=#{createOn}
+	</if>
+	<if test="updateBy != null  ">
+		 and t.update_by=#{updateBy}
+	</if>
+	<if test="updateOn != null  ">
+		 and t.update_on=#{updateOn}
+	</if>
+	<if test="goodsProValMsg != null  and goodsProValMsg != '' ">
+		 and t.goods_pro_val_msg=#{goodsProValMsg}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into gd_goods(dmId,supplier_id,brands_id,goods_type_id,code,name,remark,status,create_by,create_on,update_by,update_on,goods_pro_val_msg)
+ values(#{dmId},#{supplierId},#{brandsId},#{goodsTypeId},#{code},#{name},#{remark},#{status},#{createBy},#{createOn},#{updateBy},#{updateOn},#{goodsProValMsg})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into gd_goods(dmId,supplier_id,brands_id,goods_type_id,code,name,remark,status,create_by,create_on,update_by,update_on,goods_pro_val_msg) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.supplierId},#{item.brandsId},#{item.goodsTypeId},#{item.code},#{item.name},#{item.remark},#{item.status},#{item.createBy},#{item.createOn},#{item.updateBy},#{item.updateOn},#{item.goodsProValMsg}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from gd_goods where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from gd_goods where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from gd_goods where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update gd_goods set supplier_id=#{supplierId},brands_id=#{brandsId},goods_type_id=#{goodsTypeId},code=#{code},name=#{name},remark=#{remark},status=#{status},create_by=#{createBy},create_on=#{createOn},update_by=#{updateBy},update_on=#{updateOn},goods_pro_val_msg=#{goodsProValMsg} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update gd_goods set 
+	<trim  suffixOverrides="," >
+	<if test="supplierId != null  ">
+		supplier_id=#{supplierId},
+	</if>
+	<if test="brandsId != null  ">
+		brands_id=#{brandsId},
+	</if>
+	<if test="goodsTypeId != null  ">
+		goods_type_id=#{goodsTypeId},
+	</if>
+	<if test="code != null  and code != '' ">
+		code=#{code},
+	</if>
+	<if test="name != null  and name != '' ">
+		name=#{name},
+	</if>
+	<if test="remark != null  and remark != '' ">
+		remark=#{remark},
+	</if>
+	<if test="status != null  ">
+		status=#{status},
+	</if>
+	<if test="createBy != null  ">
+		create_by=#{createBy},
+	</if>
+	<if test="createOn != null  ">
+		create_on=#{createOn},
+	</if>
+	<if test="updateBy != null  ">
+		update_by=#{updateBy},
+	</if>
+	<if test="updateOn != null  ">
+		update_on=#{updateOn},
+	</if>
+	<if test="goodsProValMsg != null  and goodsProValMsg != '' ">
+		goods_pro_val_msg=#{goodsProValMsg},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 商品 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from gd_goods t where t.dmId = #{dmId}
+</select>
+
+<!-- 商品 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from gd_goods t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 分页查询商品列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from gd_goods t 
+	<include refid="Example_Where_Clause"/>
+    <if test="mysqlQueryCondition != null and mysqlQueryCondition != ''" >
+       ${mysqlQueryCondition}
+    </if>
+</select>
+
+<!-- 查询商品列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from gd_goods t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+	<resultMap id="BaseSkuResult" type="ShopValueVo">
+		<result column="dmId" property="dmId" />
+		<result column="skuId" property="skuId" />
+		<result column="val" property="val" />
+		<result column="actual" property="actualNum" />
+		<result column="freeze_num" property="freezeNum" />
+	</resultMap>
+	<!-- 根据便利店ID查询便利店中商品列表对应的sku -->
+	<select id="findSkuList" resultMap="BaseSkuResult"
+		parameterType="Object">
+		select fn_goods_get_sku_props_str(a.dmId) val ,a.dmId as skuId
+		from
+		gd_goods_sku a
+		where a.goods_id = #{goodsId}
+	</select>
+
+<!-- 查询商品列表：包含SKU价格信息 -->
+<!-- <resultMap id="GoodsWithSkuPrice" type="GdGoodsSkuRateBo"> -->
+<!-- 	<result column="goodsId" property="goodsId" /> -->
+<!-- 	<result column="goodsTypeId" property="goodsTypeId" /> -->
+<!-- 	<result column="skuId" property="skuId" /> -->
+<!-- 	<result column="gyl_price" property="gylPrice" /> -->
+<!-- 	<result column="yccgl_price" property="yccglPrice" /> -->
+<!-- 	<result column="bldgl_price" property="bldglPrice" /> -->
+<!-- 	<result column="ppcs_price" property="ppcsPrice" /> -->
+<!-- </resultMap> -->
+<!-- <select id="findGoodsWithSkuRates" resultMap="GoodsWithSkuPrice"  parameterType="Object"> -->
+<!-- 		SELECT t1.dmId AS goodsId, t1.goods_type_id AS goodsTypeId, t2.dmId AS skuId, t3.gyl_price, t3.yccgl_price, t3.bldgl_price, t3.ppcs_price -->
+<!-- 	FROM `gd_goods` t1  -->
+<!-- 	LEFT JOIN `gd_goods_sku` t2 ON t2.goods_id=t1.`dmId` -->
+<!-- 	LEFT JOIN `gd_goods_sku_rate` t3 ON t3.sku_id = t2.`dmId` -->
+<!-- 	WHERE  t1.`goods_type_id`=#{goodsTypeId} -->
+<!-- </select> -->
+
+</mapper>

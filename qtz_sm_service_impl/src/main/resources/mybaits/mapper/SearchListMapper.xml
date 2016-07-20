@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.search.dao.SearchListDao">
+	<resultMap id="BaseResultMap" type="com.qtz.sm.search.vo.SearchList" >
+		<result column="dmId"  property="dmId"/>
+		<result column="search_type_id"  property="searchTypeId"/>
+		<result column="keyword"  property="keyword"/>
+		<result column="shop_id"  property="shopId"/>
+		<result column="search_time"  property="searchTime"/>
+		<result column="search_user"  property="searchUser"/>
+		<result column="search_ways"  property="searchWays"/>
+
+	</resultMap>
+
+	<!-- search_list table all fields -->
+	<sql id="Base_Column_List" >
+		t.dmId,t.search_type_id,t.keyword,t.shop_id,t.search_time,t.search_user,t.search_ways
+	</sql>
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		<where>
+			<if test="dmId != null  ">
+				and t.dmId=#{dmId}
+			</if>
+			<if test="searchTypeId != null  ">
+				and t.search_type_id=#{searchTypeId}
+			</if>
+			<if test="keyword != null  and keyword != '' ">
+				and t.keyword=#{keyword}
+			</if>
+			<if test="shopId != null  ">
+				and t.shop_id=#{shopId}
+			</if>
+			<if test="searchTime != null  ">
+				and t.search_time=#{searchTime}
+			</if>
+			<if test="searchUser != null  ">
+				and t.search_user=#{searchUser}
+			</if>
+			<if test="searchWays != null  ">
+				and t.search_ways=#{searchWays}
+			</if>
+
+		</where>
+	</sql>
+
+
+	<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+	<insert id="addVo" parameterType="Object" >
+		insert into search_list(dmId,search_type_id,keyword,shop_id,search_time,search_user,search_ways)
+		values(#{dmId},#{searchTypeId},#{keyword},#{shopId},#{searchTime},#{searchUser},#{searchWays})
+	</insert>
+	<!--批量插入记录 -->
+	<insert id="addList" parameterType="java.util.List">
+		insert into search_list(dmId,search_type_id,keyword,shop_id,search_time,search_user,search_ways) values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+			#{item.dmId},#{item.searchTypeId},#{item.keyword},#{item.shopId},#{item.searchTime},#{item.searchUser},#{item.searchWays}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 按照搜索人删除搜索记录 -->
+	<delete id="delSearchUser" parameterType="Object">
+		delete 	 from search_list where search_user = #{searchUser}
+	</delete>
+
+	<!-- 删除记录 -->
+	<delete id="delId" parameterType="Object">
+		delete 	 from search_list where dmId = #{dmId}
+	</delete>
+	<!--批量删除-->
+	<delete id="delIds" parameterType="java.lang.String">
+		delete 	 from search_list where dmId in
+		<foreach item="idItem" collection="array" open="(" separator="," close=")">
+			#{idItem}
+		</foreach>
+	</delete>
+	<!--批量删除-->
+	<delete id="delList" parameterType="java.util.List">
+		delete 	 from search_list where dmId in
+		<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")">
+			#{idItem}
+		</foreach>
+	</delete>
+
+	<!-- 根据id，修改记录-->
+	<update id="modVo" parameterType="Object" >
+		update search_list set search_type_id=#{searchTypeId},keyword=#{keyword},shop_id=#{shopId},search_time=#{searchTime},search_user=#{searchUser},search_ways=#{searchWays} where dmId=#{dmId}
+	</update>
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="modVoNotNull" parameterType="Object" >
+		update search_list set
+		<trim  suffixOverrides="," >
+			<if test="searchTypeId != null  ">
+				search_type_id=#{searchTypeId},
+			</if>
+			<if test="keyword != null  and keyword != '' ">
+				keyword=#{keyword},
+			</if>
+			<if test="shopId != null  ">
+				shop_id=#{shopId},
+			</if>
+			<if test="searchTime != null  ">
+				search_time=#{searchTime},
+			</if>
+			<if test="searchUser != null  ">
+				search_user=#{searchUser},
+			</if>
+			<if test="searchWays != null  ">
+				search_ways=#{searchWays},
+			</if>
+		</trim> where dmId=#{dmId}
+	</update>
+
+
+
+	<!-- 根据id查询 搜索列表 -->
+	<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+		select <include refid="Base_Column_List" />
+		from search_list t where t.dmId = #{dmId}
+	</select>
+
+	<!-- 搜索列表 列表总数-->
+	<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+		select count(1) from search_list t
+		<include refid="Example_Where_Clause"/>
+	</select>
+
+	<!-- 分页查询搜索列表列表 -->
+	<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+		select
+		<include refid="Base_Column_List"/>
+		from search_list t
+		<include refid="Example_Where_Clause"/>
+		<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+			${mysqlQueryCondition}
+		</if>
+	</select>
+
+	<!-- 查询搜索列表列表 -->
+	<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+		select
+		<include refid="Base_Column_List"/>
+		from search_list t
+		<include refid="Example_Where_Clause"/>
+	</select>
+
+
+
+	<!-- 便利店搜索返回模块 -->
+	<resultMap id="ShopResultMap" type="java.util.Map">
+		<result column="distance" property="distance" />
+		<result column="icon" property="icon" />
+		<result column="name" property="name" />
+		<result column="scope" property="scope" />
+		<result column="minimum_money" property="minimum_money" />
+		<result column="logistics_money" property="logistics_money" />
+		<result column="minimum_money" property="minimum_money" />
+	</resultMap>
+	<!-- 便利店搜索条件模块 -->
+	<sql id="SearchShopWhere">
+		<where>
+			<if test="scope != null  ">
+				or t1.scope like CONCAT('%',#{scope},'%')
+			</if>
+			<if test="name != null  ">
+				or t1.name like CONCAT('%',#{name},'%')
+			</if>
+		</where>
+	</sql>
+	<!-- 便利店基本信息 列表总数 -->
+	<select id="searchShopCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from 
+		`shop_info` t1
+		JOIN shop_business t2
+		ON t1.`dmId` = t2.`shop_id`
+		<include refid="SearchShopWhere" />
+	</select>
+
+	<!-- 分页查询便利店基本信息列表 -->
+	<select id="searchShopList" resultMap="ShopResultMap"
+		parameterType="Object">
+		SELECT
+		t1.`dmId`,
+		t1.`name`,
+		ST_Distance_Sphere (
+		t1.location,
+		ST_GeomFromText ('POINT(${longitude} ${latitude})', 4326)
+		) distance,
+		t2.icon,
+		t1.`scope`,
+		t2.`minimum_money`,
+		t2.logistics_money
+		FROM
+		`shop_info` t1
+		JOIN shop_business t2
+		ON t1.`dmId` = t2.`shop_id`
+		<include refid="SearchShopWhere" />
+		ORDER BY distance
+		<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+			${mysqlQueryCondition}
+		</if>
+	</select>
+
+
+	<!-- 商品搜索返回模块 -->
+	<resultMap id="SearchGoodsResultMap" type="java.util.Map">
+		<result column="status" property="status" />
+		<result column="name" property="name" />
+		<result column="goods_id" property="goodsId" />
+		<result column="rate_price" property="ratePrice" />
+		<result column="props_str" property="propsStr" />
+	</resultMap>
+	
+	<!-- 商品搜索条件模块 -->
+	<sql id="SearchGoodsWhere">
+		<where>
+			<if test="keyword != null  ">
+				or t2.name like CONCAT('%',#{keyword},'%')
+			</if>
+			<if test="dmId != null  ">
+				and t3.dmId = #{dmId}
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 搜索商品统计 -->
+	<select id="searchShopGoodsCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from
+		(SELECT
+		MIN(fn_get_rate_price (2, sku_id)) rate_price,
+		shop_goods_id
+		FROM
+		shop_goods_sku
+		GROUP BY shop_goods_id) t
+		LEFT JOIN shop_goods t1
+		ON t.shop_goods_id = t1.dmId
+		LEFT JOIN gd_goods t2
+		ON t1.goods_id = t2.dmId
+		LEFT JOIN shop_info t3
+		ON t1.shop_id = t3.dmId
+		<include refid="SearchGoodsWhere" />
+	</select>
+
+	<!-- 分页查询搜索商品列表 -->
+	<select id="searchShopGoodsList" resultMap="SearchGoodsResultMap"
+		parameterType="Object">
+		SELECT
+		t1.status,
+		t2.name,t1.goods_id,
+		t.rate_price ,
+		ST_Distance_Sphere(location,ST_GeomFromText('POINT(${longitude} ${latitude})',4326)) AS distance,
+		(SELECT fn_goods_get_sku_props_str (sku_id) FROM shop_goods_sku LIMIT 0,1) AS props_str
+		FROM
+		(SELECT
+		MIN(fn_get_rate_price (2, sku_id)) rate_price,
+		shop_goods_id
+		FROM
+		shop_goods_sku
+		GROUP BY shop_goods_id) t
+		LEFT JOIN shop_goods t1
+		ON t.shop_goods_id = t1.dmId
+		LEFT JOIN gd_goods t2
+		ON t1.goods_id = t2.dmId
+		LEFT JOIN shop_info t3
+		ON t1.shop_id = t3.dmId
+		<include refid="SearchGoodsWhere" />
+		ORDER BY distance
+		<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+			${mysqlQueryCondition}
+		</if>
+	</select>
+
+
+
+	<!-- 便利店基本信息 列表总数 <select id="indexQueryCount" resultType="java.lang.Integer" 
+		parameterType="Object"> select count(1) from shop_info t <include refid="Example_Where_Clause" 
+		/> </select> -->
+
+	<!-- 分页查询便利店基本信息列表 <select id="indexQueryList" resultMap="ShopResultMap" 
+		parameterType="Object"> select <include refid="Base_Column_List" /> ,ST_Distance_Sphere(location,ST_GeomFromText('POINT(${longitude} 
+		${latitude})',4326)) AS distance from shop_info t <include refid="Example_Where_Clause" 
+		/> ORDER BY distance <if test="mysqlQueryCondition != null and mysqlQueryCondition 
+		!= ''"> ${mysqlQueryCondition} </if> </select> -->
+</mapper>

@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.qtz.sm</groupId>
+	<artifactId>qtz_sm</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>qtz_sm_core</module>
+		<module>qtz_sm_api</module>
+		<module>qtz_sm_service_impl</module>
+		<module>qtz_sm_web_admin</module>
+		<module>qtz_sm_web_app</module>
+	</modules>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>qtz Project SNAPSHOTS</name>
+			<!-- company VM -->
+		        <url>http://192.168.40.158:8081/nexus/content/repositories/releases/</url>
+			<!-- home VM-->
+			<!--<url>http://192.168.1.108:8081/nexus/content/repositories/releases/</url>-->
+		</snapshotRepository>
+
+		<repository>
+			<id>releases</id>
+			<name>qtz Project Releases</name>
+			<!-- company VM -->
+			<url>http://192.168.40.158:8081/nexus/content/repositories/releases/</url>
+			<!-- home VM-->
+			<!--<url>http://192.168.1.108:8081/nexus/content/repositories/releases/</url>-->
+		</repository>
+	</distributionManagement>
+
+	<properties>
+		<org.springframework.version>4.1.5.RELEASE</org.springframework.version>
+		<version.jackson>2.4.4</version.jackson>
+	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+				<scope>test</scope>
+			</dependency>
+			<!-- spring start -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+				<version>1.2.5.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-expression</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-oxm</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc-portlet</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${org.springframework.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+
+			<!--下面的三个包是在配置事务的时候用到的 spring的依赖包 -->
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>1.7.0</version>
+			</dependency>
+			<dependency>
+				<groupId>aopalliance</groupId>
+				<artifactId>aopalliance</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib-nodep</artifactId>
+				<version>2.2.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-config</artifactId>
+				<version>4.0.2.RELEASE</version>
+			</dependency>
+
+
+			<!-- spring end -->
+
+			<!-- JSON lib -->
+			<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils</artifactId>
+				<version>1.8.3</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.10</version>
+			</dependency>
+			<dependency>
+				<groupId>org.bouncycastle</groupId>
+				<artifactId>bcprov-jdk15on</artifactId>
+				<version>1.47</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>3.2.1</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>2.6</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.ezmorph</groupId>
+				<artifactId>ezmorph</artifactId>
+				<version>1.0.5</version>
+			</dependency>
+			<!-- mysql的数据库驱动�? -->
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>5.1.21</version>
+			</dependency>
+			<!-- 数据库连接池 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>1.0.4</version>
+			</dependency>
+
+			<!-- mybatis -->
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis</artifactId>
+				<version>3.2.4</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis-ehcache</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis-spring</artifactId>
+				<version>1.2.1</version>
+			</dependency>
+			<!--日志打印 log4j -->
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.14</version>
+				<!-- <scope>runtime</scope> -->
+			</dependency>
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging-api</artifactId>
+				<version>1.1</version>
+			</dependency>
+			<!-- 其他依赖 -->
+			<dependency>
+				<groupId>org.apache.openejb</groupId>
+				<artifactId>javaee-api</artifactId>
+				<version>5.0-1</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.faces</groupId>
+				<artifactId>jsf-api</artifactId>
+				<version>1.2_04</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>1.4.7</version>
+				<type>jar</type>
+				<scope>compile</scope>
+			</dependency>
+
+
+			<!-- luodingding at 20140928 add -->
+			<dependency>
+				<groupId>jdom</groupId>
+				<artifactId>jdom</artifactId>
+				<version>1.1</version>
+			</dependency>
+
+			<!-- 定时任务 -->
+
+			<dependency>
+				<groupId>org.quartz-scheduler</groupId>
+				<artifactId>quartz</artifactId>
+				<version>2.2.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>antlr</groupId>
+				<artifactId>antlr</artifactId>
+				<version>2.7.6</version>
+			</dependency>
+
+			<!-- luodingding at 20140928 add -->
+			<dependency>
+				<groupId>opensymphony</groupId>
+				<artifactId>quartz-all</artifactId>
+				<version>1.6.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>1.6.4</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-jexl</artifactId>
+				<version>2.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-pool</groupId>
+				<artifactId>commons-pool</artifactId>
+				<version>1.6</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-pool2</artifactId>
+				<version>2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>dom4j</groupId>
+				<artifactId>dom4j</artifactId>
+				<version>1.6.1</version>
+			</dependency>
+			<!-- 银联jar�? -->
+			<dependency>
+				<groupId>fakepath</groupId>
+				<artifactId>upacp_sdk</artifactId>
+				<version>1.0.0-20150703140550</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jdom</groupId>
+				<artifactId>jaxen-core</artifactId>
+				<version>1.0-FCS</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jdom</groupId>
+				<artifactId>jaxen-jdom</artifactId>
+				<version>1.0-FCS</version>
+			</dependency>
+			<dependency>
+				<groupId>saxpath</groupId>
+				<artifactId>saxpath</artifactId>
+				<version>1.0-FCS</version>
+			</dependency>
+			<dependency>
+				<groupId>activesoap</groupId>
+				<artifactId>xercesImpl</artifactId>
+				<version>1.5</version>
+			</dependency>
+			<dependency>
+				<groupId>avalon-logkit</groupId>
+				<artifactId>avalon-logkit</artifactId>
+				<version>2.1</version>
+				<exclusions>
+					<exclusion>
+						<groupId>servletapi</groupId>
+						<artifactId>servletapi</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-ant-tasks</artifactId>
+				<version>2.0.9</version>
+			</dependency>
+			<dependency>
+				<groupId>oro</groupId>
+				<artifactId>oro</artifactId>
+				<version>2.0.8</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>3.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.velocity</groupId>
+				<artifactId>velocity</artifactId>
+				<version>1.7</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.velocity</groupId>
+				<artifactId>velocity-tools</artifactId>
+				<version>2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>velocity-tools</groupId>
+				<artifactId>velocity-tools-view</artifactId>
+				<version>2.0-beta1</version>
+			</dependency>
+			<dependency>
+				<groupId>werken-xpath</groupId>
+				<artifactId>werken-xpath</artifactId>
+				<version>0.9.4</version>
+			</dependency>
+			<dependency>
+				<groupId>org.grlea.log.adapters</groupId>
+				<artifactId>simple-log-commons-logging</artifactId>
+				<version>2.0.1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-httpclient</groupId>
+				<artifactId>commons-httpclient</artifactId>
+				<version>3.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>4.3.5</version>
+			</dependency>
+
+
+			<!-- 接口调试 -->
+			<dependency>
+				<groupId>com.mangofactory</groupId>
+				<artifactId>swagger-springmvc</artifactId>
+				<version>0.9.5</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-annotations</artifactId>
+				<version>${version.jackson}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${version.jackson}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${version.jackson}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>1.9.8</version>
+				<type>jar</type>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- 二维码生成依赖包 -->
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>core</artifactId>
+				<version>2.2</version>
+			</dependency>
+			<!--end 二维码生成依赖包 -->
+
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>1.2.2</version>
+			</dependency>
+
+			<!-- start spring-redis -->
+
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-redis</artifactId>
+				<version>1.5.0.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>redis.clients</groupId>
+				<artifactId>jedis</artifactId>
+				<version>2.6.2</version>
+				<scope>compile</scope>
+			</dependency>
+			<!-- end spring-redis -->
+			<!-- mongo data -->
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-mongodb</artifactId>
+				<version>1.6.2.RELEASE</version>
+				<!-- MongoDB3.0驱动�?��单独配置 -->
+				<!-- <exclusions> -->
+				<!-- <exclusion> -->
+				<!-- <groupId>org.mongodb</groupId> -->
+				<!-- <artifactId>mongo-java-driver</artifactId> -->
+				<!-- </exclusion> -->
+				<!-- </exclusions> -->
+			</dependency>
+			<!-- MongoDB3.0驱动�?��单独配置 -->
+			<!-- <dependency> -->
+			<!-- <groupId>org.mongodb</groupId> -->
+			<!-- <artifactId>mongo-java-driver</artifactId> -->
+			<!-- <version>2.13.0-rc2</version> -->
+			<!-- </dependency> -->
+			<!-- dubuo 暴漏接口 -->
+
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>dubbo</artifactId>
+				<version>2.5.3</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.zookeeper</groupId>
+				<artifactId>zookeeper</artifactId>
+				<version>3.3.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.101tec</groupId>
+				<artifactId>zkclient</artifactId>
+				<version>0.3</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>5.1.3.Final</version>
+			</dependency>
+			<!-- sorl 配置 -->
+			<dependency>
+				<artifactId>solr-solrj</artifactId>
+				<groupId>org.apache.solr</groupId>
+				<version>1.4.0</version>
+				<type>jar</type>
+			</dependency>
+
+			<dependency>
+				<artifactId>solr-core</artifactId>
+				<groupId>org.apache.solr</groupId>
+				<version>1.4.0</version>
+				<type>jar</type>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpcore</artifactId>
+				<version>4.3.2</version>
+			</dependency>
+
+		
+
+		</dependencies>
+
+
+	</dependencyManagement>
+	<build>
+		<plugins>
+			<!--deploysource -->
+			<!-- <plugin> <artifactId>maven-source-plugin</artifactId> <configuration> 
+				<attach>true</attach> </configuration> <executions> <execution> <phase>compile</phase> 
+				<goals> <goal>jar</goal> </goals> </execution> </executions> </plugin> -->
+
+
+			<!-- 指定jdk 版本 -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

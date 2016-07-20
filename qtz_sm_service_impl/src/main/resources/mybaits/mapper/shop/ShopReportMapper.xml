@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.shop.dao.ShopReportDao" >
+<!-- Result Map com.qtz.sm.shop.vo.ShopReport-->
+<resultMap id="BaseResultMap" type="ShopReport" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="shop_id"  property="shopId"/> 
+<result column="shop_name"  property="shopName"/> 
+<result column="reprot_type"  property="reprotType"/> 
+<result column="report_content"  property="reportContent"/> 
+<result column="mobile"  property="mobile"/> 
+<result column="report_detail"  property="reportDetail"/> 
+<result column="pic_url"  property="picUrl"/> 
+<result column="user_id"  property="userId"/> 
+<result column="create_time"  property="createTime"/> 
+<result column="update_time"  property="updateTime"/> 
+	
+</resultMap>
+
+<!-- shop_report table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.shop_id,t.shop_name,t.reprot_type,t.report_content,t.mobile,t.report_detail,t.pic_url,t.user_id,t.create_time,t.update_time
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="shopId != null  ">
+		 and t.shop_id=#{shopId}
+	</if>
+	<if test="shopName != null  and shopName != '' ">
+		 and t.shop_name=#{shopName}
+	</if>
+	<if test="reprotType != null  ">
+		 and t.reprot_type=#{reprotType}
+	</if>
+	<if test="reportContent != null  and reportContent != '' ">
+		 and t.report_content=#{reportContent}
+	</if>
+	<if test="mobile != null  and mobile != '' ">
+		 and t.mobile=#{mobile}
+	</if>
+	<if test="reportDetail != null  and reportDetail != '' ">
+		 and t.report_detail=#{reportDetail}
+	</if>
+	<if test="picUrl != null  and picUrl != '' ">
+		 and t.pic_url=#{picUrl}
+	</if>
+	<if test="userId != null  ">
+		 and t.user_id=#{userId}
+	</if>
+	<if test="createTime != null  ">
+		 and t.create_time=#{createTime}
+	</if>
+	<if test="updateTime != null  ">
+		 and t.update_time=#{updateTime}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into shop_report(dmId,shop_id,shop_name,reprot_type,report_content,mobile,report_detail,pic_url,user_id,create_time,update_time)
+ values(#{dmId},#{shopId},#{shopName},#{reprotType},#{reportContent},#{mobile},#{reportDetail},#{picUrl},#{userId},#{createTime},#{updateTime})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into shop_report(dmId,shop_id,shop_name,reprot_type,report_content,mobile,report_detail,pic_url,user_id,create_time,update_time) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.shopId},#{item.shopName},#{item.reprotType},#{item.reportContent},#{item.mobile},#{item.reportDetail},#{item.picUrl},#{item.userId},#{item.createTime},#{item.updateTime}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from shop_report where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from shop_report where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from shop_report where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update shop_report set shop_id=#{shopId},shop_name=#{shopName},reprot_type=#{reprotType},report_content=#{reportContent},mobile=#{mobile},report_detail=#{reportDetail},pic_url=#{picUrl},user_id=#{userId},create_time=#{createTime},update_time=#{updateTime} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update shop_report set 
+	<trim  suffixOverrides="," >
+	<if test="shopId != null  ">
+		shop_id=#{shopId},
+	</if>
+	<if test="shopName != null  and shopName != '' ">
+		shop_name=#{shopName},
+	</if>
+	<if test="reprotType != null  ">
+		reprot_type=#{reprotType},
+	</if>
+	<if test="reportContent != null  and reportContent != '' ">
+		report_content=#{reportContent},
+	</if>
+	<if test="mobile != null  and mobile != '' ">
+		mobile=#{mobile},
+	</if>
+	<if test="reportDetail != null  and reportDetail != '' ">
+		report_detail=#{reportDetail},
+	</if>
+	<if test="picUrl != null  and picUrl != '' ">
+		pic_url=#{picUrl},
+	</if>
+	<if test="userId != null  ">
+		user_id=#{userId},
+	</if>
+	<if test="createTime != null  ">
+		create_time=#{createTime},
+	</if>
+	<if test="updateTime != null  ">
+		update_time=#{updateTime},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 店铺举报信息 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from shop_report t where t.dmId = #{dmId}
+</select>
+
+<!-- 店铺举报信息 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from shop_report t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 分页查询店铺举报信息列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from shop_report t 
+	<include refid="Example_Where_Clause"/>
+	<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+		${mysqlQueryCondition}
+	</if>
+</select>
+
+<!-- 查询店铺举报信息列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from shop_report t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+</mapper>

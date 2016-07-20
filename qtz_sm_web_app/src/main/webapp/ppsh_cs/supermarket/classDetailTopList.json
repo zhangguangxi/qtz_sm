@@ -1,0 +1,44 @@
+{
+    "code": 0,
+    "data": [
+        {
+            "createTime": 1464600878000,
+            "dmId": 1685047493347328,
+            "icon": "123.jpg",
+            "level": 2,
+            "name": "2级分类test1",
+            "pid": 1685045685831680,
+            "sort": 1,
+            "status": 0,
+            "supermarketCategoryList": [],
+            "supermarketId": 1,
+            "updateTime": 1464600878000
+        },
+        {
+            "createTime": 1464600893000,
+            "dmId": 1685047726245888,
+            "icon": "456.jpg",
+            "level": 2,
+            "name": "2级分类test2",
+            "pid": 1685045685831680,
+            "sort": 2,
+            "status": 0,
+            "supermarketCategoryList": [],
+            "supermarketId": 1,
+            "updateTime": 1464686183000
+        },
+        {
+            "createTime": 1464600903000,
+            "dmId": 1685047899932672,
+            "icon": "456.jpg",
+            "level": 2,
+            "name": "2级分类test3",
+            "pid": 1685045685831680,
+            "sort": 3,
+            "status": 0,
+            "supermarketCategoryList": [],
+            "supermarketId": 1,
+            "updateTime": 1464600903000
+        }
+    ]
+}

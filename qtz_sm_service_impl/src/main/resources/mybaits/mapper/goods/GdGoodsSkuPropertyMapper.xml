@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.goods.dao.GdGoodsSkuPropertyDao" >
+<!-- Result Map com.qtz.sm.goods.vo.GdGoodsSkuProperty-->
+<resultMap id="BaseResultMap" type="GdGoodsSkuProperty" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="goods_sku_id"  property="goodsSkuId"/> 
+<result column="pro_id"  property="proId"/> 
+<result column="pro_val_id"  property="proValId"/> 
+<result column="other_value"  property="otherValue"/> 
+	
+</resultMap>
+
+<!-- gd_goods_sku_property table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.goods_sku_id,t.pro_id,t.pro_val_id,t.other_value
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="goodsSkuId != null  ">
+		 and t.goods_sku_id=#{goodsSkuId}
+	</if>
+	<if test="proId != null  ">
+		 and t.pro_id=#{proId}
+	</if>
+	<if test="proValId != null  ">
+		 and t.pro_val_id=#{proValId}
+	</if>
+	<if test="otherValue != null  and otherValue != '' ">
+		 and t.other_value=#{otherValue}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into gd_goods_sku_property(dmId,goods_sku_id,pro_id,pro_val_id,other_value)
+ values(#{dmId},#{goodsSkuId},#{proId},#{proValId},#{otherValue})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into gd_goods_sku_property(dmId,goods_sku_id,pro_id,pro_val_id,other_value) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.goodsSkuId},#{item.proId},#{item.proValId},#{item.otherValue}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from gd_goods_sku_property where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from gd_goods_sku_property where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from gd_goods_sku_property where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update gd_goods_sku_property set goods_sku_id=#{goodsSkuId},pro_id=#{proId},pro_val_id=#{proValId},other_value=#{otherValue} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update gd_goods_sku_property set 
+	<trim  suffixOverrides="," >
+	<if test="goodsSkuId != null  ">
+		goods_sku_id=#{goodsSkuId},
+	</if>
+	<if test="proId != null  ">
+		pro_id=#{proId},
+	</if>
+	<if test="proValId != null  ">
+		pro_val_id=#{proValId},
+	</if>
+	<if test="otherValue != null  and otherValue != '' ">
+		other_value=#{otherValue},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 商品SKU属性值 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from gd_goods_sku_property t where t.dmId = #{dmId}
+</select>
+
+<!-- 商品SKU属性值 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from gd_goods_sku_property t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 分页查询商品SKU属性值列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from gd_goods_sku_property t 
+	<include refid="Example_Where_Clause"/>
+	<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+		${mysqlQueryCondition}
+	</if>
+</select>
+
+<!-- 查询商品SKU属性值列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from gd_goods_sku_property t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+</mapper>

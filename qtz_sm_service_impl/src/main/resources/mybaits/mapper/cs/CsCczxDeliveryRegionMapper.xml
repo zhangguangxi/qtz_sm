@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.store.dao.CsCczxDeliveryRegionDao">
+    <!-- cs_cczx_delivery_region table all BaseResultMap-->
+    <resultMap id="BaseResultMap" type="com.qtz.sm.store.vo.CsCczxDeliveryRegion">
+        <result column="dmId"  property="dmId"/>
+        <result column="cczx_id"  property="cczxId"/>
+        <result column="province_id"  property="provinceId"/>
+        <result column="city_id"  property="cityId"/>
+        <result column="limit_type"  property="limitType"/>
+    </resultMap>
+    <!-- cs_cczx_delivery_region table all fields-->
+    <sql id="Base_Column_List" >
+        t.dmId,
+        t.cczx_id,
+        t.province_id,
+        t.city_id,
+        t.limit_type
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        <where>
+            <if test="dmId != null ">
+                and t.dmId=#{dmId}
+            </if>
+            <if test="cczxId != null ">
+                and t.cczx_id=#{cczxId}
+            </if>
+            <if test="provinceId != null ">
+                and t.province_id=#{provinceId}
+            </if>
+            <if test="cityId != null ">
+                and t.city_id=#{cityId}
+            </if>
+            <if test="limitType != null ">
+                and t.limit_type=#{limitType}
+            </if>
+        </where>
+    </sql>
+    <!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+    <insert id="addVo" parameterType="Object" >
+        INSERT INTO cs_cczx_delivery_region(dmId,cczx_id,province_id,city_id,limit_type)
+        VALUES(#{dmId},#{cczxId},#{provinceId},#{cityId},#{limitType})
+    </insert>
+    <!--批量插入记录 -->
+    <insert id="addList" parameterType="java.util.List">
+        INSERT INTO cs_cczx_delivery_region(dmId,cczx_id,province_id,city_id,limit_type) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.dmId},#{item.cczxId},#{item.provinceId},#{item.cityId},#{item.limitType})
+        </foreach>
+    </insert>
+    <!-- 删除记录 -->
+    <delete id="delId" parameterType="Object">
+        DELETE FROM cs_cczx_delivery_region WHERE dmId=#{dmId}
+    </delete>
+    <!--批量删除-->
+    <delete id="delIds" parameterType="java.lang.String">
+        DELETE FROM cs_cczx_delivery_region WHERE dmId IN
+        <foreach item="idItem" collection="array" open="(" separator="," close=")"> #{idItem}  </foreach>
+    </delete>
+    <!--批量删除-->
+    <delete id="delList" parameterType="java.util.List">
+        DELETE FROM cs_cczx_delivery_region WHERE dmId IN
+        <foreach item="idItem" collection="list" open="(" separator="," close=")"> #{idItem}  </foreach>
+    </delete>
+    <!-- 根据id，修改记录-->
+    <update id="modVo" parameterType="Object" >
+        UPDATE cs_cczx_delivery_region SET cczx_id=#{cczxId},province_id=#{provinceId},city_id=#{cityId},limit_type=#{limitType} WHERE dmId=#{dmId}
+    </update>
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="modVoNotNull" parameterType="Object" >
+        UPDATE cs_cczx_delivery_region
+        <set>
+            <if test="cczxId != null ">
+                cczx_id=#{cczxId},
+            </if>
+            <if test="provinceId != null ">
+                province_id=#{provinceId},
+            </if>
+            <if test="cityId != null ">
+                city_id=#{cityId},
+            </if>
+            <if test="limitType != null ">
+                limit_type=#{limitType}
+            </if>
+        </set>
+        WHERE dmId=#{dmId}
+    </update>
+    <!-- 根据id查询记录 -->
+    <select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+        SELECT <include refid="Base_Column_List" />
+        FROM cs_cczx_delivery_region t WHERE t.dmId=#{dmId}
+    </select>
+    <!-- 列表总数-->
+    <select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+        SELECT COUNT(1) FROM cs_cczx_delivery_region t
+        <include refid="Example_Where_Clause"/>
+    </select>
+    <!-- 分页查询列表 -->
+    <select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cs_cczx_delivery_region t
+        <include refid="Example_Where_Clause"/>
+        <if test="mysqlOrderCondition != null and mysqlOrderCondition != ''" >
+        ${mysqlOrderCondition}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+        SELECT <include refid="Base_Column_List"/> FROM cs_cczx_delivery_region t <include refid="Example_Where_Clause"/>
+    </select>
+
+</mapper>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>商品详情-便利店</title>
+		<meta name="description" content="胖胖生活,深圳市擎天柱有限公司" />
+		<!--设置宽度为设备的宽度，默认不缩放，不允许用户缩放（即禁止缩放），在网页加载时隐藏地址栏与导航栏（ios7.1新增）-->
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+		<!--忽略页面中的数字识别为电话号码、email识别-->
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<!-- 启用360浏览器的极速模式(webkit) -->
+		<meta name="renderer" content="webkit">
+		<!-- windows phone 点击无高光 -->
+		<meta name="msapplication-tap-highlight" content="no">
+		<!--强制页面在当前窗口中以独立页面显示，可以防止自己的网页被别人当作一个frame页调用；-->
+		<meta http-equiv="windows-Target" contect="_top">
+		<!-- 网页不会被缓存 -->
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="../css/convenienceStore/detail.css" />
+	</head>
+
+	<body>
+		<div class="swiper-container">
+			<div id="swiper-container" class="swiper-wrapper">
+			</div>
+			<!-- 如果需要分页器 -->
+			<div class="swiper-pagination"></div>
+		</div>
+		<div class="title">
+			<div class="title_div">
+				<div id="title" class="title_div_title"></div>
+				<div class="title_div_pirce">
+					<span>￥</span>
+					<span id="title_price" class="title_div_pirce_price"></span>
+					<span id="title_price_xiaoshudian"></span>
+				</div>
+			</div>
+		</div>
+
+		<div id="goodsOpt" class="goods-opt">
+			<!--<div class="goods-opt-type">
+				<p class="goods-opt-type-p">口味</p>
+				<div class="goods-opt-type-div">
+					<div class="cur">柠檬</div>
+					<div>菠萝</div>
+					<div>石榴</div>
+					<div>6种口味</div>
+				</div>
+			</div>
+			<div class="goods-opt-type">
+				<p class="goods-opt-type-p">容量</p>
+				<div class="goods-opt-type-div">
+					<div class="cur">1L*6</div>
+				</div>
+			</div>-->
+		</div>
+
+		<div class="content">
+			<div class="content-title">商品详情</div>
+			<div id="content-detail" class="content-detail"></div>
+		</div>
+		<script src="../js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script>
+			var wd = window.screen.width ? window.screen.width : $(window).width();
+			var hg = parseInt((10 / 16) * wd);
+			window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", onchangePM, false);
+
+			function setWH(obj) {
+				var thisHg = $(obj).height();
+				var thisWd = $(obj).width();
+				if (hg > thisHg) {
+					thisWd = (hg / thisHg) * thisWd;
+					thisHg = hg;
+					$(obj).css({
+						"width": thisWd + "px",
+						"height": thisHg + "px",
+						"margin-left": -((thisWd - wd) / 2) + "px"
+					});
+				}
+			}
+
+			function onchangePM() {
+				$(".swiper-container").css("height", hg + "px");
+			}
+		</script>
+		<script type="text/javascript">
+			var app = {};
+			var token = queryString("token"); //票据
+			var shopId = queryString("shopId"); //店铺ID
+			var shopGoodsId = queryString("shopGoodsId"); //店铺商品ID
+			app.regSwiper = function() {
+				var mySwiper = new Swiper('.swiper-container', {
+					direction: 'horizontal',
+					loop: true,
+					pagination: '.swiper-pagination',
+					autoplay: 5000,
+					autoplayDisableOnInteraction: false,
+				});
+			}
+			app.index = 0;
+			app.getGoodsOptHtml = function(data, text) {
+				var disable = false;
+				if (typeof text == "undefined")
+					text = "";
+				var html = [];
+				html.push('<div class="goods-opt-type" index="' + app.index + '">');
+				app.index++;
+				html.push('		<p class="goods-opt-type-p" proId="' + data.proId + '">' + data.name + '</p>');
+				html.push('		<div class="goods-opt-type-div">');
+				$.each(data.proDetails, function(i, d) {
+					//status 状态 0-未上架 1-已上架 
+					if (d.status) {
+						if (disable) {
+							html.push('<div onclick="onDataClick(this,' + d.status + ')" price="' + d.price + '"   proDetailId="' + d.proDetailId + '" subList=' + JSON.stringify(d.skuPro) + ' status="' + d.status + '">' + d.name + '</div>');
+						} else {
+							html.push('<div class="cur" onclick="onDataClick(this,' + d.status + ')" price="' + d.price + '" proDetailId="' + d.proDetailId + '" subList=' + JSON.stringify(d.skuPro) + ' status="' + d.status + '">' + d.name + '</div>');
+							if (typeof d.skuPro == "undefined") {
+								var num = d.price.toFixed(2).split(".");
+								$("#title_price").html(num[0]);
+								$("#title_price_xiaoshudian").html("." + num[1]);
+							}
+							disable = true;
+						}
+					} else
+						html.push('<div class="disable" onclick="onDataClick(this,' + d.status + ')" price="' + d.price + '"   proDetailId="' + d.proDetailId + '" subList=' + JSON.stringify(d.skuPro) + ' status="' + d.status + '">' + d.name + '</div>');
+					if (!disable) {
+						if (i == data.proDetails - 1) {
+							if (typeof d.skuPro == "undefined") {
+								var num = d.price.toFixed(2).split(".");
+								$("#title_price").html(num[0]);
+								$("#title_price_xiaoshudian").html("." + num[1]);
+							}
+						}
+					}
+				});
+				html.push('		</div>');
+				html.push('</div>');
+				text += html.join('');
+				if (typeof data.proDetails[0].skuPro != "undefined") {
+					return arguments.callee(data.proDetails[0].skuPro, text);
+				} else {
+					return text;
+				}
+			}
+			var onDataClick = function(obj, isClick) {
+				if (!isClick)
+					return false;
+				var par = $(obj).parent().parent();
+				$(obj).parent().find(".cur").removeClass("cur");
+				$(obj).addClass("cur");
+				$(".goods-opt-type").each(function() {
+					if ($(this).attr("index") > par.attr("index"))
+						$(this).remove();
+				});
+				if ($(obj).attr("sublist") != "undefined") {
+					$("#goodsOpt").append(app.getGoodsOptHtml(JSON.parse($(obj).attr("sublist"))));
+				} else {
+					console.log($(obj).attr("price"))
+					var num = Number($(obj).attr("price")).toFixed(2).split(".");
+					$("#title_price").html(num[0]);
+					$("#title_price_xiaoshudian").html("." + num[1]);
+				}
+			}
+			app.getData = function() {
+				isJSON ? app.dataUrl = "detail.json" : app.dataUrl = dataDomin + "/shop/goodsAPP/getGoodsDetails";
+				console.log(app.dataUrl);
+				var dataParanmet = {
+					"shopId": shopId,
+					"shopGoodsId": shopGoodsId
+				};
+				$.ajax({
+					type: "GET",
+					url: app.dataUrl,
+					dataType: "JSON",
+					headers: {
+						"token": token
+					},
+					data: dataParanmet,
+					success: function(data) {
+						var data = JSON.parse(data);
+						console.log(data);
+						if (data.code != "0")
+							console.log("数据");
+						$.each(data.data.picList, function(i, d) {
+							var swiperHtml = '<div class="swiper-slide"><img onload="setWH(this)" src="' + d.picUrl + '" /></div>';
+							$("#swiper-container").append(swiperHtml);
+						});
+						$("#title").html(data.data.name);
+						$("#content-detail").html(data.data.remark);
+						$("#goodsOpt").html(app.getGoodsOptHtml(data.data.skuPro));
+						app.regSwiper();
+					},
+					error: function(xhr, type) {
+						app.scrollController = true;
+					}
+				});
+			}
+			app.getData();
+		</script>
+
+	</body>
+
+</html>

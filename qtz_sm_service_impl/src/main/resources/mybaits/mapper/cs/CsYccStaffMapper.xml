@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.stc.dao.CsYccStaffDao">
+    <!-- cs_ycc_staff table all BaseResultMap-->
+    <resultMap id="BaseResultMap" type="com.qtz.sm.stc.vo.CsYccStaff">
+        <result column="dmId"  property="dmId"/>
+        <result column="ycc_id"  property="yccId"/>
+        <result column="name"  property="name"/>
+        <result column="pwd"  property="pwd"/>
+        <result column="phone"  property="phone"/>
+        <result column="account_type"  property="accountType"/>
+        <result column="status"  property="status"/>
+    </resultMap>
+    <!-- cs_ycc_staff table all fields-->
+    <sql id="Base_Column_List" >
+        t.dmId,
+        t.ycc_id,
+        t.name,
+        t.pwd,
+        t.phone,
+        t.account_type,
+        t.status
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        <where>
+            <if test="dmId != null ">
+                and t.dmId=#{dmId}
+            </if>
+            <if test="yccId != null ">
+                and t.ycc_id=#{yccId}
+            </if>
+            <if test="name != null and name != ''">
+                and t.name=#{name}
+            </if>
+            <if test="pwd != null and pwd != ''">
+                and t.pwd=#{pwd}
+            </if>
+            <if test="phone != null and phone != ''">
+                and t.phone=#{phone}
+            </if>
+            <if test="accountType != null ">
+                and t.account_type=#{accountType}
+            </if>
+            <if test="status != null ">
+                and t.status=#{status}
+            </if>
+        </where>
+    </sql>
+    <!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+    <insert id="addVo" parameterType="Object" >
+        INSERT INTO cs_ycc_staff(dmId,ycc_id,name,pwd,phone,account_type,status)
+        VALUES(#{dmId},#{yccId},#{name},#{pwd},#{phone},#{accountType},#{status})
+    </insert>
+    <!--批量插入记录 -->
+    <insert id="addList" parameterType="java.util.List">
+        INSERT INTO cs_ycc_staff(dmId,ycc_id,name,pwd,phone,account_type,status) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.dmId},#{item.yccId},#{item.name},#{item.pwd},#{item.phone},#{item.accountType},#{item.status})
+        </foreach>
+    </insert>
+    <!-- 删除记录 -->
+    <delete id="delId" parameterType="Object">
+        DELETE FROM cs_ycc_staff WHERE dmId=#{dmId}
+    </delete>
+    <!--批量删除-->
+    <delete id="delIds" parameterType="java.lang.String">
+        DELETE FROM cs_ycc_staff WHERE dmId IN
+        <foreach item="idItem" collection="array" open="(" separator="," close=")"> #{idItem}  </foreach>
+    </delete>
+    <!--批量删除-->
+    <delete id="delList" parameterType="java.util.List">
+        DELETE FROM cs_ycc_staff WHERE dmId IN
+        <foreach item="idItem" collection="list" open="(" separator="," close=")"> #{idItem}  </foreach>
+    </delete>
+    <!-- 根据id，修改记录-->
+    <update id="modVo" parameterType="Object" >
+        UPDATE cs_ycc_staff SET ycc_id=#{yccId},name=#{name},pwd=#{pwd},phone=#{phone},account_type=#{accountType},status=#{status} WHERE dmId=#{dmId}
+    </update>
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="modVoNotNull" parameterType="Object" >
+        UPDATE cs_ycc_staff
+        <set>
+            <if test="yccId != null ">
+                ycc_id=#{yccId},
+            </if>
+            <if test="name != null and name != ''">
+                name=#{name},
+            </if>
+            <if test="pwd != null and pwd != ''">
+                pwd=#{pwd},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone=#{phone},
+            </if>
+            <if test="accountType != null ">
+                account_type=#{accountType},
+            </if>
+            <if test="status != null ">
+                status=#{status}
+            </if>
+        </set>
+        WHERE dmId=#{dmId}
+    </update>
+    <!-- 根据id查询记录 -->
+    <select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+        SELECT <include refid="Base_Column_List" />
+        FROM cs_ycc_staff t WHERE t.dmId=#{dmId}
+    </select>
+    <!-- 列表总数-->
+    <select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+        SELECT COUNT(1) FROM cs_ycc_staff t
+        <include refid="Example_Where_Clause"/>
+    </select>
+    <!-- 分页查询列表 -->
+    <select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cs_ycc_staff t
+        <include refid="Example_Where_Clause"/>
+        <if test="mysqlOrderCondition != null and mysqlOrderCondition != ''" >
+        ${mysqlOrderCondition}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+        SELECT <include refid="Base_Column_List"/> FROM cs_ycc_staff t <include refid="Example_Where_Clause"/>
+    </select>
+
+</mapper>

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.wallet.dao.WtGysIncomeDao" >
+<!-- Result Map com.qtz.sm.wallet.vo.WtGysIncome-->
+<resultMap id="BaseResultMap" type="WtGysIncome" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="owner_id"  property="ownerId"/> 
+<result column="order_id"  property="orderId"/> 
+<result column="order_item_id"  property="orderItemId"/> 
+<result column="sku_id"  property="skuId"/> 
+<result column="price"  property="price"/> 
+<result column="total"  property="total"/> 
+<result column="amount"  property="amount"/> 
+<result column="create_time"  property="createTime"/> 
+<result column="pre_release_time"  property="preReleaseTime"/> 
+<result column="release_time"  property="releaseTime"/> 
+<result column="update_time"  property="updateTime"/> 
+<result column="stat"  property="stat"/> 
+<result column="goods_name"  property="goodsName"/> 
+<result column="sku_description"  property="skuDescription"/> 
+<result column="goods_id"  property="goodsId"/> 
+</resultMap>
+
+<sql id="Create_Time_Clause" >
+	<if test="startTime != null ">
+			and t.createTime &gt;=#{startTime}
+	</if>
+	<if test="endTime != null ">
+			and t.createTime &lt;#{endTime}
+	</if>
+</sql>
+<!-- wt_gys_income table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.owner_id,t.order_id,t.order_item_id,t.sku_id,t.price,t.total,t.amount,t.create_time,t.pre_release_time,t.release_time,t.update_time,t.stat,t.goods_name,t.sku_description,t.goods_id
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="ownerId != null  ">
+		 and t.owner_id=#{ownerId}
+	</if>
+	<if test="goodsId != null  ">
+		 and t.goods_id=#{goodsId}
+	</if>
+	<if test="orderId != null  ">
+		 and t.order_id=#{orderId}
+	</if>
+	<if test="orderItemId != null  ">
+		 and t.order_item_id=#{orderItemId}
+	</if>
+	<if test="skuId != null  ">
+		 and t.sku_id=#{skuId}
+	</if>
+	<if test="price != null  ">
+		 and t.price=#{price}
+	</if>
+	<if test="total != null  ">
+		 and t.total=#{total}
+	</if>
+	<if test="amount != null  ">
+		 and t.amount=#{amount}
+	</if>
+	<if test="createTime != null  ">
+		 and t.create_time=#{createTime}
+	</if>
+	<if test="releaseTime != null  ">
+		 and t.release_time=#{releaseTime}
+	</if>
+	<if test="updateTime != null  ">
+		 and t.update_time=#{updateTime}
+	</if>
+	<if test="stat != null  ">
+		 and t.stat=#{stat}
+	</if>
+	<if test="goodsName != null  and goodsName != '' ">
+		 and t.goods_name=#{goodsName}
+	</if>
+	<if test="skuDescription != null  and skuDescription != '' ">
+		 and t.sku_description=#{skuDescription}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into wt_gys_income(dmId,owner_id,order_id,order_item_id,sku_id,price,total,amount,create_time,pre_release_time,release_time,update_time,stat,goods_name,sku_description,goods_id)
+ values(#{dmId},#{ownerId},#{orderId},#{orderItemId},#{skuId},#{price},#{total},#{amount},#{createTime},#{preReleaseTime},#{releaseTime},#{updateTime},#{stat},#{goodsName},#{skuDescription},#{goodsId})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into wt_gys_income(dmId,owner_id,order_id,order_item_id,sku_id,price,total,amount,create_time,pre_release_time,release_time,update_time,stat,goods_name,sku_description) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.ownerId},#{item.orderId},#{item.orderItemId},#{item.skuId},#{item.price},#{item.total},#{item.amount},#{item.createTime},#{item.preReleaseTime},#{item.releaseTime},#{item.updateTime},#{item.stat},#{item.goodsName},#{item.skuDescription}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from wt_gys_income where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from wt_gys_income where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from wt_gys_income where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update wt_gys_income set owner_id=#{ownerId},order_id=#{orderId},order_item_id=#{orderItemId},sku_id=#{skuId},price=#{price},total=#{total},amount=#{amount},create_time=#{createTime},release_time=#{releaseTime},update_time=#{updateTime},stat=#{stat},goods_name=#{goodsName},sku_description=#{skuDescription} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update wt_gys_income set 
+	<trim  suffixOverrides="," >
+	<if test="ownerId != null  ">
+		owner_id=#{ownerId},
+	</if>
+	<if test="orderId != null  ">
+		order_id=#{orderId},
+	</if>
+	<if test="orderItemId != null  ">
+		order_item_id=#{orderItemId},
+	</if>
+	<if test="skuId != null  ">
+		sku_id=#{skuId},
+	</if>
+	<if test="price != null  ">
+		price=#{price},
+	</if>
+	<if test="total != null  ">
+		total=#{total},
+	</if>
+	<if test="amount != null  ">
+		amount=#{amount},
+	</if>
+	<if test="createTime != null  ">
+		create_time=#{createTime},
+	</if>
+	<if test="releaseTime != null  ">
+		release_time=#{releaseTime},
+	</if>
+	<if test="updateTime != null  ">
+		update_time=#{updateTime},
+	</if>
+	<if test="stat != null  ">
+		stat=#{stat},
+	</if>
+	<if test="goodsName != null  and goodsName != '' ">
+		goods_name=#{goodsName},
+	</if>
+	<if test="skuDescription != null  and skuDescription != '' ">
+		sku_description=#{skuDescription},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 供应商应收货款流水 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from wt_gys_income t where t.dmId = #{dmId}
+</select>
+
+<!-- 供应商应收货款流水 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from wt_gys_income t 
+	<include refid="Example_Where_Clause"/>
+	<include refid="Create_Time_Clause"/>
+</select>
+
+<!-- 分页查询供应商应收货款流水列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from wt_gys_income t 
+	<include refid="Example_Where_Clause"/>
+	<include refid="Create_Time_Clause"/>
+	
+    <if test="mysqlQueryCondition != null and mysqlQueryCondition != ''" >
+       ${mysqlQueryCondition}
+    </if>
+</select>
+
+<!-- 查询供应商应收货款流水列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from wt_gys_income t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 
+	1、将待解冻的收入流水状态设为结算运行中
+	stat:状态:0对账完成,1冻结中,2退货,3结算运行中,4结算失败...
+ -->
+<update id="modIncomeStatToSettling" parameterType="Object">
+	update wt_gys_income t
+	<set>
+		t.stat = 3,
+		t.update_time = #{updateTime}
+	</set>
+	where 
+		t.release_time &lt; #{releaseTime}
+		and t.stat = 1
+</update>
+
+<!-- 
+	2、分组查询每个收款人该解冻的收入货款总额
+	stat:状态:0对账完成,1冻结中,2退货,3结算运行中...
+ -->
+<select id="queryTotalAmountGroup" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+		owner_id, sum(amount) as amount
+	from wt_gys_income t 
+	where 
+		t.stat = 3
+	group by owner_id
+</select>
+	
+<!--
+	3、将超市结算完成的对账结算完成的收入流水状态设为完成，以及将对应的结算记录Id记录
+	stat:状态:0对账完成,1冻结中,2退货,3结算运行中...
+	
+ -->
+<update id="modIncomeStat" parameterType="Object">
+	update wt_gys_income t
+	<set>
+		t.stat = #{stat},	
+		<if test="incomeSettlementId != null ">
+			t.income_settlement_id=#{incomeSettlementId},
+		</if>
+		t.update_time = #{updateTime}
+	</set>
+	where 
+		t.stat = 3
+		<if test="ownerId != null">
+		and t.owner_id = #{ownerId}
+		</if>
+</update>
+
+<!--
+	修改结算周期， 对冻结状态的收入，如果结算周期变更则通知修改结算时间
+	
+	修正后的解冻时间 = 收入插入时间 + 结算周期
+ -->
+<update id="modSettlementTime" parameterType="Object">
+	update wt_gys_income t
+	<set>
+		t.release_time = t.create_time + #{releaseTime},
+		t.update_time = #{updateTime}
+	</set>
+	<where>
+		<if test="ownerId != null">
+			t.owner_id = #{ownerId}
+		</if>
+		and t.stat in (1,4)
+	</where>
+</update>
+
+</mapper>

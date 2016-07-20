@@ -1,0 +1,514 @@
+{
+  "code": 0,
+  "data": {
+    "basicPropConfigs": [
+      {
+        "code": "",
+        "dataType": 0,
+        "dmId": 1706207905449984,
+        "goodsTypeId": 1706207905417216,
+        "isKey": 0,
+        "isSale": 1,
+        "name": "²¼ÁÏ",
+        "options": [
+          {
+            "dmId": 1706207905449985,
+            "goodsTypeProId": 1706207905449984,
+            "status": 0,
+            "val": "ÑÇÂé"
+          },
+          {
+            "dmId": 1706207905449986,
+            "goodsTypeProId": 1706207905449984,
+            "status": 0,
+            "val": "Ñ©·Ä"
+          },
+          {
+            "dmId": 1706207905466368,
+            "goodsTypeProId": 1706207905449984,
+            "status": 0,
+            "val": "´¿ÃÞ"
+          }
+        ],
+        "required": 0,
+        "status": 0,
+        "vals": []
+      },
+      {
+        "code": "",
+        "dataType": 0,
+        "dmId": 1706207905466369,
+        "goodsTypeId": 1706207905417216,
+        "isKey": 0,
+        "isSale": 1,
+        "name": "ÉÏÊÐÄê·Ý¼¾½Ú",
+        "options": [
+          {
+            "dmId": 1706207905466370,
+            "goodsTypeProId": 1706207905466369,
+            "status": 0,
+            "val": "´ºÌì"
+          },
+          {
+            "dmId": 1706207905466371,
+            "goodsTypeProId": 1706207905466369,
+            "status": 0,
+            "val": "ÏÄÌì"
+          },
+          {
+            "dmId": 1706207905466372,
+            "goodsTypeProId": 1706207905466369,
+            "status": 0,
+            "val": "ÇïÌì"
+          },
+          {
+            "dmId": 1706207905466373,
+            "goodsTypeProId": 1706207905466369,
+            "status": 0,
+            "val": "¶¬Ìì"
+          }
+        ],
+        "required": 0,
+        "status": 0,
+        "vals": []
+      },
+      {
+        "code": "",
+        "dataType": 1,
+        "dmId": 1706203436484608,
+        "goodsTypeId": 1706203434649600,
+        "isKey": 0,
+        "isSale": 1,
+        "name": "²úµØ",
+        "options": [
+          {
+            "dmId": 1706203436484609,
+            "goodsTypeProId": 1706203436484608,
+            "status": 0,
+            "val": "Å·ÃÀ"
+          },
+          {
+            "dmId": 1706203436484610,
+            "goodsTypeProId": 1706203436484608,
+            "status": 0,
+            "val": "ÖÐ¹ú"
+          },
+          {
+            "dmId": 1706203436484611,
+            "goodsTypeProId": 1706203436484608,
+            "status": 0,
+            "val": "ÈÕº«"
+          }
+        ],
+        "required": 0,
+        "status": 0,
+        "vals": []
+      }
+    ],
+    "basicProps": [],
+    "basicPropsAdapter": [
+      {
+        "propId": 1706207905449984,
+        "propIdName": "²¼ÁÏ",
+        "values": [
+          {
+            "dmId": 1720457836873728,
+            "otherKey": "",
+            "otherValue": "",
+            "propValId": 1706207905466368,
+            "propValName": "´¿ÃÞ"
+          }
+        ]
+      },
+      {
+        "propId": 1706207905466369,
+        "propIdName": "ÉÏÊÐÄê·Ý¼¾½Ú",
+        "values": [
+          {
+            "dmId": 1720457836906496,
+            "otherKey": "",
+            "otherValue": "",
+            "propValId": 1706207905466373,
+            "propValName": "¶¬Ìì"
+          }
+        ]
+      },
+      {
+        "propId": 1706203436484608,
+        "propIdName": "²úµØ",
+        "values": [
+          {
+            "dmId": 1720457836922880,
+            "otherKey": "",
+            "otherValue": "",
+            "propValId": 1706203436484610,
+            "propValName": "ÖÐ¹ú"
+          },
+          {
+            "dmId": 1720457836939264,
+            "otherKey": "",
+            "otherValue": "",
+            "propValId": 1706203436484611,
+            "propValName": "ÈÕº«"
+          }
+        ]
+      }
+    ],
+    "basicPropsCustom":[
+      {
+        "dmId": 1720457836955648,
+        "otherKey": "ÃæÁÏ",
+        "otherValue": "¸ßµµ"
+      },{
+        "dmId": 1720457836972032,
+        "otherKey": "Æ·ÖÊ",
+        "otherValue": "³¬¸ßµµ"
+      }
+
+    ],
+    "descImgs": [
+      {
+        "imgId": 1720457837250560,
+        "url": "http://img02.yw01.com/201606/24/02b7f71da41a4eae964bc248f5d09d7e.cardb.png"
+      },
+      {
+        "imgId": 1720457837266944,
+        "url": "http://img02.yw01.com/201606/24/d1cdf3aeda0b43c1b94b1429d71e6daf.carda.png"
+      },
+      {
+        "imgId": 1720457837299712,
+        "url": "http://img02.yw01.com/201606/24/2a81e158cd624cf0a5661b8043a4e6fd.bk-pa.jpg"
+      }
+    ],
+    "extraInfo": null,
+    "goods": {
+      "brandsId": 4,
+      "brandsName": "Î÷Óö",
+      "desc": "ÆßÆ¥ÀÇTÐô<p>\n\t\t\t\t\t\t\t</p>",
+      "goodsCode": "qpl-ff-tx-1",
+      "goodsId": 1720457836824576,
+      "goodsName": "ÆßÆ¥ÀÇ·ç·¶TÐô",
+      "goodsStatus": 0,
+      "goodsStausDesc": "ÉÐÎ´ÉóºË",
+      "goodsTypeId": 1706210782693376,
+      "goodsTypeName": "·þ×°,ÄÐ×°,TÐô"
+    },
+    "imgs": [
+      {
+        "imgId": 1720457837217792,
+        "url": "http://img02.yw01.com/201606/24/75b60efc30f641d386c79638a3d3dd5f.carda.png"
+      }
+    ],
+    "skuPropConfigs": [
+      {
+        "code": "",
+        "dataType": 0,
+        "dmId": 1706203437615104,
+        "goodsTypeId": 1706203434649600,
+        "isKey": 1,
+        "isSale": 0,
+        "name": "ÑÕÉ«",
+        "options": [
+          {
+            "dmId": 1706203437615105,
+            "goodsTypeProId": 1706203437615104,
+            "status": 0,
+            "val": "ºÚÉ«"
+          },
+          {
+            "dmId": 1706203437615106,
+            "goodsTypeProId": 1706203437615104,
+            "status": 0,
+            "val": "À¶°×"
+          },
+          {
+            "dmId": 1706203437615107,
+            "goodsTypeProId": 1706203437615104,
+            "status": 0,
+            "val": "µ­ºì"
+          }
+        ],
+        "required": 0,
+        "status": 0,
+        "vals": []
+      },
+      {
+        "code": "",
+        "dataType": 0,
+        "dmId": 1706203437615108,
+        "goodsTypeId": 1706203434649600,
+        "isKey": 1,
+        "isSale": 0,
+        "name": "³ß´ç",
+        "options": [
+          {
+            "dmId": 1706203437615109,
+            "goodsTypeProId": 1706203437615108,
+            "status": 0,
+            "val": "S"
+          },
+          {
+            "dmId": 1706203437615110,
+            "goodsTypeProId": 1706203437615108,
+            "status": 0,
+            "val": "M"
+          },
+          {
+            "dmId": 1706203437615111,
+            "goodsTypeProId": 1706203437615108,
+            "status": 0,
+            "val": "L"
+          }
+        ],
+        "required": 0,
+        "status": 0,
+        "vals": []
+      }
+    ],
+    "skus": [
+      {
+        "price": 15,
+        "skuId": 1720457837004800,
+        "skuProps": [
+          {
+            "dmId": 1706203437615105,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615104,
+            "propIdName": "ÑÕÉ«",
+            "propValId": 1706203437615105,
+            "propValName": "ºÚÉ«"
+          },
+          {
+            "dmId": 1706203437615109,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615108,
+            "propIdName": "³ß´ç",
+            "propValId": 1706203437615109,
+            "propValName": "S"
+          }
+        ],
+        "stock": 10,
+        "valueIdStr": "1706203437615105,1706203437615109",
+        "valueNameStr": "ºÚÉ«,S"
+      },
+      {
+        "price": 0,
+        "skuId": -1,
+        "skuProps": [
+          {
+            "dmId": 1706203437615105,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615104,
+            "propIdName": "ÑÕÉ«",
+            "propValId": 1706203437615105,
+            "propValName": "ºÚÉ«"
+          },
+          {
+            "dmId": 1706203437615110,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615108,
+            "propIdName": "³ß´ç",
+            "propValId": 1706203437615110,
+            "propValName": "M"
+          }
+        ],
+        "stock": 0,
+        "valueIdStr": "1706203437615105,1706203437615110",
+        "valueNameStr": "ºÚÉ«,M"
+      },
+      {
+        "price": 0,
+        "skuId": -1,
+        "skuProps": [
+          {
+            "dmId": 1706203437615105,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615104,
+            "propIdName": "ÑÕÉ«",
+            "propValId": 1706203437615105,
+            "propValName": "ºÚÉ«"
+          },
+          {
+            "dmId": 1706203437615111,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615108,
+            "propIdName": "³ß´ç",
+            "propValId": 1706203437615111,
+            "propValName": "L"
+          }
+        ],
+        "stock": 0,
+        "valueIdStr": "1706203437615105,1706203437615111",
+        "valueNameStr": "ºÚÉ«,L"
+      },
+      {
+        "price": 0,
+        "skuId": -1,
+        "skuProps": [
+          {
+            "dmId": 1706203437615106,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615104,
+            "propIdName": "ÑÕÉ«",
+            "propValId": 1706203437615106,
+            "propValName": "À¶°×"
+          },
+          {
+            "dmId": 1706203437615109,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615108,
+            "propIdName": "³ß´ç",
+            "propValId": 1706203437615109,
+            "propValName": "S"
+          }
+        ],
+        "stock": 0,
+        "valueIdStr": "1706203437615106,1706203437615109",
+        "valueNameStr": "À¶°×,S"
+      },
+      {
+        "price": 10,
+        "skuId": 1720457837135872,
+        "skuProps": [
+          {
+            "dmId": 1706203437615106,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615104,
+            "propIdName": "ÑÕÉ«",
+            "propValId": 1706203437615106,
+            "propValName": "À¶°×"
+          },
+          {
+            "dmId": 1706203437615110,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615108,
+            "propIdName": "³ß´ç",
+            "propValId": 1706203437615110,
+            "propValName": "M"
+          }
+        ],
+        "stock": 5,
+        "valueIdStr": "1706203437615106,1706203437615110",
+        "valueNameStr": "À¶°×,M"
+      },
+      {
+        "price": 0,
+        "skuId": -1,
+        "skuProps": [
+          {
+            "dmId": 1706203437615106,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615104,
+            "propIdName": "ÑÕÉ«",
+            "propValId": 1706203437615106,
+            "propValName": "À¶°×"
+          },
+          {
+            "dmId": 1706203437615111,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615108,
+            "propIdName": "³ß´ç",
+            "propValId": 1706203437615111,
+            "propValName": "L"
+          }
+        ],
+        "stock": 0,
+        "valueIdStr": "1706203437615106,1706203437615111",
+        "valueNameStr": "À¶°×,L"
+      },
+      {
+        "price": 0,
+        "skuId": -1,
+        "skuProps": [
+          {
+            "dmId": 1706203437615107,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615104,
+            "propIdName": "ÑÕÉ«",
+            "propValId": 1706203437615107,
+            "propValName": "µ­ºì"
+          },
+          {
+            "dmId": 1706203437615109,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615108,
+            "propIdName": "³ß´ç",
+            "propValId": 1706203437615109,
+            "propValName": "S"
+          }
+        ],
+        "stock": 0,
+        "valueIdStr": "1706203437615107,1706203437615109",
+        "valueNameStr": "µ­ºì,S"
+      },
+      {
+        "price": 0,
+        "skuId": -1,
+        "skuProps": [
+          {
+            "dmId": 1706203437615107,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615104,
+            "propIdName": "ÑÕÉ«",
+            "propValId": 1706203437615107,
+            "propValName": "µ­ºì"
+          },
+          {
+            "dmId": 1706203437615110,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615108,
+            "propIdName": "³ß´ç",
+            "propValId": 1706203437615110,
+            "propValName": "M"
+          }
+        ],
+        "stock": 0,
+        "valueIdStr": "1706203437615107,1706203437615110",
+        "valueNameStr": "µ­ºì,M"
+      },
+      {
+        "price": 0,
+        "skuId": -1,
+        "skuProps": [
+          {
+            "dmId": 1706203437615107,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615104,
+            "propIdName": "ÑÕÉ«",
+            "propValId": 1706203437615107,
+            "propValName": "µ­ºì"
+          },
+          {
+            "dmId": 1706203437615111,
+            "otherKey": "",
+            "otherValue": "",
+            "propId": 1706203437615108,
+            "propIdName": "³ß´ç",
+            "propValId": 1706203437615111,
+            "propValName": "L"
+          }
+        ],
+        "stock": 0,
+        "valueIdStr": "1706203437615107,1706203437615111",
+        "valueNameStr": "µ­ºì,L"
+      }
+    ]
+  }
+}

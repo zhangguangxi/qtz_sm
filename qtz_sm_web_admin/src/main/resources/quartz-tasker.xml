@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
+	                      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	                      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd         
+	                      http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd         
+	                      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+ 	<bean id="wtBldglIncomeJob" class="com.qtz.sm.wallet.job.WtBldglIncomeJob" />
+ 	<bean id="wtBldIncomeJob" class="com.qtz.sm.wallet.job.WtBldIncomeJob" />
+ 	<bean id="wtCczxIncomeJob" class="com.qtz.sm.wallet.job.WtCczxIncomeJob" />
+ 	<bean id="wtCsIncomeJob" class="com.qtz.sm.wallet.job.WtCsIncomeJob" />
+ 	<bean id="wtGylIncomeJob" class="com.qtz.sm.wallet.job.WtGylIncomeJob" />
+ 	<bean id="wtGysIncomeJob" class="com.qtz.sm.wallet.job.WtGysIncomeJob" />
+ 	<bean id="wtYccBldglIncomeJob" class="com.qtz.sm.wallet.job.WtYccBldglIncomeJob" />
+ 	<bean id="wtYccCsIncomeJob" class="com.qtz.sm.wallet.job.WtYccCsIncomeJob" />
+ 	
+ 	<!-- 便利店管理公司收入结算定时任务 =========== -->
+ 	<!-- 注册定时器 -->
+ 	<bean id="wtBldglIncomeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+ 		<!-- 指定要执行的定时任务类，这里是weekRrefreshOrderStateTasker -->
+ 		<property name="targetObject">
+ 			<ref bean="wtBldglIncomeJob"/>
+ 		</property>
+ 		<!-- 指定定时器任务类要执行的方法名称这里是execute -->
+ 		<property name="targetMethod">
+ 			<value>run</value>
+ 		</property>
+ 	</bean>
+ 	<!-- 配置定时器任务的调试器 -->
+ 	<bean id="wtBldglIncomeJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+ 		<!-- 声明要运行的实体 -->
+ 		<property name="jobDetail">
+ 			<ref bean="wtBldglIncomeJobDetail"/>
+ 		</property>
+ 		<!--  设置运行时间  0 */1 * * * ?   0 0 */3 * * ? -->
+ 		<!--  [秒] [分] [小时] [日] [月] [周] [年] -->
+ 		<property name="cronExpression">
+ 			<value>* */5 * * * ?</value>
+ 		</property>
+ 	</bean>
+ 	<!-- ======================end====================== -->
+ 	
+  	<!-- 便利店收入结算定时任务 ================ -->
+ 	<!-- 注册定时器 -->
+ 	<bean id="wtBldIncomeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+ 		<!-- 指定要执行的定时任务类，这里是weekRrefreshOrderStateTasker -->
+ 		<property name="targetObject">
+ 			<ref bean="wtBldIncomeJob"/>
+ 		</property>
+ 		<!-- 指定定时器任务类要执行的方法名称这里是execute -->
+ 		<property name="targetMethod">
+ 			<value>run</value>
+ 		</property>
+ 	</bean>
+ 	<!-- 配置定时器任务的调试器 -->
+ 	<bean id="wtBldIncomeJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+ 		<!-- 声明要运行的实体 -->
+ 		<property name="jobDetail">
+ 			<ref bean="wtBldIncomeJobDetail"/>
+ 		</property>
+ 		<!--  设置运行时间  0 */1 * * * ?   0 0 */3 * * ? -->
+ 		<!--  [秒] [分] [小时] [日] [月] [周] [年] -->
+ 		<property name="cronExpression">
+ 			<value>* */5 * * * ?</value>
+ 		</property>
+ 	</bean>
+ 	<!-- ======================end====================== -->
+ 	
+ 	 <!-- 仓储中心收入结算定时任务 ============= -->
+ 	<!-- 注册定时器 -->
+ 	<bean id="wtCczxIncomeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+ 		<!-- 指定要执行的定时任务类，这里是weekRrefreshOrderStateTasker -->
+ 		<property name="targetObject">
+ 			<ref bean="wtCczxIncomeJob"/>
+ 		</property>
+ 		<!-- 指定定时器任务类要执行的方法名称这里是execute -->
+ 		<property name="targetMethod">
+ 			<value>run</value>
+ 		</property>
+ 	</bean>
+ 	<!-- 配置定时器任务的调试器 -->
+ 	<bean id="wtCczxIncomeJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+ 		<!-- 声明要运行的实体 -->
+ 		<property name="jobDetail">
+ 			<ref bean="wtCczxIncomeJobDetail"/>
+ 		</property>
+ 		<!--  设置运行时间  0 */1 * * * ?   0 0 */3 * * ? -->
+ 		<!--  [秒] [分] [小时] [日] [月] [周] [年] -->
+ 		<property name="cronExpression">
+ 			<value>* */5 * * * ?</value>
+ 		</property>
+ 	</bean>
+ 	<!-- ======================end====================== -->
+ 	
+ 	 <!-- 超市收入结算定时任务 =============== -->
+ 	<!-- 注册定时器 -->
+ 	<bean id="wtCsIncomeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+ 		<!-- 指定要执行的定时任务类，这里是weekRrefreshOrderStateTasker -->
+ 		<property name="targetObject">
+ 			<ref bean="wtCsIncomeJob"/>
+ 		</property>
+ 		<!-- 指定定时器任务类要执行的方法名称这里是execute -->
+ 		<property name="targetMethod">
+ 			<value>run</value>
+ 		</property>
+ 	</bean>
+ 	<!-- 配置定时器任务的调试器 -->
+ 	<bean id="wtCsIncomeJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+ 		<!-- 声明要运行的实体 -->
+ 		<property name="jobDetail">
+ 			<ref bean="wtCsIncomeJobDetail"/>
+ 		</property>
+ 		<!--  设置运行时间  0 */1 * * * ?   0 0 */3 * * ? -->
+ 		<!--  [秒] [分] [小时] [日] [月] [周] [年] -->
+ 		<property name="cronExpression">
+ 			<value>* */5 * * * ?</value>
+ 		</property>
+ 	</bean>
+ 	<!-- ======================end====================== -->
+ 	
+ 	 <!-- 供应链收入结算定时任务 =========== -->
+ 	<!-- 注册定时器 -->
+ 	<bean id="wtGylIncomeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+ 		<!-- 指定要执行的定时任务类，这里是weekRrefreshOrderStateTasker -->
+ 		<property name="targetObject">
+ 			<ref bean="wtGylIncomeJob"/>
+ 		</property>
+ 		<!-- 指定定时器任务类要执行的方法名称这里是execute -->
+ 		<property name="targetMethod">
+ 			<value>run</value>
+ 		</property>
+ 	</bean>
+ 	<!-- 配置定时器任务的调试器 -->
+ 	<bean id="wtGylIncomeJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+ 		<!-- 声明要运行的实体 -->
+ 		<property name="jobDetail">
+ 			<ref bean="wtGylIncomeJobDetail"/>
+ 		</property>
+ 		<!--  设置运行时间  0 */1 * * * ?   0 0 */3 * * ? -->
+ 		<!--  [秒] [分] [小时] [日] [月] [周] [年] -->
+ 		<property name="cronExpression">
+ 			<value>* */5 * * * ?</value>
+ 		</property>
+ 	</bean>
+ 	<!-- ======================end====================== -->
+ 	
+ 	<!-- 供应商收入结算定时任务============= -->
+ 	<!-- 注册定时器 -->
+ 	<bean id="wtGysIncomeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+ 		<!-- 指定要执行的定时任务类，这里是weekRrefreshOrderStateTasker -->
+ 		<property name="targetObject">
+ 			<ref bean="wtGysIncomeJob"/>
+ 		</property>
+ 		<!-- 指定定时器任务类要执行的方法名称这里是execute -->
+ 		<property name="targetMethod">
+ 			<value>run</value>
+ 		</property>
+ 	</bean>
+ 	<!-- 配置定时器任务的调试器 -->
+ 	<bean id="wtGysIncomeJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+ 		<!-- 声明要运行的实体 -->
+ 		<property name="jobDetail">
+ 			<ref bean="wtGysIncomeJobDetail"/>
+ 		</property>
+ 		<!--  设置运行时间  0 */1 * * * ?   0 0 */3 * * ? -->
+ 		<!--  [秒] [分] [小时] [日] [月] [周] [年] -->
+ 		<property name="cronExpression">
+ 			<value>* */5 * * * ?</value>
+ 		</property>
+ 	</bean>
+ 	<!-- ======================end====================== -->
+ 	
+ 	<!-- 云仓储管理公司从便利店管理公司获取的收入结算定时任务 ======= -->
+ 	<!-- 注册定时器 -->
+ 	<bean id="wtYccBldglIncomeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+ 		<!-- 指定要执行的定时任务类，这里是weekRrefreshOrderStateTasker -->
+ 		<property name="targetObject">
+ 			<ref bean="wtYccBldglIncomeJob"/>
+ 		</property>
+ 		<!-- 指定定时器任务类要执行的方法名称这里是execute -->
+ 		<property name="targetMethod">
+ 			<value>run</value>
+ 		</property>
+ 	</bean>
+ 	<!-- 配置定时器任务的调试器 -->
+ 	<bean id="wtYccBldglIncomeJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+ 		<!-- 声明要运行的实体 -->
+ 		<property name="jobDetail">
+ 			<ref bean="wtYccBldglIncomeJobDetail"/>
+ 		</property>
+ 		<!--  设置运行时间  0 */1 * * * ?   0 0 */3 * * ? -->
+ 		<!--  [秒] [分] [小时] [日] [月] [周] [年] -->
+ 		<property name="cronExpression">
+ 			<value>* */5 * * * ?</value>
+ 		</property>
+ 	</bean>
+ 	<!-- ======================end====================== -->
+ 	
+ 	<!-- 云仓储从超市获得的收入结算定时任务 ========= -->
+ 	<!-- 注册定时器 -->
+ 	<bean id="wtYccCsIncomeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+ 		<!-- 指定要执行的定时任务类，这里是weekRrefreshOrderStateTasker -->
+ 		<property name="targetObject">
+ 			<ref bean="wtYccCsIncomeJob"/>
+ 		</property>
+ 		<!-- 指定定时器任务类要执行的方法名称这里是execute -->
+ 		<property name="targetMethod">
+ 			<value>run</value>
+ 		</property>
+ 	</bean>
+ 	<!-- 配置定时器任务的调试器 -->
+ 	<bean id="wtYccCsIncomeJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+ 		<!-- 声明要运行的实体 -->
+ 		<property name="jobDetail">
+ 			<ref bean="wtYccCsIncomeJobDetail"/>
+ 		</property>
+ 		<!--  设置运行时间  0 */1 * * * ?   0 0 */3 * * ? -->
+ 		<!--  [秒] [分] [小时] [日] [月] [周] [年] -->
+ 		<property name="cronExpression">
+ 			<value>* */5 * * * ?</value>
+ 		</property>
+ 	</bean>
+ 	<!-- ======================end====================== -->
+ 
+ 	<!-- ==========================END================== -->
+ 	
+ 	
+ 	<!-- 注册监听器 -->
+	<bean id="registerQuartz" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<!-- 注册定时器实体集合 -->
+		<property name="triggers">
+			<list>
+<!-- 				<ref bean="wtBldglIncomeJobTrigger"/> -->
+<!-- 				<ref bean="wtBldIncomeJobTrigger"/> -->
+<!-- 				<ref bean="wtCczxIncomeJobTrigger"/> -->
+<!-- 				<ref bean="wtCsIncomeJobTrigger"/> -->
+<!-- 				<ref bean="wtGylIncomeJobTrigger"/> -->
+<!-- 				<ref bean="wtGysIncomeJobTrigger"/> -->
+<!-- 				<ref bean="wtYccBldglIncomeJobTrigger"/> -->
+<!-- 				<ref bean="wtYccCsIncomeJobTrigger"/> -->
+			</list>
+		</property>	
+	</bean>
+	
+</beans>
+
+<!-- 暂时不用 -->

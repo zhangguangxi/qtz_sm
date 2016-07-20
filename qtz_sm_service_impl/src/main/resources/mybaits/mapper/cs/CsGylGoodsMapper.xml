@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.scm.dao.CsGylGoodsDao">
+
+	<!-- 供应链公司   商品管理   商品审核分页以及商品库分页   映射 -->
+	<resultMap id="BaseResultMap" type="com.qtz.sm.scm.vo.CsGylGoodsVo">
+		<result column="goodsId" property="goodsId" />
+		<result column="goodsName" property="goodsName" />
+		<result column="code" property="code" />
+
+        
+	</resultMap>
+	
+	<resultMap id="ListResultMap" type="com.qtz.sm.scm.vo.CsGylGoodsVo">
+		<result column="goodsId" property="goodsId" />
+		<result column="goodsName" property="goodsName" />
+		<result column="code" property="code" />
+		
+		<collection property="csGylGoodsVoInfo" ofType="com.qtz.sm.scm.vo.CsGylGoodsVo">
+			<result column="skuId" property="skuId" />
+			<result column="str" property="str" />
+			<result column="price" property="price" />
+	        <result column="gylRate"  property="gylRate"/>
+	        <result column="cczxInPrice"  property="cczxInPrice"/>
+	        <result column="onsaleTime"  property="onsaleTime"/>       
+	        <result column="goodsSkuRateDmId"  property="goodsSkuRateDmId"/>  
+	        
+	        <result column="goodsSource"  property="goodsSource"/>  
+		</collection>
+	</resultMap>
+	
+		<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		<where>
+			<if test="dmId != null  ">
+				and gysinfo.dmId =#{dmId} 
+			</if>
+			<if test="isOnsale != null">
+				and gysstock.is_onsale=#{isOnsale}
+			</if>
+			<!-- 商品来源 -->
+			<if test="goodsSource != null  and  goodsSource !=''  ">
+				and gysinfo.`name` like CONCAT('%',#{goodsSource},'%')  
+			</if>
+			<!-- 商品名称 -->
+			<if test="goodsName != null  and  goodsName !=''  ">
+				and t1.NAME like CONCAT('%',#{goodsName},'%') 
+			</if>
+			<!-- 商品编号 -->
+			<if test="code != null   and  code !=''   ">
+				and t1.`code`  like CONCAT('%', #{code},'%') 
+			</if>
+			<!-- 属性编号 -->
+			<if test="skuId != null  ">
+				and t3.dmId  like CONCAT('%', #{skuId},'%')  
+			</if>
+			 
+			<!-- 根据供货价 start -->
+			<if test="priceStart != null  and priceStart != 0   ">
+				 <![CDATA[ and gysstock.price >= #{priceStart}  ]]>
+			</if>
+			<if test="priceEnd != null and priceEnd != 0 ">
+				 <![CDATA[ and gysstock.price <= #{priceEnd} ]]>
+			</if>
+			<!-- 根据供货价 end -->
+			<!-- 根据 仓储中心进货价 start -->
+			<if test="cczxInPriceStart != null and cczxInPriceStart != 0 ">
+				 <![CDATA[ and  ifnull(fn_get_price(1,t3.dmId),0) >= #{cczxInPriceStart}  ]]>
+			</if>
+			<if test="cczxInPriceEnd != null and cczxInPriceEnd != 0 ">
+				 <![CDATA[ and  ifnull(fn_get_price(1,t3.dmId),0) <= #{cczxInPriceEnd} ]]>
+			</if>
+			<!-- 根据 仓储中心进货价 end -->
+			<!-- 上架时间 start -->
+			<if test="onsaleTimeStart != null  ">	
+				 <![CDATA[ and gysstock.onsale_time >=  #{onsaleTimeStart}   ]]>
+			</if>
+			<if test="onsaleTimeEnd != null  ">		  
+				 <![CDATA[ and gysstock.onsale_time <=  #{onsaleTimeEnd}   ]]>
+			</if>
+			<!-- 上架时间 end -->
+		</where>
+	</sql>
+	<!-- 供应链公司   商品管理   商品审核分页以及商品库分页      分页 -->
+	<select id="queryList" resultMap="BaseResultMap" parameterType="Object">
+		select
+			t1.dmId AS goodsId,
+			t1. NAME AS goodsName,
+			t1.`code` as code
+
+		from
+		gd_goods AS t1
+	    <include refid="page_Where_Clause" />
+		<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+			${mysqlQueryCondition}
+		</if>
+	</select>
+	<select id="queryCount" resultType="java.lang.Integer" parameterType="Object">
+		SELECT
+			count(1) 
+		FROM
+		gd_goods AS t1
+		<include refid="page_Where_Clause" />
+	</select>
+	<sql id="page_Where_Clause">
+		<where>
+			<if test="goodsIds != null  ">
+				and t1.dmId in
+				<foreach collection="goodsIds" index="index" item="item"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</sql>
+	
+	
+	<select id="findList" resultMap="ListResultMap" parameterType="Object">
+		select
+			t1.dmId AS goodsId,
+			t1. NAME AS goodsName,
+			t1.`code` as code,
+			t3.dmId AS skuId,
+			fn_goods_get_sku_props_str (t3.dmId) AS str,		
+			gysstock.price,
+			ifnull(fn_get_rate(0,t3.dmId),0) as gylRate,
+		    ifnull(fn_get_price(1,t3.dmId),0) as cczxInPrice,
+			gysinfo.`name` as goodsSource,
+			gysstock.onsale_time as onsaleTime,
+			gsr.dmId as goodsSkuRateDmId
+
+		from
+		gd_goods AS t1
+		left join `gd_goods_type` t2 ON t2.dmId = t1.goods_type_id
+		left join `gd_goods_sku` t3 ON t3.goods_id = t1.dmId
+		left join gd_goods_sku_rate gsr on gsr.sku_id=t3.dmId
+		left join cs_gys_stock gysstock on gysstock.sku_id=t3.dmId
+	  	left join cs_gys_info gysinfo on gysinfo.dmId=gysstock.gys_id
+	    <include refid="Example_Where_Clause" />
+	order by t1.dmId  desc
+    </select>
+</mapper>

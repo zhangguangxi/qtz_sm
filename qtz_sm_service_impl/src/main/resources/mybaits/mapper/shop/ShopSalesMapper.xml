@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.shop.dao.ShopSalesDao" >
+<!-- Result Map com.qtz.sm.shop.vo.ShopSales-->
+<resultMap id="BaseResultMap" type="ShopSales" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="shop_id"  property="shopId"/> 
+<result column="shop_goods_id"  property="shopGoodsId"/> 
+<result column="shop_sku_id"  property="shopSkuId"/> 
+<result column="sales"  property="sales"/> 
+<result column="update_time"  property="updateTime"/> 
+	
+</resultMap>
+
+<!-- shop_sales table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.shop_id,t.shop_goods_id,t.shop_sku_id,t.sales,t.update_time
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="shopId != null  ">
+		 and t.shop_id=#{shopId}
+	</if>
+	<if test="shopGoodsId != null  ">
+		 and t.shop_goods_id=#{shopGoodsId}
+	</if>
+	<if test="shopSkuId != null  ">
+		 and t.shop_sku_id=#{shopSkuId}
+	</if>
+	<if test="sales != null  ">
+		 and t.sales=#{sales}
+	</if>
+	<if test="updateTime != null  ">
+		 and t.update_time=#{updateTime}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into shop_sales(dmId,shop_id,shop_goods_id,shop_sku_id,sales,update_time)
+ values(#{dmId},#{shopId},#{shopGoodsId},#{shopSkuId},#{sales},#{updateTime})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into shop_sales(dmId,shop_id,shop_goods_id,shop_sku_id,sales,update_time) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.shopId},#{item.shopGoodsId},#{item.shopSkuId},#{item.sales},#{item.updateTime}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from shop_sales where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from shop_sales where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from shop_sales where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update shop_sales set shop_id=#{shopId},shop_goods_id=#{shopGoodsId},shop_sku_id=#{shopSkuId},sales=#{sales},update_time=#{updateTime} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update shop_sales set 
+	<trim  suffixOverrides="," >
+	<if test="shopId != null  ">
+		shop_id=#{shopId},
+	</if>
+	<if test="shopGoodsId != null  ">
+		shop_goods_id=#{shopGoodsId},
+	</if>
+	<if test="shopSkuId != null  ">
+		shop_sku_id=#{shopSkuId},
+	</if>
+	<if test="sales != null  ">
+		sales=#{sales},
+	</if>
+	<if test="updateTime != null  ">
+		update_time=#{updateTime},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 店铺销量信息 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from shop_sales t where t.dmId = #{dmId}
+</select>
+
+<!-- 店铺销量信息 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from shop_sales t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 分页查询店铺销量信息列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from shop_sales t 
+	<include refid="Example_Where_Clause"/>
+	<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+		${mysqlQueryCondition}
+	</if>
+</select>
+
+<!-- 查询店铺销量信息列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from shop_sales t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 统计销量信息列-->
+<select id="countSales" resultType="java.lang.Integer"  parameterType="Object">
+	select SUM(sales) sales
+		from shop_sales t
+	<include refid="Example_Where_Clause"/>  
+</select>
+
+</mapper>

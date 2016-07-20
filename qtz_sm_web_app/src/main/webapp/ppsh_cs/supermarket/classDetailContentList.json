@@ -1,0 +1,74 @@
+{
+    "code": 0,
+    "data": {
+        "endIndex": 1,
+        "indexs": [
+            1
+        ],
+        "length": 6,
+        "list": [
+            {
+                "dmId": 1,
+                "goodsName": "GXG夏季纯色POLO杉xx",
+                "pictureUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg",
+                "price": 131.1
+            }, {
+                "dmId": 1,
+                "goodsName": "GXG夏季纯色POLO杉xx",
+                "pictureUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg",
+                "price": 131.1
+            }, {
+                "dmId": 1,
+                "goodsName": "GXG夏季纯色POLO杉xx",
+                "pictureUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg",
+                "price": 131.1
+            }, {
+                "dmId": 1,
+                "goodsName": "GXG夏季纯色POLO杉xx",
+                "pictureUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg",
+                "price": 131.1
+            }, {
+                "dmId": 1,
+                "goodsName": "GXG夏季纯色POLO杉xx",
+                "pictureUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg",
+                "price": 131.1
+            }, {
+                "dmId": 1,
+                "goodsName": "GXG夏季纯色POLO杉xx",
+                "pictureUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg",
+                "price": 131.1
+            }, {
+                "dmId": 1,
+                "goodsName": "GXG夏季纯色POLO杉xx",
+                "pictureUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg",
+                "price": 131.1
+            }, {
+                "dmId": 1,
+                "goodsName": "GXG夏季纯色POLO杉xx",
+                "pictureUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg",
+                "price": 131.1
+            }, {
+                "dmId": 1,
+                "goodsName": "GXG夏季纯色POLO杉xx",
+                "pictureUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg",
+                "price": 131.1
+            }, {
+                "dmId": 1,
+                "goodsName": "GXG夏季纯色POLO杉xx",
+                "pictureUrl": "http://img4.imgtn.bdimg.com/it/u=30278726,4122329696&fm=116&gp=0.jpg",
+                "price": 131.1
+            }
+        ],
+        "mysqlOrderCondition": " limit 0,10",
+        "mysqlQueryCondition": " limit 0,10",
+        "nowPage": 1,
+        "orderCondition": false,
+        "orderDirection": false,
+        "pageCount": 1,
+        "pageOffset": 0,
+        "pageSize": 10,
+        "pageTail": 1,
+        "rowCount": 1,
+        "startIndex": 1
+    }
+}

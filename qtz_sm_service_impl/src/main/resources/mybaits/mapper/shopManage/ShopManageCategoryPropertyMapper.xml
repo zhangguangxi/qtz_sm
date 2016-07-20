@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.shopManage.dao.ShopManageCategoryPropertyDao" >
+<!-- Result Map com.qtz.sm.shopManage.vo.ShopManageCategoryProperty-->
+<resultMap id="BaseResultMap" type="ShopManageCategoryProperty" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="shop_manage_category_id"  property="shopManageCategoryId"/> 
+<result column="shop_id"  property="shopId"/> 
+	
+</resultMap>
+
+<!-- shop_manage_category_property table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.shop_manage_category_id,t.shop_id
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="shopManageCategoryId != null  ">
+		 and t.shop_manage_category_id=#{shopManageCategoryId}
+	</if>
+	<if test="shopId != null  ">
+		 and t.shop_id=#{shopId}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into shop_manage_category_property(dmId,shop_manage_category_id,shop_id)
+ values(#{dmId},#{shopManageCategoryId},#{shopId})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into shop_manage_category_property(dmId,shop_manage_category_id,shop_id) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.shopManageCategoryId},#{item.shopId}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from shop_manage_category_property where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from shop_manage_category_property where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from shop_manage_category_property where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据便利店ID删除记录 -->
+<delete id="delByShopId" parameterType="Object">
+	delete from shop_manage_category_property where shop_id=#{shopId}
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update shop_manage_category_property set shop_manage_category_id=#{shopManageCategoryId},shop_id=#{shopId} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update shop_manage_category_property set 
+	<trim  suffixOverrides="," >
+	<if test="shopManageCategoryId != null  ">
+		shop_manage_category_id=#{shopManageCategoryId},
+	</if>
+	<if test="shopId != null  ">
+		shop_id=#{shopId},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 便利店管理公司运营分类与便利店关联 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from shop_manage_category_property t where t.dmId = #{dmId}
+</select>
+
+<!-- 便利店管理公司运营分类与便利店关联 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from shop_manage_category_property t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 分页查询便利店管理公司运营分类与便利店关联列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from shop_manage_category_property t 
+	<include refid="Example_Where_Clause"/>
+	
+	
+	
+	
+	<if test="orderCondition != null and orderCondition != ''" >
+      ${orderCondition}
+    </if>
+    <if test="mysqlQueryCondition != null and mysqlQueryCondition != ''" >
+       ${mysqlQueryCondition}
+    </if>
+</select>
+
+<!-- 查询便利店管理公司运营分类与便利店关联列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from shop_manage_category_property t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+</mapper>

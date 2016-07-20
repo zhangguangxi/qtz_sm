@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.wallet.dao.WtBldWithdrawalsDao" >
+<!-- Result Map com.qtz.sm.wallet.vo.WtBldWithdrawals-->
+<resultMap id="BaseResultMap" type="WtBldWithdrawals" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="applyId"  property="applyId"/> 
+<result column="applyName"  property="applyName"/> 
+<result column="applyPhone"  property="applyPhone"/> 
+<result column="userId"  property="userId"/> 
+<result column="applyTime"  property="applyTime"/> 
+<result column="sourceType"  property="sourceType"/> 
+<result column="amount"  property="amount"/> 
+<result column="astatus"  property="astatus"/> 
+<result column="createBy"  property="createBy"/> 
+<result column="createOn"  property="createOn"/> 
+<result column="dealBy"  property="dealBy"/> 
+<result column="dealOn"  property="dealOn"/> 
+<result column="dealRemark"  property="dealRemark"/> 
+<result column="updateBy"  property="updateBy"/> 
+<result column="updateOn"  property="updateOn"/> 
+<result column="statisticsDate"  property="statisticsDate"/> 
+<result column="releaseDate"  property="releaseDate"/> 
+<result column="arrival_amount"  property="arrivalAmount"/> 
+<result column="tax_dedu_rate"  property="taxDeduRate"/> 
+<result column="tax_dedu_money"  property="taxDeduMoney"/> 
+<result column="source_id"  property="sourceId"/> 
+<result column="bankcard_id"  property="bankcardId"/> 
+<result column="bankName"  property="bankName"/> 
+<result column="bankNo"  property="bankNo"/> 
+<result column="bank_address"  property="bankAddress"/> 
+<result column="cardholderName"  property="cardholderName"/> 
+<result column="account_type"  property="accountType"/> 
+	
+</resultMap>
+
+<sql id="Create_On_Clause" >
+	<if test="startCreateOn != null ">
+			and t.createOn &gt;=#{startCreateOn}
+	</if>
+	<if test="endCreateOn != null ">
+			and t.createOn &lt;#{endCreateOn}
+	</if>
+</sql>
+
+<!-- wt_bld_withdrawals table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.applyId,t.applyName,t.applyPhone,t.userId,t.applyTime,t.sourceType,t.amount,t.astatus,t.createBy,t.createOn,t.dealBy,t.dealOn,t.dealRemark,t.updateBy,t.updateOn,t.statisticsDate,t.releaseDate,t.arrival_amount,t.tax_dedu_rate,t.tax_dedu_money,t.source_id,t.bankcard_id,t.bankName,t.bankNo,t.bank_address,t.cardholderName,t.account_type
+</sql>
+
+<sql id="Base_Column_takeList" >
+	 t.dmId,t.amount,t.dealBy,t.dealOn,t.dealRemark
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="applyId != null  ">
+		 and t.applyId=#{applyId}
+	</if>
+	<if test="applyName != null  and applyName != '' ">
+		 and t.applyName=#{applyName}
+	</if>
+	<if test="applyPhone != null  and applyPhone != '' ">
+		 and t.applyPhone=#{applyPhone}
+	</if>
+	<if test="userId != null  ">
+		 and t.userId=#{userId}
+	</if>
+	<if test="applyTime != null  ">
+		 and t.applyTime=#{applyTime}
+	</if>
+	<if test="sourceType != null  ">
+		 and t.sourceType=#{sourceType}
+	</if>
+	<if test="amount != null  ">
+		 and t.amount=#{amount}
+	</if>
+	<if test="astatus != null  ">
+		 and t.astatus=#{astatus}
+	</if>
+	<if test="createBy != null  and createBy != '' ">
+		 and t.createBy=#{createBy}
+	</if>
+	<if test="createOn != null  ">
+		 and t.createOn=#{createOn}
+	</if>
+	<if test="dealBy != null  ">
+		 and t.dealBy=#{dealBy}
+	</if>
+	<if test="dealOn != null  ">
+		 and t.dealOn=#{dealOn}
+	</if>
+	<if test="dealRemark != null  and dealRemark != '' ">
+		 and t.dealRemark=#{dealRemark}
+	</if>
+	<if test="updateBy != null  ">
+		 and t.updateBy=#{updateBy}
+	</if>
+	<if test="updateOn != null  ">
+		 and t.updateOn=#{updateOn}
+	</if>
+	<if test="statisticsDate != null  ">
+		 and t.statisticsDate=#{statisticsDate}
+	</if>
+	<if test="releaseDate != null  ">
+		 and t.releaseDate=#{releaseDate}
+	</if>
+	<if test="arrivalAmount != null  ">
+		 and t.arrival_amount=#{arrivalAmount}
+	</if>
+	<if test="taxDeduRate != null  ">
+		 and t.tax_dedu_rate=#{taxDeduRate}
+	</if>
+	<if test="taxDeduMoney != null  ">
+		 and t.tax_dedu_money=#{taxDeduMoney}
+	</if>
+	<if test="sourceId != null  ">
+		 and t.source_id=#{sourceId}
+	</if>
+	<if test="bankcardId != null  ">
+		 and t.bankcard_id=#{bankcardId}
+	</if>
+	<if test="bankName != null  and bankName != '' ">
+		 and t.bankName=#{bankName}
+	</if>
+	<if test="bankNo != null  and bankNo != '' ">
+		 and t.bankNo=#{bankNo}
+	</if>
+	<if test="bankAddress != null  and bankAddress != '' ">
+		 and t.bank_address=#{bankAddress}
+	</if>
+	<if test="cardholderName != null  and cardholderName != '' ">
+		 and t.cardholderName=#{cardholderName}
+	</if>
+	<if test="accountType != null  ">
+		 and t.account_type=#{accountType}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into wt_bld_withdrawals(dmId,applyId,applyName,applyPhone,userId,applyTime,sourceType,amount,astatus,createBy,createOn,dealBy,dealOn,dealRemark,updateBy,updateOn,statisticsDate,releaseDate,arrival_amount,tax_dedu_rate,tax_dedu_money,source_id,bankcard_id,bankName,bankNo,bank_address,cardholderName,account_type)
+ values(#{dmId},#{applyId},#{applyName},#{applyPhone},#{userId},#{applyTime},#{sourceType},#{amount},#{astatus},#{createBy},#{createOn},#{dealBy},#{dealOn},#{dealRemark},#{updateBy},#{updateOn},#{statisticsDate},#{releaseDate},#{arrivalAmount},#{taxDeduRate},#{taxDeduMoney},#{sourceId},#{bankcardId},#{bankName},#{bankNo},#{bankAddress},#{cardholderName},#{accountType})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into wt_bld_withdrawals(dmId,applyId,applyName,applyPhone,userId,applyTime,sourceType,amount,astatus,createBy,createOn,dealBy,dealOn,dealRemark,updateBy,updateOn,statisticsDate,releaseDate,arrival_amount,tax_dedu_rate,tax_dedu_money,source_id,bankcard_id,bankName,bankNo,bank_address,cardholderName,account_type) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.applyId},#{item.applyName},#{item.applyPhone},#{item.userId},#{item.applyTime},#{item.sourceType},#{item.amount},#{item.astatus},#{item.createBy},#{item.createOn},#{item.dealBy},#{item.dealOn},#{item.dealRemark},#{item.updateBy},#{item.updateOn},#{item.statisticsDate},#{item.releaseDate},#{item.arrivalAmount},#{item.taxDeduRate},#{item.taxDeduMoney},#{item.sourceId},#{item.bankcardId},#{item.bankName},#{item.bankNo},#{item.bankAddress},#{item.cardholderName},#{item.accountType}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from wt_bld_withdrawals where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from wt_bld_withdrawals where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from wt_bld_withdrawals where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update wt_bld_withdrawals set applyId=#{applyId},applyName=#{applyName},applyPhone=#{applyPhone},userId=#{userId},applyTime=#{applyTime},sourceType=#{sourceType},amount=#{amount},astatus=#{astatus},createBy=#{createBy},createOn=#{createOn},dealBy=#{dealBy},dealOn=#{dealOn},dealRemark=#{dealRemark},updateBy=#{updateBy},updateOn=#{updateOn},statisticsDate=#{statisticsDate},releaseDate=#{releaseDate},arrival_amount=#{arrivalAmount},tax_dedu_rate=#{taxDeduRate},tax_dedu_money=#{taxDeduMoney},source_id=#{sourceId},bankcard_id=#{bankcardId},bankName=#{bankName},bankNo=#{bankNo},bank_address=#{bankAddress},cardholderName=#{cardholderName},account_type=#{accountType} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update wt_bld_withdrawals set 
+	<trim  suffixOverrides="," >
+	<if test="applyId != null  ">
+		applyId=#{applyId},
+	</if>
+	<if test="applyName != null  and applyName != '' ">
+		applyName=#{applyName},
+	</if>
+	<if test="applyPhone != null  and applyPhone != '' ">
+		applyPhone=#{applyPhone},
+	</if>
+	<if test="userId != null  ">
+		userId=#{userId},
+	</if>
+	<if test="applyTime != null  ">
+		applyTime=#{applyTime},
+	</if>
+	<if test="sourceType != null  ">
+		sourceType=#{sourceType},
+	</if>
+	<if test="amount != null  ">
+		amount=#{amount},
+	</if>
+	<if test="astatus != null  ">
+		astatus=#{astatus},
+	</if>
+	<if test="createBy != null  and createBy != '' ">
+		createBy=#{createBy},
+	</if>
+	<if test="createOn != null  ">
+		createOn=#{createOn},
+	</if>
+	<if test="dealBy != null  ">
+		dealBy=#{dealBy},
+	</if>
+	<if test="dealOn != null  ">
+		dealOn=#{dealOn},
+	</if>
+	<if test="dealRemark != null  and dealRemark != '' ">
+		dealRemark=#{dealRemark},
+	</if>
+	<if test="updateBy != null  ">
+		updateBy=#{updateBy},
+	</if>
+	<if test="updateOn != null  ">
+		updateOn=#{updateOn},
+	</if>
+	<if test="statisticsDate != null  ">
+		statisticsDate=#{statisticsDate},
+	</if>
+	<if test="releaseDate != null  ">
+		releaseDate=#{releaseDate},
+	</if>
+	<if test="arrivalAmount != null  ">
+		arrival_amount=#{arrivalAmount},
+	</if>
+	<if test="taxDeduRate != null  ">
+		tax_dedu_rate=#{taxDeduRate},
+	</if>
+	<if test="taxDeduMoney != null  ">
+		tax_dedu_money=#{taxDeduMoney},
+	</if>
+	<if test="sourceId != null  ">
+		source_id=#{sourceId},
+	</if>
+	<if test="bankcardId != null  ">
+		bankcard_id=#{bankcardId},
+	</if>
+	<if test="bankName != null  and bankName != '' ">
+		bankName=#{bankName},
+	</if>
+	<if test="bankNo != null  and bankNo != '' ">
+		bankNo=#{bankNo},
+	</if>
+	<if test="bankAddress != null  and bankAddress != '' ">
+		bank_address=#{bankAddress},
+	</if>
+	<if test="cardholderName != null  and cardholderName != '' ">
+		cardholderName=#{cardholderName},
+	</if>
+	<if test="accountType != null  ">
+		account_type=#{accountType},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 便利店提现流水 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from wt_bld_withdrawals t where t.dmId = #{dmId}
+</select>
+
+<!-- 便利店提现流水 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from wt_bld_withdrawals t 
+	<include refid="Example_Where_Clause"/>
+	<include refid="Create_On_Clause"/>
+	
+</select>
+
+<!-- 分页查询便利店提现流水列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from wt_bld_withdrawals t 
+	<include refid="Example_Where_Clause"/>
+	<include refid="Create_On_Clause"/>
+	
+    <if test="mysqlQueryCondition != null and mysqlQueryCondition != ''" >
+       ${mysqlQueryCondition}
+    </if>
+</select>
+
+<select id="queryAuditCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (select t.* from wt_bld_withdrawals t where not exists (select * from wt_bld_withdrawals where source_id=t.source_id and astatus>t.astatus)) t
+	<include refid="Example_Where_Clause"/>
+	<include refid="Create_On_Clause"/>
+</select>
+
+
+<select id="queryAuditList" resultMap="BaseResultMap"  parameterType="Object">
+	select  
+	<include refid="Base_Column_List"/>
+    from (select * from wt_bld_withdrawals t where not exists (select * from wt_bld_withdrawals where source_id=t.source_id and astatus>t.astatus)) t
+	<include refid="Example_Where_Clause"/>
+	<include refid="Create_On_Clause"/>
+
+    <if test="mysqlQueryCondition != null and mysqlQueryCondition != ''" >
+       ${mysqlQueryCondition}
+    </if>
+</select>
+
+<!-- 查询便利店提现流水列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from wt_bld_withdrawals t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 查询便利店提现操作记录列表 -->
+<select id="findOperateTakeList" resultMap="BaseResultMap"  parameterType="java.lang.Long">
+	select 
+	<include refid="Base_Column_takeList"/>
+	from wt_bld_withdrawals t  where t.source_id=#{sourceId}
+</select>
+
+</mapper>

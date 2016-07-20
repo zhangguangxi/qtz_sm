@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.supp.dao.CsGysAddressDao">
+    <!-- cs_gys_address table all BaseResultMap-->
+    <resultMap id="BaseResultMap" type="com.qtz.sm.supp.vo.CsGysAddress">
+        <result column="dmId"  property="dmId"/>
+        <result column="gys_id"  property="gysId"/>
+        <result column="province_id"  property="provinceId"/>
+        <result column="city_id"  property="cityId"/>
+        <result column="county_id"  property="countyId"/>
+        <result column="town_id"  property="townId"/>
+        <result column="address"  property="address"/>
+        <result column="full_address"  property="fullAddress"/>
+    </resultMap>
+    <!-- cs_gys_address table all fields-->
+    <sql id="Base_Column_List" >
+        t.dmId,
+        t.gys_id,
+        t.province_id,
+        t.city_id,
+        t.county_id,
+        t.town_id,
+        t.address,
+        t.full_address
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        <where>
+            <if test="dmId != null ">
+                and t.dmId=#{dmId}
+            </if>
+            <if test="gysId != null ">
+                and t.gys_id=#{gysId}
+            </if>
+            <if test="provinceId != null ">
+                and t.province_id=#{provinceId}
+            </if>
+            <if test="cityId != null ">
+                and t.city_id=#{cityId}
+            </if>
+            <if test="countyId != null ">
+                and t.county_id=#{countyId}
+            </if>
+            <if test="townId != null ">
+                and t.town_id=#{townId}
+            </if>
+            <if test="address != null and address != ''">
+                and t.address=#{address}
+            </if>
+            <if test="fullAddress != null and fullAddress != ''">
+                and t.full_address=#{fullAddress}
+            </if>
+        </where>
+    </sql>
+    <!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+    <insert id="addVo" parameterType="Object" >
+        INSERT INTO cs_gys_address(dmId,gys_id,province_id,city_id,county_id,town_id,address,full_address)
+        VALUES(#{dmId},#{gysId},#{provinceId},#{cityId},#{countyId},#{townId},#{address},#{fullAddress})
+    </insert>
+    <!--批量插入记录 -->
+    <insert id="addList" parameterType="java.util.List">
+        INSERT INTO cs_gys_address(dmId,gys_id,province_id,city_id,county_id,town_id,address,full_address) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.dmId},#{item.gysId},#{item.provinceId},#{item.cityId},#{item.countyId},#{item.townId},#{item.address},#{item.fullAddress})
+        </foreach>
+    </insert>
+    <!-- 删除记录 -->
+    <delete id="delId" parameterType="Object">
+        DELETE FROM cs_gys_address WHERE dmId=#{dmId}
+    </delete>
+    <!--批量删除-->
+    <delete id="delIds" parameterType="java.lang.String">
+        DELETE FROM cs_gys_address WHERE dmId IN
+        <foreach item="idItem" collection="array" open="(" separator="," close=")"> #{idItem}  </foreach>
+    </delete>
+    <!--批量删除-->
+    <delete id="delList" parameterType="java.util.List">
+        DELETE FROM cs_gys_address WHERE dmId IN
+        <foreach item="idItem" collection="list" open="(" separator="," close=")"> #{idItem}  </foreach>
+    </delete>
+    <!-- 根据id，修改记录-->
+    <update id="modVo" parameterType="Object" >
+        UPDATE cs_gys_address SET gys_id=#{gysId},province_id=#{provinceId},city_id=#{cityId},county_id=#{countyId},town_id=#{townId},address=#{address},full_address=#{fullAddress} WHERE dmId=#{dmId}
+    </update>
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="modVoNotNull" parameterType="Object" >
+        UPDATE cs_gys_address
+        <set>
+            <if test="gysId != null ">
+                gys_id=#{gysId},
+            </if>
+            <if test="provinceId != null ">
+                province_id=#{provinceId},
+            </if>
+            <if test="cityId != null ">
+                city_id=#{cityId},
+            </if>
+            <if test="countyId != null ">
+                county_id=#{countyId},
+            </if>
+            <if test="townId != null ">
+                town_id=#{townId},
+            </if>
+            <if test="address != null and address != ''">
+                address=#{address},
+            </if>
+            <if test="fullAddress != null and fullAddress != ''">
+                full_address=#{fullAddress}
+            </if>
+        </set>
+        WHERE dmId=#{dmId}
+    </update>
+    <!-- 根据id查询记录 -->
+    <select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+        SELECT <include refid="Base_Column_List" />
+        FROM cs_gys_address t WHERE t.dmId=#{dmId}
+    </select>
+    <!-- 列表总数-->
+    <select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+        SELECT COUNT(1) FROM cs_gys_address t
+        <include refid="Example_Where_Clause"/>
+    </select>
+    <!-- 分页查询列表 -->
+    <select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+        SELECT <include refid="Base_Column_List"/>
+        FROM cs_gys_address t
+        <include refid="Example_Where_Clause"/>
+        <if test="mysqlOrderCondition != null and mysqlOrderCondition != ''" >
+        ${mysqlOrderCondition}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+        SELECT <include refid="Base_Column_List"/> FROM cs_gys_address t <include refid="Example_Where_Clause"/>
+    </select>
+
+</mapper>

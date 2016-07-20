@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.batch.dao.CsBatGoodsDao" >
+<!-- Result Map com.qtz.sm.batch.vo.CsBatGoods-->
+<resultMap id="BaseResultMap" type="com.qtz.sm.batch.vo.CsBatGoods" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="order_id"  property="orderId"/> 
+<result column="goods_id"  property="goodsId"/> 
+	
+</resultMap>
+
+<!-- cs_bat_goods table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.order_id,t.goods_id
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="orderId != null  ">
+		 and t.order_id=#{orderId}
+	</if>
+	<if test="goodsId != null  ">
+		 and t.goods_id=#{goodsId}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into cs_bat_goods(dmId,order_id,goods_id)
+ values(#{dmId},#{orderId},#{goodsId})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into cs_bat_goods(dmId,order_id,goods_id) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.orderId},#{item.goodsId}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from cs_bat_goods where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from cs_bat_goods where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from cs_bat_goods where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update cs_bat_goods set order_id=#{orderId},goods_id=#{goodsId} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update cs_bat_goods set 
+	<trim  suffixOverrides="," >
+	<if test="orderId != null  ">
+		order_id=#{orderId},
+	</if>
+	<if test="goodsId != null  ">
+		goods_id=#{goodsId},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 批发单与商品关系 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from cs_bat_goods t where t.dmId = #{dmId}
+</select>
+
+<!-- 批发单与商品关系 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from cs_bat_goods t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 分页查询批发单与商品关系列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from cs_bat_goods t 
+	<include refid="Example_Where_Clause"/>
+	<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+		${mysqlQueryCondition}
+	</if>
+</select>
+
+<!-- 查询批发单与商品关系列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from cs_bat_goods t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<resultMap id="CsBatGoodsResultMap" type="com.qtz.sm.batch.vo.CsBatGoods" >
+	 <result column="dmId"  property="dmId"/> 
+	<result column="order_id"  property="orderId"/> 
+	<result column="goods_id"  property="goodsId"/> 
+	<result column="name"  property="name"/> 
+</resultMap>
+<!-- 根据批发单ID获取商品详情信息 -->
+<select id="getGoodsInfoByOrderId" resultMap="CsBatGoodsResultMap"  parameterType="Object">
+	select t.*,gg.name
+		from cs_bat_goods t ,gd_goods gg
+	where t.order_id = #{orderId}
+		AND t.`goods_id` = gg.`dmId`
+</select>
+</mapper>

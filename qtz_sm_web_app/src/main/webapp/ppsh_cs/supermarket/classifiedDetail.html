@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>分类详情-胖胖超市</title>
+		<meta name="description" content="胖胖生活,深圳市擎天柱有限公司" />
+		<!--设置宽度为设备的宽度，默认不缩放，不允许用户缩放（即禁止缩放），在网页加载时隐藏地址栏与导航栏（ios7.1新增）-->
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+		<!--忽略页面中的数字识别为电话号码、email识别-->
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<!-- 启用360浏览器的极速模式(webkit) -->
+		<meta name="renderer" content="webkit">
+		<!-- windows phone 点击无高光 -->
+		<meta name="msapplication-tap-highlight" content="no">
+		<!--强制页面在当前窗口中以独立页面显示，可以防止自己的网页被别人当作一个frame页调用；-->
+		<meta http-equiv="windows-Target" contect="_top">
+		<!-- 网页不会被缓存 -->
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+		<link rel="stylesheet" type="text/css" href="../css/widget/navigator/navigator.css" />
+		<link rel="stylesheet" type="text/css" href="../css/widget/navigator/navigator.iscroll.css" />
+		<link rel="stylesheet" type="text/css" href="../css/common.css" />
+		<link rel="stylesheet" type="text/css" href="../css/supermarket/index.css" />
+		<script src="../js/zepto.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../js/common.js"></script>
+		<script>
+			var wd = window.screen.width ? window.screen.width : $(window).width();
+			var hg = parseInt((10 / 16) * wd);
+			var minWd = (wd - 24 - 4) / 2;
+			window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", onchangePM, false);
+
+			function setGoodsWH(obj) {
+				var thisHg = $(obj).height();
+				var thisWd = $(obj).width();
+				if (minWd > thisHg) {
+					thisWd = (minWd / thisHg) * thisWd;
+					thisHg = minWd;
+					$(obj).css({
+						"width": thisWd + "px",
+						"height": thisHg + "px",
+						"margin-left": -((thisWd - minWd) / 2) + "px"
+					});
+				}
+			}
+
+			function onchangePM() {
+				setTimeout(function() {
+					wd = window.screen.width ? window.screen.width : $(window).width();
+					hg = parseInt((10 / 16) * wd);
+					minWd = (wd - 24 - 4) / 2;
+					//动态拼接到url上面 
+					$(".goods-img").css({
+						"width": minWd + "px",
+						"height": minWd + "px"
+					});
+					//动态拼接到url上面 
+					setAllGoodsWH();
+				}, 100);
+			}
+
+			function setAllGoodsWH() {
+				$(".goods-img img").each(function() {
+					var obj = this;
+					var thisHg = $(obj).height();
+					var thisWd = $(obj).width();
+					if (minWd > thisHg) {
+						thisWd = (minWd / thisHg) * thisWd;
+						thisHg = minWd;
+						$(obj).css({
+							"width": thisWd + "px",
+							"height": thisHg + "px",
+							"margin-left": -((thisWd - minWd) / 2) + "px"
+						});
+					}
+				});
+			}
+
+			function regClick() {
+				$(".goods-add").each(function() {
+					$(this).on("touchend", function() {
+						var cut = $(this).parent().children(".goods-cut");
+						var num = $(this).parent().children(".goods-num");
+						num.text(Number(num.text()) + 1);
+						num.show();
+						cut.show();
+					});
+				});
+				$(".goods-cut").each(function() {
+					$(this).on("touchend", function() {
+						var cut = $(this).parent().children(".goods-cut");
+						var num = $(this).parent().children(".goods-num");
+						if ((num.text() - 1) == 0) {
+							num.text(0);
+							num.hide();
+							cut.hide();
+						} else
+							num.text(num.text() - 1);
+					});
+				});
+			}
+		</script>
+
+	</head>
+
+	<body>
+		<div id="nav-smartSetup" class="nav-smartSetup">
+			<ul>
+
+			</ul>
+		</div>
+		<ul class="goods-list mt56" id="goodsList">
+
+			<!--<li>
+				<div class="goods-info">
+					<div class="goods-info-div">
+						<div class="goods-img">
+							<img src="../img/demo1.png" onload="setGoodsWH(this)" alt="商品" />
+						</div>
+						<p>零食大礼包膨化食品薯条点心面休闲点心......</p>
+						<div class="goods-info-price">
+							<span>￥</span>
+							<span class="goods-info-price-center">1898</span>
+							<span>.00</span>
+						</div>
+						<div class="goods-addAndCut">
+							<div class="goods-cut"></div>
+							<div class="goods-num">0</div>
+							<div class="goods-add"></div>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="goods-info">
+					<div class="goods-info-div">
+						<div class="goods-img">
+							<img src="../img/demo1.png" onload="setGoodsWH(this)" alt="商品" />
+						</div>
+						<p>零食大礼包膨化食品薯条点心面休闲点心......</p>
+						<div class="goods-info-price">
+							<span>￥</span>
+							<span class="goods-info-price-center">1898</span>
+							<span>.00</span>
+						</div>
+						<div class="goods-addAndCut">
+							<div class="goods-cut"></div>
+							<div class="goods-num">0</div>
+							<div class="goods-add"></div>
+						</div>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="goods-info">
+					<div class="goods-info-div">
+						<div class="goods-img">
+							<img src="../img/demo3.png" onload="setGoodsWH(this)" alt="商品" />
+						</div>
+						<p>零食大礼包膨化食品薯条点心面休闲点心......</p>
+						<div class="goods-info-price">
+							<span>￥</span>
+							<span class="goods-info-price-center">1898</span>
+							<span>.00</span>
+						</div>
+						<div class="goods-addAndCut">
+							<div class="goods-cut"></div>
+							<div class="goods-num">0</div>
+							<div class="goods-add"></div>
+						</div>
+					</div>
+				</div>
+			</li>-->
+		</ul>
+
+		<!--加载状态-->
+		<div id="add" class="left w100 add">
+			<a class="loading" href=""></a>
+		</div>
+		<!--加载状态-->
+
+		<script type="text/javascript" src="../js/zepto.extend.js"></script>
+		<script type="text/javascript" src="../js/zepto.ui.js"></script>
+		<script type="text/javascript" src="../js/zepto.iscroll.js"></script>
+		<script type="text/javascript" src="../js/widget/navigator.js"></script>
+		<script type="text/javascript" src="../js/widget/navigator.iscroll.js"></script>
+		<script>
+			var token = queryString("token");
+			var latitude = queryString("latitude"); //经度 
+			var longitude = queryString("longitude"); //纬度   
+			var firstLevelSupermarketCategoryId = queryString("firstId"); //超市一级商品分类id 
+			var secondLevelSupermarketCategoryId = queryString("secondId"); //超市二级商品分类id   否  
+			if (secondLevelSupermarketCategoryId == null)
+				secondLevelSupermarketCategoryId = "";
+			getTopClassList();
+			//3.15超市-获取一级商品分类下的二级商品分类列表
+			function getTopClassList() {
+				var url = "";
+				isJSON ? url = "classDetailTopList.json" : url = dataDomin + "/supermarket/category/list/secondCatetoryByFirstCategoryId";
+				console.log(url);
+				$.ajax({
+					type: "GET",
+					url: url,
+					headers: {
+						"token": token
+					},
+					dataType: "JSON",
+					data: {
+						"firstLevelSupermarketCategoryId": firstLevelSupermarketCategoryId
+					},
+					success: function(data) {
+					console.log(data)
+						var data = JSON.parse(data);
+						//						console.log(data)
+						if (data.code != 0) {
+							console.log("接口返回错误！");
+							return false;
+						}
+						$("#list").html(getClassHtml(data));
+						if (secondLevelSupermarketCategoryId != "") {
+							$("#dmId_all").removeClass("cur");
+							$("#dmId_" + secondLevelSupermarketCategoryId).addClass("cur");
+						}
+						/*组件初始化js begin*/
+						$('#nav-smartSetup').navigator(); //smart setup方式创建 推荐方式
+					},
+					error: function(xhr, type) {
+						scrollController = true;
+					}
+				});
+			}
+			var pageNum = 0; //默认0(跟url后面)
+			var pageSize = 10; //默认10(跟url后面)
+			var scrollController = true;
+			//3.14超市-获取二级商品分类下商品信息分页
+			function getContentClassList() {
+				scrollController = false;
+				addDateText(2);
+				var url = "";
+				isJSON?url="classDetailContentList.json":url = dataDomin + "/supermarket/category/list/secondCatetoryGoodsInfoPage?pageNum=" + pageNum + "&pageSize=" + pageSize;
+				$.ajax({
+					type: "GET",
+					url: url,
+					headers: {
+						"token": token
+					},
+					dataType: "JSON",
+					data: {
+						"firstLevelSupermarketCategoryId": firstLevelSupermarketCategoryId,
+						"secondLevelSupermarketCategoryId": secondLevelSupermarketCategoryId,
+						"latitude": latitude,
+						"longitude": longitude
+					},
+					success: function(data) {
+						var data =JSON.parse(data);
+						//						console.log(data)
+						if (data.code != 0) {
+							console.log("接口返回错误！");
+							addDateText(3);
+							return false;
+						}
+						if (data.data.list.length < 1) {
+							addDateText(4);
+							return false;
+						}
+						$("#goodsList").append(getContentList(data));
+						//						onchangePM();
+						regClick();
+						loadVisibleAreaImg();
+						pageNum++;
+						scrollController = true;
+						addDateText(1);
+					},
+					error: function(xhr, type) {
+						scrollController = true;
+						addDateText(3);
+					}
+				});
+			}
+
+			var getClassHtml = function(data) {
+				var html = [];
+				$.each(data.data, function(i, d) {
+					if (i == 0) {
+						$("#nav-smartSetup ul").append('<li onclick=getContentDetailList(' + d.dmId + ')><a class="cur" id="dmId_all" href="javascript:void(0);">全部</a></li>');
+						if (d.status == 0)
+							$("#nav-smartSetup ul").append('<li onclick=getContentDetailList(' + d.dmId + ')><a id="dmId_' + d.dmId + '"  href="javascript:void(0);">' + d.name + '</a></li>');
+					} else {
+						if (d.status == 0)
+							$("#nav-smartSetup ul").append('<li onclick=getContentDetailList(' + d.dmId + ')><a id="dmId_' + d.dmId + '"  href="javascript:void(0);">' + d.name + '</a></li>');
+					}
+				});
+				return html.join('');
+			}
+
+			function getContentDetailList(id) {
+				pageNum = 0;
+				secondLevelSupermarketCategoryId = id;
+				$("#goodsList").empty();
+				getContentClassList();
+			}
+
+			function goToDetails(goodsId) {
+				var href = urlDomin + "supermarket/detail.html?token=" + token + "&cczxId=" + cczxId + "&goodsId=" + goodsId;
+				goToNewPage(href);
+			}
+
+			function getContentList(data) {
+				var wd = window.screen.width ? window.screen.width : $(window).width();
+				hg = parseInt((10 / 16) * wd);
+				minWd = (wd - 24 - 4) / 2;
+				var style = 'style = "width: ' + minWd + 'px; height: ' + minWd + 'px;"';
+				var html = [];
+				$.each(data.data.list, function(i, d) {
+					html.push('		<li>');
+					html.push('			<div class="goods-info">');
+					html.push('				<div class="goods-info-div">');
+					html.push('					<div ' + style + ' onclick=goToDetails(' + d.dmId + ') class="goods-img">');
+					html.push('						<img class="scrollLoading" data-url="' + d.pictureUrl + '"  src="../img/pixel.gif"  alt="商品" />');
+					html.push('					</div>');
+					html.push('					<p  onclick=goToDetails(' + d.dmId + ')>' + d.goodsName + '</p>');
+					html.push('					<div class="goods-info-price">');
+					var pirceArr = d.price.toFixed(2).split(".");
+					html.push('						<span>￥</span>');
+					html.push('						<span class="goods-info-price-center">' + pirceArr[0] + '</span>');
+					html.push('						<span>.' + pirceArr[1] + '</span>');
+					html.push('					</div>');
+					html.push('					<div class="goods-addAndCut">');
+					html.push('						<div class="goods-cut"></div>');
+					html.push('						<div class="goods-num">0</div>');
+					html.push('						<div class="goods-add"></div>');
+					html.push('					</div>');
+					html.push('				</div>');
+					html.push('			</div>');
+					html.push('		</li>');
+				});
+				return html.join('');
+			}
+		</script>
+
+		<script type="text/javascript">
+			$(function() {
+				getContentClassList();
+				$(window).scroll(function() {
+					if (scrollController && $(window).scrollTop() + $(window).height() > $(document).height() - 10) {
+						if (pageNum > 0) //防止二次加载
+							getContentClassList();
+					}
+					loadVisibleAreaImg();
+				});
+			});
+			var imgIndex = 0;
+			var loadVisibleAreaImg = function() {
+				var scrollTop = $(window).scrollTop();
+				var height = $(window).height();
+				$(".scrollLoading").each(function(index, item) {
+					var isAnimation = $(this).attr("isanimation");
+					if (isAnimation == 1) {
+						return
+					}
+					var thisTop = $(this).offset().top;
+					var thisHeight = $(this).height();
+					var thisWidth = $(this).width();
+					if ((thisTop >= scrollTop && thisTop <= (height + scrollTop)) || ((thisTop + thisHeight) >= scrollTop && (thisTop + thisHeight) <= (height + scrollTop))) {
+						$(this).attr("src", $(this).attr("data-url"));
+						$(this).attr("isanimation", 1);
+						imgIndex++
+					}
+				})
+			}
+		</script>
+
+	</body>
+
+</html>

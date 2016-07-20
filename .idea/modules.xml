@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/qtz_sm.iml" filepath="$PROJECT_DIR$/qtz_sm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/qtz_sm_api/qtz_sm_api.iml" filepath="$PROJECT_DIR$/qtz_sm_api/qtz_sm_api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/qtz_sm_core/qtz_sm_core.iml" filepath="$PROJECT_DIR$/qtz_sm_core/qtz_sm_core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/qtz_sm_service_impl/qtz_sm_service_impl.iml" filepath="$PROJECT_DIR$/qtz_sm_service_impl/qtz_sm_service_impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/qtz_sm_web_admin/qtz_sm_web_admin.iml" filepath="$PROJECT_DIR$/qtz_sm_web_admin/qtz_sm_web_admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/qtz_sm_web_app/qtz_sm_web_app.iml" filepath="$PROJECT_DIR$/qtz_sm_web_app/qtz_sm_web_app.iml" />
+    </modules>
+  </component>
+</project>

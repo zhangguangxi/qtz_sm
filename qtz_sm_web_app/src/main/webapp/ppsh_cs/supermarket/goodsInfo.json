@@ -1,0 +1,79 @@
+{
+    "code": 0,
+    "data": {
+        "brandsId": 1,
+        "cczxId": 1707680781092864,
+        "code": "GXG-x08",
+        "createBy": 1,
+        "createOn": 1465954472278,
+        "goodsId": 1707224767694848,
+        "goodsTypeId": 1706210782693376,
+        "name": "2016夏季商场同款_1212121212",
+        "pic": {
+            "createOn": 1465954472285,
+            "dmId": 1707224767809536,
+            "goodsId": 1707224767694848,
+            "picUrl": "https://img.alicdn.com/imgextra/i4/454291526/TB2tFDNpXXXXXXSXFXXXXXXXXXX-454291526.jpg"
+        },
+        "remark": "&lt;p class=&quot;",
+        "skuPro": {
+            "level": 0,
+            "name": "颜色",
+            "proDetails": [
+                {
+                    "name": "黑色",
+                    "proDetailId": 1706203437615105,
+                    "skuPro": {
+                        "level": 1,
+                        "name": "尺寸",
+                        "proDetails": [
+                            {
+                                "name": "L",
+                                "price": 199.5,
+                                "proDetailId": 1706203437615111,
+                                "skuId": 1707224767727617,
+                                "status": true
+                            },
+                            {
+                                "name": "M",
+                                "proDetailId": 1706203437615110,
+                                "status": true
+                            }
+                        ],
+                        "proId": 1706203437615108
+                    },
+                    "status": true
+                },
+                {
+                    "name": "蓝白",
+                    "proDetailId": 1706203437615106,
+                    "skuPro": {
+                        "level": 1,
+                        "name": "尺寸",
+                        "proDetails": [
+                            {
+                                "name": "L",
+                                "price": 199.5,
+                                "proDetailId": 1706203437615111,
+                                "skuId": 1707224767727617,
+                                "status": true
+                            },
+                            {
+                                "name": "M",
+                                "proDetailId": 1706203437615110,
+                                "status": true
+                            }
+                        ],
+                        "proId": 1706203437615108
+                    },
+                    "status": true
+                }
+            ],
+            "proId": 1706203437615104
+        },
+        "status": 0,
+        "supplierId": 1706523788511232,
+        "updateBy": 1,
+        "updateOn": 1465954472278
+    }
+}

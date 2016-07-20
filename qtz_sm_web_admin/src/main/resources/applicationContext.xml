@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+		
+	<!-- Spring getBean定义 -->
+	<bean id="springContextHolder" class="com.mall.core.common.SpringContextHolder" lazy-init="false"/>
+	<bean id="fifteenLongIdImpl" class="com.mall.core.common.impl.FifteenLongIdImpl" />
+	<mvc:resources mapping="*.html" location="/"/>
+	<!--  加这个才可以出现swagger 接口链接调试 页面  -->
+	<mvc:resources mapping="/swagger/**" location="/WEB-INF/swagger/"/>
+	
+    <!-- Serve static content-->
+    <mvc:default-servlet-handler/>
+	<bean class="com.qtz.sm.config.SwaggerConfig" />
+	<!-- 拦截器配置 -->
+	 <mvc:interceptors>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+		<mvc:interceptor>
+			<mvc:mapping path="/v?.?/**" />
+			<bean class="com.qtz.sm.interceptor.SecurityInterceptor">
+				<property name="excludeUrls">
+					<list value-type="java.lang.String">
+						<value>/.*.html</value>  
+						<value>/(.{0,6})/user/retrievePassword</value>  
+						<value>/(.{0,6})/user/.*/getCode/(.*$)</value>  
+						<value>/v1.0/test/phone/*</value>
+						<value>/v.*/auth/.*</value>
+						<value>/v.*/config/get.*Category/.*</value>
+						<value>/v.*/config/get.*</value>
+						<value>/v1.0/version/.*</value>
+						<value>/v1.0/exception/.*</value>
+						<value>/v1.0/active/.*</value>
+						<value>/v1.0/web/.*</value>
+						<value>/v1.1/user/getIndexUser/.*</value>
+						<value>/v1.0/search/searchUser</value>
+						<value>/v1.*/user/getUser/.*</value>
+						<value>/v1.0/dynamic/queryDynamic/.*</value>
+						<value>/v1.0/coupon/viewCouponInfo/.*</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/v?.?/**" />
+			<bean class="com.qtz.sm.interceptor.StepsInterceptor" >
+				<property name="excludeUrls">
+					 <list>
+						<!-- 步奏完善  配置 完善信息 不需要 拦截 -->
+						<value>/v1.0/version/.*</value>
+						<value>/v.*/config/.*</value>
+						<value>/v.*/auth/logout</value>
+						<value>/v.*/user/perfectPersonInfo</value>
+						<value>/v.*/user/perfectSellerInfo</value>
+						<value>/v1.0/exception/.*</value>
+						<value>/v1.*/auth/login</value>
+						<!-- <value>/v1.*/auth/register</value> -->
+						<value>/v1.0/ppService/getPpSellerStoreService</value>
+						<value>/v1.0/ppServiceOrder/subSellerStoreOrder</value>
+						<value>/v1.0/user/retrievePassword</value>
+						<!-- <value>/v1.0/order/getOrderCount</value> -->
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	<!-- 全局异常 -->
+	<!--  <bean id="exceptionResolver"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="com.alibaba.dubbo.remoting.TimeoutException">/error/timeout</prop>
+				<prop key="com.alibaba.dubbo.rpc.RpcException">/error/timeout</prop>
+			</props>
+		</property>
+	</bean>  -->
+	<!-- 上传必须配置 不然转换会报错 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding">
+			<value>UTF-8</value>
+		</property>
+		<property name="maxUploadSize">
+			<value>32505856</value><!-- 上传文件大小限制为31M，31*1024*1024  -->
+		</property>
+		<property name="maxInMemorySize">
+			<value>4096</value>
+		</property>
+	</bean>
+	<mvc:annotation-driven />
+	<context:component-scan base-package="com.qtz.sm"/>
+    <context:component-scan base-package="com.mangofactory.swagger"/>
+	<!-- 引入dubbo文件 -->
+	<import resource="dubbo.xml"/>
+	<import resource="quartz-tasker.xml"/>
+
+</beans>

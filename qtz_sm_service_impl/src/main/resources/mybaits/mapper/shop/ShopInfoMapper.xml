@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.shop.dao.ShopInfoDao" >
+<!-- Result Map com.qtz.sm.shop.vo.ShopInfo-->
+<resultMap id="BaseResultMap" type="ShopInfo" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="shop_manage_id"  property="shopManageId"/> 
+<result column="cczx_id"  property="cczxId"/> 
+<result column="code"  property="code"/> 
+<result column="name"  property="name"/> 
+<result column="mobile"  property="mobile"/> 
+<result column="province_id"  property="provinceId"/> 
+<result column="city_id"  property="cityId"/> 
+<result column="cczxName"  property="cczxName"/> 
+<result column="area_id"  property="areaId"/> 
+<result column="town_id"  property="townId"/> 
+<result column="address"  property="address"/> 
+<result column="latitude"  property="latitude"/> 
+<result column="longitude"  property="longitude"/> 
+<result column="franchise_fees"  property="franchiseFees"/> 
+<result column="split_point"  property="splitPoint"/> 
+<result column="ettlement_cycle"  property="ettlementCycle"/> 
+<result column="scope"  property="scope"/> 
+<result column="lp_name"  property="lpName"/> 
+<result column="lp_id_card"  property="lpIdCard"/> 
+<result column="licence"  property="licence"/> 
+<result column="id_card_front"  property="idCardFront"/> 
+<result column="id_card_behind"  property="idCardBehind"/> 
+<result column="status"  property="status"/> 
+<result column="disabled"  property="disabled"/> 
+<result column="create_time"  property="createTime"/> 
+<result column="update_time"  property="updateTime"/> 
+</resultMap>
+
+<!-- shop_info table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.shop_manage_id,t.cczx_id,t.code,t.name,t.mobile,t.province_id,t.city_id,t.area_id,t.town_id,t.address,t.latitude,t.longitude,t.franchise_fees,t.split_point,t.ettlement_cycle,t.scope,t.lp_name,t.lp_id_card,t.licence,t.id_card_front,t.id_card_behind,t.status,t.disabled,t.create_time,t.update_time
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="shopManageId != null  ">
+		 and t.shop_manage_id=#{shopManageId}
+	</if>
+	<if test="cczxId != null  ">
+		 and t.cczx_id=#{cczxId}
+	</if>
+	<if test="code != null and code != ''  ">
+		 and t.code=#{code}
+	</if>
+	<if test="name != null  and name != '' ">
+		 and t.name=#{name}
+	</if>
+	<if test="mobile != null  and mobile != '' ">
+		 and t.mobile=#{mobile}
+	</if>
+	<if test="provinceId != null  ">
+		 and t.province_id=#{provinceId}
+	</if>
+	<if test="cityId != null  ">
+		 and t.city_id=#{cityId}
+	</if>
+	<if test="areaId != null  ">
+		 and t.area_id=#{areaId}
+	</if>
+	<if test="townId != null  ">
+		 and t.town_id=#{townId}
+	</if>
+	<if test="address != null  and address != '' ">
+		 and t.address=#{address}
+	</if>
+	<if test="latitude != null  ">
+		 and t.latitude=#{latitude}
+	</if>
+	<if test="longitude != null  ">
+		 and t.longitude=#{longitude}
+	</if>
+	<if test="franchiseFees != null  ">
+		 and t.franchise_fees=#{franchiseFees}
+	</if>
+	<if test="splitPoint != null  ">
+		 and t.split_point=#{splitPoint}
+	</if>
+	<if test="ettlementCycle != null  ">
+		 and t.ettlement_cycle=#{ettlementCycle}
+	</if>
+	<if test="scope != null  and scope != '' ">
+		 and t.scope=#{scope}
+	</if>
+	<if test="lpName != null  and lpName != '' ">
+		 and t.lp_name=#{lpName}
+	</if>
+	<if test="lpIdCard != null  and lpIdCard != '' ">
+		 and t.lp_id_card=#{lpIdCard}
+	</if>
+	<if test="licence != null  and licence != '' ">
+		 and t.licence=#{licence}
+	</if>
+	<if test="idCardFront != null  and idCardFront != '' ">
+		 and t.id_card_front=#{idCardFront}
+	</if>
+	<if test="idCardBehind != null  and idCardBehind != '' ">
+		 and t.id_card_behind=#{idCardBehind}
+	</if>
+	<if test="status != null  ">
+		 and t.status=#{status}
+	</if>
+	<if test="disabled != null  ">
+		 and t.disabled=#{disabled}
+	</if>
+	<if test="createTime != null  ">
+		 and t.create_time=#{createTime}
+	</if>
+	<if test="updateTime != null  ">
+		 and t.update_time=#{updateTime}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into shop_info(dmId,shop_manage_id,cczx_id,code,name,mobile,province_id,city_id,area_id,town_id,address,latitude,longitude,franchise_fees,split_point,ettlement_cycle,scope,lp_name,lp_id_card,licence,id_card_front,id_card_behind,status,disabled,create_time,update_time)
+ values(#{dmId},#{shopManageId},#{cczxId},#{code},#{name},#{mobile},#{provinceId},#{cityId},#{areaId},#{townId},#{address},#{latitude},#{longitude},#{franchiseFees},#{splitPoint},#{ettlementCycle},#{scope},#{lpName},#{lpIdCard},#{licence},#{idCardFront},#{idCardBehind},#{status},#{disabled},#{createTime},#{updateTime})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into shop_info(dmId,shop_manage_id,cczx_id,code,name,mobile,province_id,city_id,area_id,town_id,address,latitude,longitude,franchise_fees,split_point,ettlement_cycle,scope,lp_name,lp_id_card,licence,id_card_front,id_card_behind,status,disabled,create_time,update_time) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.shopManageId},#{item.cczxId},#{item.code},#{item.name},#{item.mobile},#{item.provinceId},#{item.cityId},#{item.areaId},#{item.townId},#{item.address},#{item.latitude},#{item.longitude},#{item.franchiseFees},#{item.splitPoint},#{item.ettlementCycle},#{item.scope},#{item.lpName},#{item.lpIdCard},#{item.licence},#{item.idCardFront},#{item.idCardBehind},#{item.status},#{item.disabled},#{item.createTime},#{item.updateTime}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from shop_info where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from shop_info where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from shop_info where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update shop_info set shop_manage_id=#{shopManageId},cczx_id=#{cczxId},code=#{code},name=#{name},mobile=#{mobile},province_id=#{provinceId},city_id=#{cityId},area_id=#{areaId},town_id=#{townId},address=#{address},latitude=#{latitude},longitude=#{longitude},franchise_fees=#{franchiseFees},split_point=#{splitPoint},ettlement_cycle=#{ettlementCycle},scope=#{scope},lp_name=#{lpName},lp_id_card=#{lpIdCard},licence=#{licence},id_card_front=#{idCardFront},id_card_behind=#{idCardBehind},status=#{status},disabled=#{disabled},create_time=#{createTime},update_time=#{updateTime} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update shop_info set 
+	<trim  suffixOverrides="," >
+	<if test="shopManageId != null  ">
+		shop_manage_id=#{shopManageId},
+	</if>
+	<if test="cczxId != null  ">
+		cczx_id=#{cczxId},
+	</if>
+	<if test="code != null and code != ''  ">
+		code=#{code},
+	</if>
+	<if test="name != null  and name != '' ">
+		name=#{name},
+	</if>
+	<if test="mobile != null  and mobile != '' ">
+		mobile=#{mobile},
+	</if>
+	<if test="provinceId != null  ">
+		province_id=#{provinceId},
+	</if>
+	<if test="cityId != null  ">
+		city_id=#{cityId},
+	</if>
+	<if test="areaId != null  ">
+		area_id=#{areaId},
+	</if>
+	<if test="townId != null  ">
+		town_id=#{townId},
+	</if>
+	<if test="address != null  and address != '' ">
+		address=#{address},
+	</if>
+	<if test="latitude != null  ">
+		latitude=#{latitude},
+	</if>
+	<if test="longitude != null  ">
+		longitude=#{longitude},
+	</if>
+	<if test="franchiseFees != null  ">
+		franchise_fees=#{franchiseFees},
+	</if>
+	<if test="splitPoint != null  ">
+		split_point=#{splitPoint},
+	</if>
+	<if test="ettlementCycle != null  ">
+		ettlement_cycle=#{ettlementCycle},
+	</if>
+	<if test="scope != null  and scope != '' ">
+		scope=#{scope},
+	</if>
+	<if test="lpName != null  and lpName != '' ">
+		lp_name=#{lpName},
+	</if>
+	<if test="lpIdCard != null  and lpIdCard != '' ">
+		lp_id_card=#{lpIdCard},
+	</if>
+	<if test="licence != null  and licence != '' ">
+		licence=#{licence},
+	</if>
+	<if test="idCardFront != null  and idCardFront != '' ">
+		id_card_front=#{idCardFront},
+	</if>
+	<if test="idCardBehind != null  and idCardBehind != '' ">
+		id_card_behind=#{idCardBehind},
+	</if>
+	<if test="status != null  ">
+		status=#{status},
+	</if>
+	<if test="disabled != null  ">
+		disabled=#{disabled},
+	</if>
+	<if test="createTime != null  ">
+		create_time=#{createTime},
+	</if>
+	<if test="updateTime != null  ">
+		update_time=#{updateTime},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 便利店基本信息 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from shop_info t where t.dmId = #{dmId}
+</select>
+
+<!-- 分页查询条件 -->
+<sql id="query_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId like CONCAT('%',#{dmId},'%')  
+	</if>
+	<if test="shopManageId != null  ">
+		 and t.shop_manage_id=#{shopManageId}
+	</if>
+	<if test="cczxId != null  ">
+		 and t.cczx_id=#{cczxId}
+	</if>
+	<if test="code != null and code != ''  ">
+		 and t.code=#{code}
+	</if>
+	<if test="name != null  and name != '' ">
+		 and t.name like CONCAT('%',#{name},'%') 
+	</if>
+	<if test="mobile != null  and mobile != '' ">
+		 and t.mobile like CONCAT('%',#{mobile},'%') 
+	</if>
+	<if test="provinceId != null  ">
+		 and t.province_id=#{provinceId}
+	</if>
+	<if test="cityId != null  ">
+		 and t.city_id=#{cityId}
+	</if>
+	<if test="areaId != null  ">
+		 and t.area_id=#{areaId}
+	</if>
+	<if test="townId != null  ">
+		 and t.town_id=#{townId}
+	</if>
+	<if test="address != null  and address != '' ">
+		 and t.address=#{address}
+	</if>
+	<if test="latitude != null  ">
+		 and t.latitude=#{latitude}
+	</if>
+	<if test="longitude != null  ">
+		 and t.longitude=#{longitude}
+	</if>
+	<if test="franchiseFees != null  ">
+		 and t.franchise_fees=#{franchiseFees}
+	</if>
+	<if test="splitPoint != null  ">
+		 and t.split_point=#{splitPoint}
+	</if>
+	<if test="ettlementCycle != null  ">
+		 and t.ettlement_cycle=#{ettlementCycle}
+	</if>
+	<if test="scope != null  and scope != '' ">
+		 and t.scope=#{scope}
+	</if>
+	<if test="lpName != null  and lpName != '' ">
+		 and t.lp_name=#{lpName}
+	</if>
+	<if test="lpIdCard != null  and lpIdCard != '' ">
+		 and t.lp_id_card=#{lpIdCard}
+	</if>
+	<if test="licence != null  and licence != '' ">
+		 and t.licence=#{licence}
+	</if>
+	<if test="idCardFront != null  and idCardFront != '' ">
+		 and t.id_card_front=#{idCardFront}
+	</if>
+	<if test="idCardBehind != null  and idCardBehind != '' ">
+		 and t.id_card_behind=#{idCardBehind}
+	</if>
+	<if test="status != null  ">
+		 and t.status=#{status}
+	</if>
+	<if test="disabled != null  ">
+		 and t.disabled=#{disabled}
+	</if>
+	<if test="startDate != null  ">
+		 <![CDATA[ and t.create_time >=  #{startDate}]]>
+	</if>
+	<if test="endDate != null  ">
+		 <![CDATA[ and t.create_time  < #{endDate}]]>
+	</if>
+</where>
+</sql>
+
+<!-- 便利店基本信息 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from shop_info t 
+	<include refid="query_Where_Clause"/>
+</select>
+
+<!-- 分页查询便利店基本信息列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	,cczx.`name` as cczxName
+	from shop_info t LEFT JOIN cs_cczx_info cczx on cczx.dmId  = t.cczx_id 
+	<include refid="query_Where_Clause"/>
+
+    <if test="mysqlQueryCondition != null and mysqlQueryCondition != ''" >
+       ${mysqlQueryCondition}
+    </if>
+</select>
+
+<!-- 查询便利店基本信息列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from shop_info t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+	<!-- 根据省市前缀获取最大编号 -->
+	<select id="findMaxCode" resultType="java.lang.String" parameterType="java.lang.String">
+		SELECT MAX(t.code) FROM shop_info t WHERE t.code LIKE CONCAT(#{prefix},'%');
+	</select>
+
+</mapper>

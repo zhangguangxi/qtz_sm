@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.goods.dao.GdGoodsCategroyRateDao" >
+<!-- Result Map com.qtz.dhf.goods.vo.GdGoodsCategroyRate-->
+<resultMap id="BaseResultMap" type="GdGoodsCategroyRate" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="goods_type_id"  property="goodsTypeId"/> 
+<result column="gyl_rate"  property="gylRate"/> 
+<result column="yccgl_rate"  property="yccglRate"/> 
+<result column="bldgl_rate"  property="bldglRate"/> 
+<result column="ppcs_rate"  property="ppcsRate"/> 
+
+<result column="goods_type_name"  property="name"/> 
+<result column="goods_type_parent_id"  property="parentId"/> 
+	
+</resultMap>
+
+<!-- gd_goods_categroy_rate table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.goods_type_id,t.gyl_rate,t.yccgl_rate,t.bldgl_rate,t.ppcs_rate
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="goodsTypeId != null  ">
+		 and t.goods_type_id=#{goodsTypeId}
+	</if>
+	<if test="gylRate != null  ">
+		 and t.gyl_rate=#{gylRate}
+	</if>
+	<if test="yccglRate != null  ">
+		 and t.yccgl_rate=#{yccglRate}
+	</if>
+	<if test="bldglRate != null  ">
+		 and t.bldgl_rate=#{bldglRate}
+	</if>
+	<if test="ppcsRate != null  ">
+		 and t.ppcs_rate=#{ppcsRate}
+	</if>
+	
+	<if test="ppcsRate != null  ">
+		 and t.ppcs_rate=#{ppcsRate}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into gd_goods_categroy_rate(dmId,goods_type_id,gyl_rate,yccgl_rate,bldgl_rate,ppcs_rate)
+ values(#{dmId},#{goodsTypeId},#{gylRate},#{yccglRate},#{bldglRate},#{ppcsRate})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into gd_goods_categroy_rate(dmId,goods_type_id,gyl_rate,yccgl_rate,bldgl_rate,ppcs_rate) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.goodsTypeId},#{item.gylRate},#{item.yccglRate},#{item.bldglRate},#{item.ppcsRate}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from gd_goods_categroy_rate where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from gd_goods_categroy_rate where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from gd_goods_categroy_rate where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update gd_goods_categroy_rate set goods_type_id=#{goodsTypeId},gyl_rate=#{gylRate},yccgl_rate=#{yccglRate},bldgl_rate=#{bldglRate},ppcs_rate=#{ppcsRate} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update gd_goods_categroy_rate set 
+	<trim  suffixOverrides="," >
+	<if test="goodsTypeId != null  ">
+		goods_type_id=#{goodsTypeId},
+	</if>
+	<if test="gylRate != null  ">
+		gyl_rate=#{gylRate},
+	</if>
+	<if test="yccglRate != null  ">
+		yccgl_rate=#{yccglRate},
+	</if>
+	<if test="bldglRate != null  ">
+		bldgl_rate=#{bldglRate},
+	</if>
+	<if test="ppcsRate != null  ">
+		ppcs_rate=#{ppcsRate},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 商品SKU溢价率 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from gd_goods_categroy_rate t where t.dmId = #{dmId}
+</select>
+
+<!-- 商品SKU溢价率 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from gd_goods_categroy_rate t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 分页查询商品SKU溢价率列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from gd_goods_categroy_rate t 
+	<include refid="Example_Where_Clause"/>
+	<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+		${mysqlQueryCondition}
+	</if>
+</select>
+
+<!-- 查询商品分类溢价率列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from gd_goods_categroy_rate t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+
+<!-- 查询所有分类溢价率列表 -->
+<select id="getRatesWithCategoryInfo" resultMap="BaseResultMap" >
+	SELECT t2.dmId, t2.goods_type_id, t1.name AS goods_type_name, t1.parent_id AS goods_type_parent_id ,IFNULL(t2.gyl_rate,0) gyl_rate,IFNULL(t2.yccgl_rate,0) yccgl_rate,
+	IFNULL(t2.bldgl_rate,0) bldgl_rate,IFNULL(t2.ppcs_rate,0) ppcs_rate
+	FROM gd_goods_type t1 LEFT JOIN gd_goods_categroy_rate t2 ON t1.dmId = t2.goods_type_id
+	<if test="parentGoodsTypeId != null">
+		WHERE t1.parent_id = ${parentGoodsTypeId}
+	</if>
+</select>
+
+</mapper>

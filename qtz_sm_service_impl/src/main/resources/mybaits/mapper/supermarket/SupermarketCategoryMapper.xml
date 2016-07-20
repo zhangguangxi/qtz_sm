@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.supermarket.dao.SupermarketCategoryDao" >
+<!-- Result Map com.qtz.sm.supermarket.vo.SupermarketCategory-->
+<resultMap id="BaseResultMap" type="SupermarketCategory" >
+	 <result column="dmId"  property="dmId"/> 
+<result column="supermarket_id"  property="supermarketId"/> 
+<result column="pid"  property="pid"/> 
+<result column="name"  property="name"/> 
+<result column="icon"  property="icon"/> 
+<result column="level"  property="level"/> 
+<result column="sort"  property="sort"/> 
+<result column="status"  property="status"/> 
+<result column="update_time"  property="updateTime"/> 
+<result column="create_time"  property="createTime"/> 
+	
+</resultMap>
+
+<!-- supermarket_category table all fields -->
+<sql id="Base_Column_List" >
+	 t.dmId,t.supermarket_id,t.pid,t.name,t.icon,t.level,t.sort,t.status,t.update_time,t.create_time
+</sql>
+
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+<where>
+	<if test="dmId != null  ">
+		 and t.dmId=#{dmId}
+	</if>
+	<if test="supermarketId != null  ">
+		 and t.supermarket_id=#{supermarketId}
+	</if>
+	<if test="pid != null  ">
+		 and t.pid=#{pid}
+	</if>
+	<if test="name != null  and name != '' ">
+		 and t.name=#{name}
+	</if>
+	<if test="icon != null  and icon != '' ">
+		 and t.icon=#{icon}
+	</if>
+	<if test="level != null  ">
+		 and t.level=#{level}
+	</if>
+	<if test="sort != null  ">
+		 and t.sort=#{sort}
+	</if>
+	<if test="status != null  ">
+		 and t.status=#{status}
+	</if>
+	<if test="updateTime != null  ">
+		 and t.update_time=#{updateTime}
+	</if>
+	<if test="createTime != null  ">
+		 and t.create_time=#{createTime}
+	</if>
+
+</where>
+</sql>
+   
+
+<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" useGeneratedKeys="true" keyProperty="id">] -->
+<insert id="addVo" parameterType="Object" >
+  insert into supermarket_category(dmId,supermarket_id,pid,name,icon,level,sort,status,update_time,create_time)
+ values(#{dmId},#{supermarketId},#{pid},#{name},#{icon},#{level},#{sort},#{status},#{updateTime},#{createTime})
+</insert>
+<!--批量插入记录 -->
+<insert id="addList" parameterType="java.util.List">
+  insert into supermarket_category(dmId,supermarket_id,pid,name,icon,level,sort,status,update_time,create_time) values
+   <foreach collection="list" item="item" index="index" separator=",">
+	  (
+	  	 #{item.dmId},#{item.supermarketId},#{item.pid},#{item.name},#{item.icon},#{item.level},#{item.sort},#{item.status},#{item.updateTime},#{item.createTime}
+	  )
+	  </foreach> 
+</insert>
+
+
+<!-- 删除记录 -->
+<delete id="delId" parameterType="Object">
+	delete 	 from supermarket_category where dmId = #{dmId}
+</delete>
+<!--批量删除-->
+<delete id="delIds" parameterType="java.lang.String">
+	delete 	 from supermarket_category where dmId in 
+	<foreach item="idItem" collection="array" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+<!--批量删除-->
+<delete id="delList" parameterType="java.util.List">
+	delete 	 from supermarket_category where dmId in 
+	<foreach item="idItem" collection="list" index="index" open="(" separator="," close=")"> 
+	#{idItem}
+	</foreach> 
+</delete>
+
+<!-- 根据id，修改记录-->  
+ <update id="modVo" parameterType="Object" >
+  update supermarket_category set supermarket_id=#{supermarketId},pid=#{pid},name=#{name},icon=#{icon},level=#{level},sort=#{sort},status=#{status},update_time=#{updateTime},create_time=#{createTime} where dmId=#{dmId}
+ </update>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="modVoNotNull" parameterType="Object" >
+	update supermarket_category set 
+	<trim  suffixOverrides="," >
+	<if test="supermarketId != null  ">
+		supermarket_id=#{supermarketId},
+	</if>
+	<if test="pid != null  ">
+		pid=#{pid},
+	</if>
+	<if test="name != null  and name != '' ">
+		name=#{name},
+	</if>
+	<if test="icon != null  and icon != '' ">
+		icon=#{icon},
+	</if>
+	<if test="level != null  ">
+		level=#{level},
+	</if>
+	<if test="sort != null  ">
+		sort=#{sort},
+	</if>
+	<if test="status != null  ">
+		status=#{status},
+	</if>
+	<if test="updateTime != null  ">
+		update_time=#{updateTime},
+	</if>
+	<if test="createTime != null  ">
+		create_time=#{createTime},
+	</if>
+	</trim> where dmId=#{dmId}
+</update>
+
+
+ 
+<!-- 根据id查询 超市类目 -->
+<select id="findVo"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from supermarket_category t where t.dmId = #{dmId}
+</select>
+
+<!-- 超市类目 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from supermarket_category t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+<!-- 分页查询超市类目列表 -->
+<select id="queryList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from supermarket_category t 
+	<include refid="Example_Where_Clause"/>
+<!-- 	<if test="orderCondition != null and orderCondition != ''" > -->
+<!--       ${orderCondition} -->
+<!--     </if> -->
+    <if test="mysqlQueryCondition != null and mysqlQueryCondition != ''" >
+       ${mysqlQueryCondition}
+    </if>
+</select>
+
+<!-- 查询超市类目列表 -->
+<select id="findList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from supermarket_category t 
+	<include refid="Example_Where_Clause"/>
+</select>
+
+	<resultMap id="SupermarketCategoryVoResult" type="SupermarketCategoryVo" >
+	 <result column="dmId"  property="dmId"/> 
+	<result column="supermarket_id"  property="supermarketId"/> 
+	<result column="pid"  property="pid"/> 
+	<result column="name"  property="name"/> 
+	<result column="icon"  property="icon"/> 
+	<result column="level"  property="level"/> 
+	<result column="sort"  property="sort"/> 
+	<result column="status"  property="status"/> 
+	<result column="update_time"  property="updateTime"/> 
+	<result column="create_time"  property="createTime"/> 
+	</resultMap>
+	<select id="findFirstLevelAll" parameterType="java.lang.Integer"
+		resultMap="SupermarketCategoryVoResult">
+		SELECT * FROM supermarket_category WHERE LEVEL =  #{level}
+	</select>
+	
+	<resultMap id="SupermarketGoodsVoResult" type="SupermarketGoodsVo">
+		<result column="supermarket_category_id" property="supermarketCategoryId" />
+		<result column="goods_id" property="goodsId" />
+		<result column="cczx_Id" property="cczxId" />
+		<result column="goods_type_id" property="goodsTypeId" />
+		<result column="supplier_id" property="supplierId" />
+		<result column="brands_id" property="brandsId" />
+		<result column="code" property="code" />
+		<result column="name" property="name" />
+		<result column="remark" property="remark" />
+		<result column="goodsProValMsg" property="goodsProValMsg" />
+		<result column="status" property="status" />
+		<result column="create_by" property="createBy" />
+		<result column="create_on" property="createOn" />
+		<result column="update_by" property="updateBy" />
+		<result column="update_on" property="updateOn" />
+		<result column="stock_quantity" property="stockQuantity" />
+		
+		<association property="goodsInfo" column="goods_id" select="getSuperMarketGoodsInfoByGoodsId">
+    	</association>
+	</resultMap>
+	<!--通过超市一级分类ID随机查询下面6款商品信息 -->
+	<select id="getGoodsList" parameterType="java.util.Map"
+		resultMap="SupermarketGoodsVoResult">
+		SELECT
+			#{cczxId} AS cczx_Id,
+			#{supermarketCategoryId} AS supermarket_category_id,
+			r1.*,
+			IF(ISNULL(stock_quantity),0,stock_quantity)  AS stock_quantity
+			FROM
+		(
+				SELECT
+					gg.*,gg.dmId goods_id
+				FROM
+					gd_goods gg WHERE 
+					gg.goods_type_id in(
+			SELECT
+				goods_category_id
+			FROM
+				supermarket_category_associate
+			WHERE
+				supermarket_category_id IN (
+				SELECT
+					dmid
+				FROM
+					supermarket_category
+				WHERE
+					pid = #{supermarketCategoryId}
+				)
+)
+		) r1,
+			(
+					SELECT
+						ggs.`goods_id`,
+						SUM(ccs.`stock_quantity`) stock_quantity
+					FROM
+						gd_goods_sku ggs,cs_cczx_stock ccs 
+					WHERE
+						ccs.`cczx_id` = #{cczxId}
+					AND ggs.`dmId` = ccs.`sku_id`
+					GROUP BY
+						ggs.`goods_id`
+					HAVING
+						stock_quantity > 0
+			) r2
+		WHERE stock_quantity >0
+		AND r1.goods_id = r2.goods_id
+		ORDER BY RAND()
+		LIMIT 6
+	</select>
+	
+	<!--通过超市仓储中心ID随机查询下面10款商品信息 -->
+	<select id="getEnjoyGoodsList" parameterType="java.util.Map"
+		resultMap="SupermarketGoodsVoResult">
+		SELECT *,gg.dmId goods_id,#{cczxId} AS cczx_Id, FROM 
+			gd_goods gg,(
+					SELECT
+						ggs.`goods_id`,
+						SUM(ccs.`stock_quantity`) stock_quantity
+					FROM
+						gd_goods_sku ggs,cs_cczx_stock ccs 
+					WHERE
+						ccs.`cczx_id` = #{cczxId}
+					AND ggs.`dmId` = ccs.`sku_id`
+					GROUP BY
+						ggs.`goods_id`
+					HAVING
+						stock_quantity > 0) r1 WHERE r1.goods_id = gg.dmId
+		ORDER BY RAND()
+		LIMIT 10
+	</select>
+	
+	<resultMap id="SuperMarketGoodsInfoResult" type="SuperMarketGoodsAttachedInfo">
+		<result column="goods_id" property="goodsId" />
+		<result column="price" property="price" />
+		<result column="specificationCount" property="specificationCount" />
+		<result column="pic_url" property="picUrl" />
+	</resultMap>
+	<select id="getSuperMarketGoodsInfoByGoodsId" resultMap="SuperMarketGoodsInfoResult"  parameterType="java.lang.Long">
+	SELECT
+	price,
+	m.goods_id goods_id,
+	specificationCount,
+	n.*
+	FROM
+	(
+		SELECT
+			MIN(fn_get_rate_price(3, dmId)) price,
+			goods_id
+		FROM
+			gd_goods_sku
+		WHERE
+			goods_id = #{goodsId}
+	) l,
+	(
+		SELECT
+			COUNT(1) specificationCount,
+			goods_id
+		FROM
+			gd_goods_sku
+		WHERE
+			goods_id = #{goodsId}
+	) m,
+	(
+		SELECT
+			pic_url
+		FROM
+			gd_goods_picture t
+		WHERE
+			t.goods_id = #{goodsId}
+		ORDER BY
+			create_on ASC
+		LIMIT 1
+	) n
+	</select>
+	
+	<resultMap id="SupermarketGoodsDetailVoResult" type="SupermarketGoodsVo">
+		<result column="goods_id" property="goodsId" />
+		<result column="supermarket_category_id" property="supermarketCategoryId" />
+		<result column="goods_type_id" property="goodsTypeId" />
+		<result column="supplier_id" property="supplierId" />
+		<result column="brands_id" property="brandsId" />
+		<result column="code" property="code" />
+		<result column="name" property="name" />
+		<result column="remark" property="remark" />
+		<result column="goodsProValMsg" property="goodsProValMsg" />
+		<result column="status" property="status" />
+		<result column="create_by" property="createBy" />
+		<result column="create_on" property="createOn" />
+		<result column="update_by" property="updateBy" />
+		<result column="update_on" property="updateOn" />
+		<result column="stock_quantity" property="stockQuantity" />
+		
+		<association property="pic" column="goods_id" select="com.qtz.sm.goods.dao.GdGoodsPictureDao.getGoodsPicByGoodsId">
+    	</association>
+	</resultMap>
+	<select id="getSupermarketGoodsVo" resultMap="SupermarketGoodsDetailVoResult"  parameterType="java.lang.Long">
+	select *,dmId goods_id
+	from gd_goods t where dmId = #{goodsId}
+	</select>
+	
+	<resultMap id="SupermarketGoodsDetail" type="SupermarketGoodsVo">
+		<result column="goods_id" property="goodsId" />
+		<result column="supermarket_category_id" property="supermarketCategoryId" />
+		<result column="goods_type_id" property="goodsTypeId" />
+		<result column="supplier_id" property="supplierId" />
+		<result column="brands_id" property="brandsId" />
+		<result column="code" property="code" />
+		<result column="name" property="name" />
+		<result column="remark" property="remark" />
+		<result column="goodsProValMsg" property="goodsProValMsg" />
+		<result column="status" property="status" />
+		<result column="create_by" property="createBy" />
+		<result column="create_on" property="createOn" />
+		<result column="update_by" property="updateBy" />
+		<result column="update_on" property="updateOn" />
+		<result column="stock_quantity" property="stockQuantity" />
+		
+		<collection property="picList" ofType="GdGoodsPicture"
+			column="goods_id" select="com.qtz.sm.goods.dao.GdGoodsPictureDao.getGoodsPicList" />
+	</resultMap>
+	<select id="getSupermarketGoodsDetail" resultMap="SupermarketGoodsDetail"  parameterType="java.lang.Long">
+	select *,dmId goods_id
+	from gd_goods t where dmId = #{goodsId}
+	</select>
+	
+	<resultMap id="SupermarketGoodsSkuVoResult" type="SupermarketGoodsSkuVo" >
+	 <result column="dmId"  property="skuId"/> 
+	<result column="goods_id"  property="goodsId"/> 
+	<result column="price"  property="price"/> 
+	<result column="stock_quantity"  property="stockQuantity"/> 
+	</resultMap>
+	<select id="getShopGoodsSkus" resultMap="SupermarketGoodsSkuVoResult"  parameterType="java.util.Map">
+SELECT 
+  t.*,
+   ccs.`stock_quantity`  AS stock_quantity 
+   FROM
+  (SELECT 
+    *,
+    fn_get_rate_price (3, dmId) price 
+  FROM
+    gd_goods_sku) t ,
+    (SELECT 
+      * 
+    FROM
+      cs_cczx_stock 
+    WHERE cczx_id = #{cczxId}) ccs 
+WHERE goods_id = #{goodsId} 
+AND  t.`dmId` = ccs.`sku_id` 
+	</select>
+</mapper>

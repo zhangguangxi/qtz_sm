@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtz.sm.goods.dao.GdGoodsSkuRateDao">
+	<!-- Result Map com.qtz.sm.goods.vo.GdGoodsSkuRate -->
+	<resultMap id="BaseResultMap" type="com.qtz.sm.goods.vo.GdGoodsSkuRate">
+		<result column="dmId" property="dmId" />
+		<result column="sku_id" property="skuId" />
+		<result column="gyl_rate" property="gylRate" />
+		<result column="yccgl_rate" property="yccglRate" />
+		<result column="bldgl_rate" property="bldglRate" />
+		<result column="ppcs_rate" property="ppcsRate" />
+		<result column="gyl_price" property="gylPrice" />
+		<result column="yccgl_price" property="yccglPrice" />
+		<result column="bldgl_price" property="bldglPrice" />
+		<result column="ppcs_price" property="ppcsPrice" />
+	</resultMap>
+
+	<resultMap id="GdGoodsStockResultMap" type="com.qtz.sm.goods.model.GdGoodsStock">
+		<result column="rate_id" property="rateId" />
+		<result column="gys_id" property="gysId" />
+		<result column="sku_id" property="skuId" />
+		<result column="price" property="price" />
+		<result column="goods_num" property="goodsNum" />
+		<result column="goods_name" property="goodsName" />
+		<result column="goods_id" property="goodsId" />
+		<result column="onsale_time" property="onsaleTime" />
+		<result column="source" property="source" />
+		<result column="rate_price" property="ratePrice" />
+		<result column="rate" property="rate" />
+		<result column="rate_status" property="rateStatus" />
+		<!-- <result column="rate_type" property="rateType" /> -->
+	</resultMap>
+
+	<!-- gd_goods_sku_rate table all fields -->
+	<sql id="Base_Column_List">
+		t.dmId,t.sku_id,t.gyl_rate,t.yccgl_rate,t.bldgl_rate,t.ppcs_rate,t.gyl_price,t.yccgl_price,t.bldgl_price,t.ppcs_price
+	</sql>
+
+	<!-- 查询条件 -->
+	<sql id="Example_Where_Clause">
+		<where>
+			<if test="dmId != null  "> and t.dmId=#{dmId}
+			</if>
+			<if test="skuId != null  ">
+				and t.sku_id=#{skuId}
+			</if>
+			<if test="gylRate != null  ">
+				and t.gyl_rate=#{gylRate}
+			</if>
+			<if test="yccglRate != null  ">
+				and t.yccgl_rate=#{yccglRate}
+			</if>
+			<if test="bldglRate != null  ">
+				and t.bldgl_rate=#{bldglRate}
+			</if>
+			<if test="ppcsRate != null  ">
+				and t.ppcs_rate=#{ppcsRate}
+			</if>
+			<if test="gylPrice != null  ">
+				and t.gyl_price=#{gylPrice}
+			</if>
+			<if test="yccglPrice != null  ">
+				and t.yccgl_price=#{yccglPrice}
+			</if>
+			<if test="bldglPrice != null  ">
+				and t.bldgl_price=#{bldglPrice}
+			</if>
+			<if test="ppcsPrice != null  ">
+				and t.ppcs_price=#{ppcsPrice}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="Gd_Goods_Stock_Where_Clause">
+		<where>
+			<if test="isOnsale != null  "> 
+				and t.is_onsale=#{isOnsale}
+			</if>
+			<if test="startTimeStamp != null  "> 
+				and t.onsale_time<![CDATA[>=]]>#{startTimeStamp}
+			</if>
+			<if test="endTimeStamp != null  "> 
+				and t.onsale_time<![CDATA[<=]]>#{endTimeStamp}
+			</if>
+			
+			<if test="minPrice != null  "> 
+				and t.price<![CDATA[>=]]>#{minPrice}
+			</if>
+			<if test="maxPrice != null  "> 
+				and t.price<![CDATA[<=]]>#{maxPrice}
+			</if>
+		</where>
+	</sql>
+
+
+	<!-- 插入记录 [说明：如果要返回当前对象，需要如下配置：<insert id="addVo" parameterType="Object" 
+		useGeneratedKeys="true" keyProperty="id">] -->
+	<insert id="addVo" parameterType="Object">
+		insert into
+		gd_goods_sku_rate(dmId,sku_id,gyl_rate,yccgl_rate,bldgl_rate,ppcs_rate,gyl_price,yccgl_price,bldgl_price,ppcs_price)
+		values(#{dmId},#{skuId},#{gylRate},#{yccglRate},#{bldglRate},#{ppcsRate},#{gylPrice},#{yccglPrice},#{bldglPrice},#{ppcsPrice})
+	</insert>
+	<!--批量插入记录 -->
+	<insert id="addList" parameterType="java.util.List">
+		insert into
+		gd_goods_sku_rate(dmId,sku_id,gyl_rate,yccgl_rate,bldgl_rate,ppcs_rate,gyl_price,yccgl_price,bldgl_price,ppcs_price)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.dmId},#{item.skuId},#{item.gylRate},#{item.yccglRate},#{item.bldglRate},#{item.ppcsRate},#{item.gylPrice},#{item.yccglPrice},#{item.bldglPrice},#{item.ppcsPrice}
+			)
+		</foreach>
+	</insert>
+
+
+	<!-- 删除记录 -->
+	<delete id="delId" parameterType="Object">
+		delete from gd_goods_sku_rate
+		where dmId = #{dmId}
+	</delete>
+	<!--批量删除 -->
+	<delete id="delIds" parameterType="java.lang.String">
+		delete from gd_goods_sku_rate where dmId in
+		<foreach item="idItem" collection="array" open="(" separator=","
+			close=")">
+			#{idItem}
+		</foreach>
+	</delete>
+	<!--批量删除 -->
+	<delete id="delList" parameterType="java.util.List">
+		delete from gd_goods_sku_rate where dmId in
+		<foreach item="idItem" collection="list" index="index" open="("
+			separator="," close=")">
+			#{idItem}
+		</foreach>
+	</delete>
+
+	<!-- 根据id，修改记录 -->
+	<update id="modVo" parameterType="Object">
+		update gd_goods_sku_rate set
+		gyl_rate=#{gylRate},yccgl_rate=#{yccglRate},bldgl_rate=#{bldglRate},ppcs_rate=#{ppcsRate},gyl_price=#{gylPrice},yccgl_price=#{yccglPrice},bldgl_price=#{bldglPrice},ppcs_price=#{ppcsPrice}
+		where sku_id=#{skuId}
+	</update>
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="modVoNotNull" parameterType="Object">
+		update gd_goods_sku_rate set
+		<trim suffixOverrides=",">
+			<if test="skuId != null  ">
+				sku_id=#{skuId},
+			</if>
+			<if test="gylRate != null  ">
+				gyl_rate=#{gylRate},
+			</if>
+			<if test="yccglRate != null  ">
+				yccgl_rate=#{yccglRate},
+			</if>
+			<if test="bldglRate != null  ">
+				bldgl_rate=#{bldglRate},
+			</if>
+			<if test="ppcsRate != null  ">
+				ppcs_rate=#{ppcsRate},
+			</if>
+			<if test="gylPrice != null  ">
+				gyl_price=#{gylPrice},
+			</if>
+			<if test="yccglPrice != null  ">
+				yccgl_price=#{yccglPrice},
+			</if>
+			<if test="bldglPrice != null  ">
+				bldgl_price=#{bldglPrice},
+			</if>
+			<if test="ppcsPrice != null  ">
+				ppcs_price=#{ppcsPrice},
+			</if>
+		</trim>
+		where sku_id=#{skuId}
+	</update>
+
+
+
+	<!-- 根据id查询 商品SKU议价 -->
+	<select id="findVo" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from gd_goods_sku_rate t where t.dmId = #{dmId}
+	</select>
+
+	<!-- 商品SKU议价 列表总数 -->
+	<select id="queryCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from gd_goods_sku_rate t
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 分页查询商品SKU议价列表 -->
+	<select id="queryList" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from gd_goods_sku_rate t
+		<include refid="Example_Where_Clause" />
+		<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+			${mysqlQueryCondition}
+		</if>
+	</select>
+
+	<!-- 查询商品SKU议价列表 -->
+	<select id="findList" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from gd_goods_sku_rate t
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<!-- 商品库列表总数 -->
+	<select id="countGoodsStock" resultType="java.lang.Integer"
+		parameterType="Object">
+		SELECT COUNT(1) FROM (
+			SELECT t1.* 
+			FROM cs_gys_stock t1
+			LEFT JOIN gd_goods_sku t2 ON t1.sku_id = t2.dmId
+			LEFT JOIN gd_goods t3 ON t2.goods_id = t3.dmId
+			LEFT JOIN gd_goods_categroy_rate t4 ON t3.goods_type_id = t4.goods_type_id
+			LEFT JOIN gd_goods_sku_rate t5 ON t2.dmId = t5.sku_id
+			LEFT JOIN cs_gys_info t6 ON t1.gys_id = t6.dmId 
+		) t
+		<include refid="Gd_Goods_Stock_Where_Clause" />
+	</select>
+
+	<!-- 分页查询商品库列表 -->
+	<select id="listGoodsStock" resultMap="GdGoodsStockResultMap"
+		parameterType="Object">
+		SELECT * FROM (
+			SELECT
+			t5.dmId rate_id,
+			t6.dmId gys_id,
+			t2.`dmId` sku_id,
+			t3.`code` goods_num,
+			t3.`name` goods_name,
+			t3.`dmId` goods_id,
+			t1.is_onsale is_onsale,
+			t1.onsale_time onsale_time,
+			<if test="rateType == 0">
+				t1.price,
+				
+				CASE WHEN t5.`gyl_price` IS NULL THEN
+					CASE WHEN t4.gyl_rate IS NULL THEN t1.price
+					ELSE t1.price * (1+ t4.gyl_rate)
+					END
+				ELSE t5.`gyl_price` END rate_price,
+				
+				CASE WHEN t5.`gyl_price` IS NULL THEN
+					CASE WHEN t4.gyl_rate IS NULL THEN t1.price
+					ELSE t1.price * (1+ t4.gyl_rate)
+					END
+				ELSE t5.`gyl_price` END/t1.price rate,
+				
+				CASE WHEN t5.`gyl_price` IS NULL THEN 0 
+				ELSE 1 END rate_status
+			</if>
+			<if test="rateType == 1">
+				CASE WHEN t5.`gyl_price` IS NULL THEN
+					CASE WHEN t4.gyl_rate IS NULL THEN t1.price
+					ELSE t1.price * (1+ t4.gyl_rate)
+					END
+				ELSE t5.`gyl_price` END price,
+				
+				CASE WHEN t5.`yccgl_price` IS NULL THEN 
+	    			CASE WHEN t4.yccgl_rate IS NULL THEN 
+	      				CASE WHEN t5.`gyl_price` IS NULL THEN 
+	        				CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+	          				ELSE t1.price * (1+ t4.gyl_rate) END 
+	        			ELSE t5.`gyl_price` END 
+	      			ELSE 
+		      			CASE WHEN t5.`gyl_price` IS NULL THEN 
+		        			CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+							ELSE t1.price * (1+ t4.gyl_rate) END 
+						ELSE t5.`gyl_price` END * (1+ t4.yccgl_rate)
+					END
+	    		ELSE t5.`yccgl_price` END rate_price,
+	    		
+				CASE WHEN t5.`yccgl_price` IS NULL THEN 
+	    			CASE WHEN t4.yccgl_rate IS NULL THEN 
+	      				CASE WHEN t5.`gyl_price` IS NULL THEN 
+	        				CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+	          				ELSE t1.price * (1+ t4.gyl_rate) END 
+	        			ELSE t5.`gyl_price` END 
+	      			ELSE 
+		      			CASE WHEN t5.`gyl_price` IS NULL THEN 
+		        			CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+							ELSE t1.price * (1+ t4.gyl_rate) END 
+						ELSE t5.`gyl_price` END * (1+ t4.yccgl_rate)
+					END
+	    		ELSE t5.`yccgl_price` END
+	    		/
+				CASE WHEN t5.`gyl_price` IS NULL THEN
+					CASE WHEN t4.gyl_rate IS NULL THEN t1.price
+					ELSE t1.price * (1+ t4.gyl_rate)
+					END
+				ELSE t5.`gyl_price` END rate,
+				
+				CASE WHEN t5.`yccgl_price` IS NULL THEN 0 
+				ELSE 1 
+				END rate_status 
+				
+			</if>
+			<if test="rateType == 2">
+				CASE WHEN t5.`yccgl_price` IS NULL THEN 
+	    			CASE WHEN t4.yccgl_rate IS NULL THEN 
+	      				CASE WHEN t5.`gyl_price` IS NULL THEN 
+	        				CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+	          				ELSE t1.price * (1+ t4.gyl_rate) END 
+	        			ELSE t5.`gyl_price` END 
+	      			ELSE 
+		      			CASE WHEN t5.`gyl_price` IS NULL THEN 
+		        			CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+							ELSE t1.price * (1+ t4.gyl_rate) END 
+						ELSE t5.`gyl_price` END * (1+ t4.yccgl_rate)
+					END
+	    		ELSE t5.`yccgl_price` END price,
+	
+	
+				CASE WHEN t5.bldgl_price IS NULL THEN 
+					CASE WHEN t4.bldgl_rate IS NULL THEN 
+						CASE WHEN t5.`yccgl_price` IS NULL THEN 
+							CASE WHEN t4.yccgl_rate IS NULL THEN 
+								CASE WHEN t5.`gyl_price` IS NULL THEN 
+									CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+									ELSE t1.price * (1+ t4.gyl_rate) 
+									END 
+								ELSE t5.`gyl_price` 
+								END 
+							ELSE 
+								CASE WHEN t5.`gyl_price` IS NULL THEN 
+									CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+									ELSE t1.price * (1+ t4.gyl_rate) 
+									END 
+								ELSE t5.`gyl_price` 
+								END * (1+ t4.yccgl_rate) 
+							END 
+				        ELSE t5.`yccgl_price` 
+						END 
+					ELSE 
+						CASE WHEN t5.`yccgl_price` IS NULL THEN 
+							CASE WHEN t4.yccgl_rate IS NULL THEN 
+								CASE WHEN t5.`gyl_price` IS NULL THEN 
+									CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+									ELSE t1.price * (1+ t4.gyl_rate) 
+									END 
+								ELSE t5.`gyl_price` 
+								END 
+							ELSE 
+								CASE WHEN t5.`gyl_price` IS NULL THEN 
+									CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+									ELSE t1.price * (1+ t4.gyl_rate) 
+									END 
+								ELSE t5.`gyl_price` 
+								END * (1+ t4.yccgl_rate) 
+							END 
+				        ELSE t5.`yccgl_price` 
+				      	END * (1+ t4.bldgl_rate) 
+					END 
+				ELSE t5.bldgl_price 
+				END rate_price,
+				
+				CASE WHEN t5.bldgl_price IS NULL THEN 
+					CASE WHEN t4.bldgl_rate IS NULL THEN 
+						CASE WHEN t5.`yccgl_price` IS NULL THEN 
+							CASE WHEN t4.yccgl_rate IS NULL THEN 
+								CASE WHEN t5.`gyl_price` IS NULL THEN 
+									CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+									ELSE t1.price * (1+ t4.gyl_rate) 
+									END 
+								ELSE t5.`gyl_price` 
+								END 
+							ELSE 
+								CASE WHEN t5.`gyl_price` IS NULL THEN 
+									CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+									ELSE t1.price * (1+ t4.gyl_rate) 
+									END 
+								ELSE t5.`gyl_price` 
+								END * (1+ t4.yccgl_rate) 
+							END 
+				        ELSE t5.`yccgl_price` 
+						END 
+					ELSE 
+						CASE WHEN t5.`yccgl_price` IS NULL THEN 
+							CASE WHEN t4.yccgl_rate IS NULL THEN 
+								CASE WHEN t5.`gyl_price` IS NULL THEN 
+									CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+									ELSE t1.price * (1+ t4.gyl_rate) 
+									END 
+								ELSE t5.`gyl_price` 
+								END 
+							ELSE 
+								CASE WHEN t5.`gyl_price` IS NULL THEN 
+									CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+									ELSE t1.price * (1+ t4.gyl_rate) 
+									END 
+								ELSE t5.`gyl_price` 
+								END * (1+ t4.yccgl_rate) 
+							END 
+				        ELSE t5.`yccgl_price` 
+				      	END * (1+ t4.bldgl_rate) 
+					END 
+				ELSE t5.bldgl_price 
+				END
+	 			/ 
+				CASE WHEN t5.`yccgl_price` IS NULL THEN 
+	    			CASE WHEN t4.yccgl_rate IS NULL THEN 
+	      				CASE WHEN t5.`gyl_price` IS NULL THEN 
+	        				CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+	          				ELSE t1.price * (1+ t4.gyl_rate) END 
+	        			ELSE t5.`gyl_price` END 
+	      			ELSE 
+		      			CASE WHEN t5.`gyl_price` IS NULL THEN 
+		        			CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+							ELSE t1.price * (1+ t4.gyl_rate) END 
+						ELSE t5.`gyl_price` END * (1+ t4.yccgl_rate)
+					END
+	    		ELSE t5.`yccgl_price` END rate,
+	    		
+				CASE WHEN t5.`bldgl_price` IS NULL THEN 0 
+				ELSE 1 
+				END rate_status 
+			</if>
+			<if test="rateType == 3">
+				CASE WHEN t5.`yccgl_price` IS NULL THEN 
+	    			CASE WHEN t4.yccgl_rate IS NULL THEN 
+	      				CASE WHEN t5.`gyl_price` IS NULL THEN 
+	        				CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+	          				ELSE t1.price * (1+ t4.gyl_rate) END 
+	        			ELSE t5.`gyl_price` END 
+	      			ELSE 
+		      			CASE WHEN t5.`gyl_price` IS NULL THEN 
+		        			CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+							ELSE t1.price * (1+ t4.gyl_rate) END 
+						ELSE t5.`gyl_price` END * (1+ t4.yccgl_rate)
+					END
+	    		ELSE t5.`yccgl_price` END price,
+	
+	
+				CASE WHEN t5.ppcs_price IS NULL THEN 
+					CASE WHEN t4.ppcs_rate IS NULL THEN 
+						CASE WHEN t5.`yccgl_price` IS NULL THEN 
+							CASE WHEN t4.yccgl_rate IS NULL THEN 
+								CASE WHEN t5.`gyl_price` IS NULL THEN 
+									CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+									ELSE t1.price * (1+ t4.gyl_rate) 
+									END 
+								ELSE t5.`gyl_price` 
+								END 
+							ELSE 
+								CASE WHEN t5.`gyl_price` IS NULL THEN 
+									CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+									ELSE t1.price * (1+ t4.gyl_rate) 
+									END 
+								ELSE t5.`gyl_price` 
+								END * (1+ t4.yccgl_rate) 
+							END 
+				        ELSE t5.`yccgl_price` 
+						END 
+					ELSE 
+						CASE WHEN t5.`yccgl_price` IS NULL THEN 
+							CASE WHEN t4.yccgl_rate IS NULL THEN 
+								CASE WHEN t5.`gyl_price` IS NULL THEN 
+									CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+									ELSE t1.price * (1+ t4.gyl_rate) 
+									END 
+								ELSE t5.`gyl_price` 
+								END 
+							ELSE 
+								CASE WHEN t5.`gyl_price` IS NULL THEN 
+									CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+									ELSE t1.price * (1+ t4.gyl_rate) 
+									END 
+								ELSE t5.`gyl_price` 
+								END * (1+ t4.yccgl_rate) 
+							END 
+				        ELSE t5.`yccgl_price` 
+				      	END * (1+ t4.ppcs_rate) 
+					END 
+				ELSE t5.ppcs_price 
+				END rate_price,
+				
+				CASE WHEN t5.ppcs_price IS NULL THEN 
+					CASE WHEN t4.ppcs_rate IS NULL THEN 
+						CASE WHEN t5.`yccgl_price` IS NULL THEN 
+							CASE WHEN t4.yccgl_rate IS NULL THEN 
+								CASE WHEN t5.`gyl_price` IS NULL THEN 
+									CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+									ELSE t1.price * (1+ t4.gyl_rate) 
+									END 
+								ELSE t5.`gyl_price` 
+								END 
+							ELSE 
+								CASE WHEN t5.`gyl_price` IS NULL THEN 
+									CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+									ELSE t1.price * (1+ t4.gyl_rate) 
+									END 
+								ELSE t5.`gyl_price` 
+								END * (1+ t4.yccgl_rate) 
+							END 
+				        ELSE t5.`yccgl_price` 
+						END 
+					ELSE 
+						CASE WHEN t5.`yccgl_price` IS NULL THEN 
+							CASE WHEN t4.yccgl_rate IS NULL THEN 
+								CASE WHEN t5.`gyl_price` IS NULL THEN 
+									CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+									ELSE t1.price * (1+ t4.gyl_rate) 
+									END 
+								ELSE t5.`gyl_price` 
+								END 
+							ELSE 
+								CASE WHEN t5.`gyl_price` IS NULL THEN 
+									CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+									ELSE t1.price * (1+ t4.gyl_rate) 
+									END 
+								ELSE t5.`gyl_price` 
+								END * (1+ t4.yccgl_rate) 
+							END 
+				        ELSE t5.`yccgl_price` 
+				      	END * (1+ t4.ppcs_rate) 
+					END 
+				ELSE t5.ppcs_price 
+				END
+	 			/ 
+				CASE WHEN t5.`yccgl_price` IS NULL THEN 
+	    			CASE WHEN t4.yccgl_rate IS NULL THEN 
+	      				CASE WHEN t5.`gyl_price` IS NULL THEN 
+	        				CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+	          				ELSE t1.price * (1+ t4.gyl_rate) END 
+	        			ELSE t5.`gyl_price` END 
+	      			ELSE 
+		      			CASE WHEN t5.`gyl_price` IS NULL THEN 
+		        			CASE WHEN t4.gyl_rate IS NULL THEN t1.price 
+							ELSE t1.price * (1+ t4.gyl_rate) END 
+						ELSE t5.`gyl_price` END * (1+ t4.yccgl_rate)
+					END
+	    		ELSE t5.`yccgl_price` END rate,
+	    		
+				CASE WHEN t5.`ppcs_price` IS NULL THEN 0 
+				ELSE 1 
+				END rate_status 
+			</if>
+	
+			FROM cs_gys_stock t1
+			LEFT JOIN gd_goods_sku t2 ON t1.sku_id = t2.dmId
+			LEFT JOIN gd_goods t3 ON t2.goods_id = t3.dmId
+			LEFT JOIN gd_goods_categroy_rate t4 ON t3.goods_type_id = t4.goods_type_id
+			LEFT JOIN gd_goods_sku_rate t5 ON t2.dmId = t5.sku_id
+			LEFT JOIN cs_gys_info t6 ON t1.gys_id = t6.dmId
+		) t
+		<include refid="Gd_Goods_Stock_Where_Clause" />
+		<if test="mysqlQueryCondition != null and mysqlQueryCondition != ''">
+			${mysqlQueryCondition}
+		</if>
+	</select>
+
+</mapper>
